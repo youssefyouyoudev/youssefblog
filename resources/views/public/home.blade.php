@@ -98,6 +98,21 @@
         </div>
     </section>
 
+    <section class="border-y border-black/10 bg-black text-white">
+        <div class="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[.85fr_1.15fr] lg:px-8">
+            <div>
+                <p class="text-sm font-black uppercase tracking-wide text-brand">Built by Youssef Youyou</p>
+                <h2 class="mt-3 text-3xl font-black">Senior Full-Stack Developer helping businesses grow online.</h2>
+                <p class="mt-4 text-sm leading-6 text-white/70">This blog is the media arm of Youssef Youyou’s professional brand: practical thinking on finance, AI, Laravel, SaaS, websites, dashboards, automation, and digital systems for serious businesses.</p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+                @foreach (['Business websites that win trust fast', 'SaaS MVPs built with Laravel', 'Dashboards, CRM / ERP, and internal tools', 'AI workflows, APIs, VPS deployment'] as $promise)
+                    <div class="rounded-lg border border-white/10 bg-white/5 p-5 text-sm font-black text-white/85">{{ $promise }}</div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
     <section class="border-y border-black/10 bg-white">
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div class="flex items-end justify-between gap-4">
@@ -117,6 +132,25 @@
                     </a>
                 @endforeach
             </div>
+        </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between gap-4">
+            <div>
+                <p class="text-sm font-black uppercase text-emerald-600">Recommended Tools</p>
+                <h2 class="mt-2 text-3xl font-black">Hosting, VPS, AI tools, and software stack picks</h2>
+            </div>
+            <a href="{{ route('tools.index') }}" class="text-sm font-black text-emerald-700">All tools</a>
+        </div>
+        <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            @foreach ($tools as $tool)
+                <a href="{{ $tool->affiliate_url ?: route('tools.index') }}" class="rounded-lg border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-emerald-500 hover:shadow-lg" rel="sponsored nofollow">
+                    <span class="text-xs font-black uppercase text-emerald-600">{{ $tool->category }}</span>
+                    <span class="mt-2 block text-lg font-black">{{ $tool->name }}</span>
+                    <span class="mt-3 block text-sm leading-6 text-slate-600">{{ $tool->description }}</span>
+                </a>
+            @endforeach
         </div>
     </section>
 

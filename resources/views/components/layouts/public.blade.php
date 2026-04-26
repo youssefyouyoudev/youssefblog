@@ -111,6 +111,22 @@
     <main>
         {{ $slot }}
     </main>
+    <section class="border-t border-black/10 bg-white">
+        <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <div class="grid gap-6 rounded-lg border border-black/10 bg-slate-50 p-6 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
+                <div>
+                    <p class="text-sm font-black uppercase tracking-wide text-emerald-600">Need this built for your business?</p>
+                    <h2 class="mt-2 text-2xl font-black text-black">Hire Youssef for websites, SaaS, dashboards, Laravel systems, and AI-enabled workflows.</h2>
+                    <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">Turn useful ideas from the blog into production-ready business systems: strategy, UI, Laravel backend, deployment, and launch polish.</p>
+                </div>
+                <div class="flex flex-col gap-3 sm:flex-row">
+                    <a href="{{ route('services') }}" class="rounded-lg bg-black px-5 py-3 text-center text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-900">Need Website?</a>
+                    <a href="{{ $brand['start_project_url'] }}" class="rounded-lg border border-black/10 bg-brand px-5 py-3 text-center text-sm font-black text-black shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-300">Need SaaS?</a>
+                    <a href="{{ $brand['whatsapp_url'] }}" class="rounded-lg border border-black/10 bg-white px-5 py-3 text-center text-sm font-black text-black shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-500">WhatsApp Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
     <footer class="border-t border-black/10 bg-black text-white">
         <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-5 lg:px-8">
             <div class="md:col-span-2">
