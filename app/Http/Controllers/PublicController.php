@@ -42,7 +42,7 @@ class PublicController extends Controller
 
     public function show(Post $post): View
     {
-        abort_unless($post->status === 'published' && $post->published_at?->lte(now()), 404);
+        abort_unless(in_array($post->status, ['published', 'scheduled'], true) && $post->published_at?->lte(now()), 404);
 
         $post->load('category', 'tags', 'user');
         $post->increment('views');

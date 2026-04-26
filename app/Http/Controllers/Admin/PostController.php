@@ -8,15 +8,28 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $posts = Post::query()
+            ->with('category')
+            ->when($request->filled('status'), fn ($query) => $query->where('status', $request->string('status')))
+            ->when($request->filled('category_id'), fn ($query) => $query->where('category_id', $request->integer('category_id')))
+            ->latest('published_at')
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+
         return view('admin.posts.index', [
-            'posts' => Post::with('category')->latest()->paginate(15),
+            'posts' => $posts,
+            'categories' => Category::orderBy('name')->get(),
+            'statusFilter' => $request->string('status')->toString(),
+            'categoryFilter' => $request->integer('category_id'),
         ]);
     }
 

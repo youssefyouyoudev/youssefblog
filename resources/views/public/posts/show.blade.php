@@ -64,7 +64,7 @@
         </div>
         @if ($post->featured_image)
             <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-                <img src="{{ $post->featured_image }}" alt="{{ $post->featured_image_alt ?: $post->title }}" class="aspect-[16/8] w-full rounded-lg object-cover shadow-xl" width="1200" height="600" fetchpriority="high">
+                <img src="{{ $post->featured_image }}" alt="{{ $post->featured_image_alt ?: $post->title }}" class="aspect-[16/8] w-full rounded-lg object-cover shadow-xl" width="1200" height="600" fetchpriority="high" onerror="this.onerror=null;this.src='{{ asset('assets/brand/youssef-blog-og.png') }}';">
                 @if ($post->image_credit)
                     <p class="mt-2 text-xs text-slate-500">{{ $post->image_credit }}</p>
                 @endif
