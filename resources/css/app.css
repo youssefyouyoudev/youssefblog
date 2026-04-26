@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-brand: #39ff88;
+    --color-ink: #07110b;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background: #f8faf9;
+        color: #07110b;
+    }
+
+    input,
+    textarea,
+    select {
+        border-radius: 0.5rem;
+    }
+}
+
+@layer components {
+    .content-body p {
+        margin-bottom: 1.25rem;
+        color: #334155;
+        line-height: 1.85;
+    }
+
+    .content-body h2 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: #07110b;
+    }
+
+    .content-body h3 {
+        margin-top: 1.5rem;
+        margin-bottom: .75rem;
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: #07110b;
+    }
+
+    .content-body ul {
+        margin-bottom: 1.25rem;
+        display: grid;
+        gap: .65rem;
+        padding-left: 1.25rem;
+        color: #334155;
+        list-style: disc;
+    }
+
+    .content-body a {
+        color: #047857;
+        font-weight: 800;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+}
