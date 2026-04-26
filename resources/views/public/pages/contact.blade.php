@@ -5,6 +5,19 @@
             <h1 class="mt-3 text-4xl font-black">Work, partnerships, and questions.</h1>
             <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-600">For collaborations, sponsorships, corrections, or business inquiries, use the email below.</p>
             <a href="mailto:admin@youssefyouyou.com" class="mt-6 inline-flex rounded-lg bg-black px-5 py-3 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-slate-900">admin@youssefyouyou.com</a>
+            @if (session('status'))
+                <div class="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm font-bold text-emerald-800">{{ session('status') }}</div>
+            @endif
+            <form method="POST" action="{{ route('contact.store') }}" class="mt-8 grid gap-4">
+                @csrf
+                <input name="name" value="{{ old('name') }}" placeholder="Name" class="border border-black/10 px-4 py-3" required>
+                <input name="email" type="email" value="{{ old('email') }}" placeholder="Email" class="border border-black/10 px-4 py-3" required>
+                <textarea name="message" rows="6" placeholder="Message" class="border border-black/10 px-4 py-3" required>{{ old('message') }}</textarea>
+                @if ($errors->any())
+                    <p class="text-sm font-bold text-red-600">{{ $errors->first() }}</p>
+                @endif
+                <button class="rounded-lg bg-black px-5 py-3 text-sm font-black text-white">Send Message</button>
+            </form>
         </div>
     </section>
 </x-layouts.public>

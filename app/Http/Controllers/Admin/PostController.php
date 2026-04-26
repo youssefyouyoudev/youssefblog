@@ -78,6 +78,12 @@ class PostController extends Controller
             ->filter()
             ->values()
             ->all();
+        $data['faqs'] = collect(preg_split('/\r\n|\r|\n/', $request->validated('faqs') ?? ''))
+            ->map(fn (string $line): array => array_pad(array_map('trim', explode('|', $line, 2)), 2, null))
+            ->filter(fn (array $faq): bool => filled($faq[0]) && filled($faq[1]))
+            ->map(fn (array $faq): array => ['question' => $faq[0], 'answer' => $faq[1]])
+            ->values()
+            ->all();
 
         return $data;
     }

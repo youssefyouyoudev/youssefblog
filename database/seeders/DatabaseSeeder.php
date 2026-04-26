@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Tool;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -62,10 +63,11 @@ class DatabaseSeeder extends Seeder
                     'featured_image_alt' => $data['image_alt'],
                     'image_credit' => $data['image_credit'],
                     'status' => 'published',
-                    'published_at' => now()->subDays(15 - $index)->setTime(9, 0),
+                    'published_at' => now()->subDays(20 - $index)->setTime(9, 0),
                     'seo_title' => $data['seo_title'],
                     'meta_description' => $data['meta_description'],
                     'keywords' => $data['keywords'],
+                    'faqs' => $data['faqs'] ?? $this->faqs($data),
                     'og_image' => $data['image'],
                     'reading_time' => max(4, (int) ceil(Str::wordCount(strip_tags($content)) / 220)),
                     'is_featured' => in_array($data['slug'], [
@@ -78,11 +80,29 @@ class DatabaseSeeder extends Seeder
 
             $post->tags()->sync(collect($data['tags'])->map(fn (string $tag): int => $tags[$tag]->id));
         }
+
+        foreach ($this->tools() as $tool) {
+            Tool::updateOrCreate(['name' => $tool['name']], $tool);
+        }
     }
 
     private function posts(): array
     {
         return [
+            [
+                'category' => 'Finance',
+                'title' => 'Finance Tips for Freelancers: A Simple Monthly Money Routine',
+                'slug' => 'finance-tips-for-freelancers-monthly-money-routine',
+                'seo_title' => 'Finance Tips for Freelancers: Simple Monthly Money Routine',
+                'excerpt' => 'A monthly finance routine for freelancers who need predictable cash flow, tax buffers, and calm decisions.',
+                'meta_description' => 'Use these finance tips for freelancers to build a monthly routine for income tracking, savings, tax buffers, and cash-flow planning.',
+                'keywords' => ['finance tips for freelancers', 'freelancer money routine', 'cash flow planning', 'tax buffer', 'saving money 2026'],
+                'tags' => ['Freelance Finance', 'Budgeting', 'Cash Flow'],
+                'image' => 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1400&q=80',
+                'image_alt' => 'Freelancer reviewing finance documents',
+                'image_credit' => 'Photo source: Unsplash',
+                'angle' => 'turning irregular income into a calm monthly money routine',
+            ],
             [
                 'category' => 'Finance',
                 'title' => 'How to Save Money in 2026 Without Killing Your Lifestyle',
@@ -124,6 +144,20 @@ class DatabaseSeeder extends Seeder
                 'image_alt' => 'Laptop with finance reports and calculator',
                 'image_credit' => 'Photo source: Unsplash',
                 'angle' => 'cash-flow tracking with tools and a weekly review',
+            ],
+            [
+                'category' => 'Tech',
+                'title' => 'Best Laptop for Coding in 2026: What Developers Should Prioritize',
+                'slug' => 'best-laptop-for-coding-2026',
+                'seo_title' => 'Best Laptop for Coding in 2026: Developer Buying Guide',
+                'excerpt' => 'A practical laptop buying guide for developers focused on performance, battery, screen quality, and longevity.',
+                'meta_description' => 'Learn what to prioritize when choosing the best laptop for coding in 2026, including CPU, RAM, storage, display, battery, and budget.',
+                'keywords' => ['best laptop for coding', 'developer laptop 2026', 'coding gear', 'developer tools', 'productivity'],
+                'tags' => ['Developer Gear', 'Coding Tools', 'Productivity'],
+                'image' => 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80',
+                'image_alt' => 'Laptop with code editor on desk',
+                'image_credit' => 'Photo source: Unsplash',
+                'angle' => 'buying developer gear based on real work instead of hype',
             ],
             [
                 'category' => 'Tech',
@@ -169,6 +203,20 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'category' => 'AI',
+                'title' => 'Best AI Tools 2026: A Builder-Friendly Shortlist',
+                'slug' => 'best-ai-tools-2026-builder-shortlist',
+                'seo_title' => 'Best AI Tools 2026: Builder-Friendly Shortlist',
+                'excerpt' => 'A practical shortlist of AI tool categories for research, writing, automation, coding, and business operations.',
+                'meta_description' => 'Explore the best AI tools for 2026 by use case, including research, writing, coding, automation, and business workflows.',
+                'keywords' => ['best AI tools 2026', 'AI tools 2026', 'ChatGPT workflows', 'AI automation', 'AI productivity tools'],
+                'tags' => ['AI Tools', 'Productivity', 'Automation'],
+                'image' => 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1400&q=80',
+                'image_alt' => 'AI interface concept with data visualization',
+                'image_credit' => 'Photo source: Unsplash',
+                'angle' => 'choosing AI tools by use case instead of collecting subscriptions',
+            ],
+            [
+                'category' => 'AI',
                 'title' => 'AI Tools for Small Business in 2026: A Practical Starter Stack',
                 'slug' => 'ai-tools-for-small-business-2026',
                 'seo_title' => 'AI Tools for Small Business in 2026: Practical Starter Stack',
@@ -208,6 +256,20 @@ class DatabaseSeeder extends Seeder
                 'image_alt' => 'Small business team planning automation',
                 'image_credit' => 'Photo source: Unsplash',
                 'angle' => 'starting AI automation with low-risk admin tasks',
+            ],
+            [
+                'category' => 'Laravel',
+                'title' => 'Laravel Hosting Guide: VPS, Shared Hosting, and Managed Platforms',
+                'slug' => 'laravel-hosting-guide-vps-shared-managed',
+                'seo_title' => 'Laravel Hosting Guide: VPS, Shared Hosting, Managed Platforms',
+                'excerpt' => 'A practical Laravel hosting guide comparing VPS, shared hosting, managed platforms, and what to use first.',
+                'meta_description' => 'Compare Laravel hosting options for 2026, including VPS, shared hosting, managed platforms, queues, SSL, backups, and deployment needs.',
+                'keywords' => ['Laravel hosting guide', 'best VPS for Laravel', 'Laravel deployment', 'Laravel hosting 2026', 'managed Laravel hosting'],
+                'tags' => ['Laravel Deployment', 'Hosting', 'VPS'],
+                'image' => 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1400&q=80',
+                'image_alt' => 'Data center servers for Laravel hosting',
+                'image_credit' => 'Photo source: Unsplash',
+                'angle' => 'matching Laravel hosting options to project size and maintenance capacity',
             ],
             [
                 'category' => 'Laravel',
@@ -253,6 +315,20 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'category' => 'Business',
+                'title' => 'Blogging Income Guide 2026: From Helpful Content to Revenue',
+                'slug' => 'blogging-income-guide-2026-helpful-content-revenue',
+                'seo_title' => 'Blogging Income Guide 2026: Helpful Content to Revenue',
+                'excerpt' => 'A realistic blogging income guide covering content hubs, SEO, affiliate offers, AdSense readiness, and trust.',
+                'meta_description' => 'Learn a practical blogging income strategy for 2026 with helpful content, SEO hubs, affiliate links, AdSense readiness, and trust signals.',
+                'keywords' => ['blogging income guide', 'blog monetization', 'affiliate marketing SEO', 'AdSense readiness', 'online income 2026'],
+                'tags' => ['Blogging', 'Monetization', 'SEO'],
+                'image' => 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1400&q=80',
+                'image_alt' => 'Writing desk for blogging and content planning',
+                'image_credit' => 'Photo source: Unsplash',
+                'angle' => 'building revenue by helping readers before monetizing attention',
+            ],
+            [
+                'category' => 'Business',
                 'title' => 'How Moroccan Freelancers Can Make Money Online in 2026',
                 'slug' => 'make-money-online-morocco-freelancers',
                 'seo_title' => 'How Moroccan Freelancers Can Make Money Online in 2026',
@@ -292,6 +368,32 @@ class DatabaseSeeder extends Seeder
                 'image_alt' => 'Analytics charts for affiliate content performance',
                 'image_credit' => 'Photo source: Unsplash',
                 'angle' => 'earning ethically by helping readers make better choices',
+            ],
+        ];
+    }
+
+    private function tools(): array
+    {
+        return [
+            ['name' => 'Laravel VPS Hosting', 'category' => 'Hosting', 'description' => 'A VPS-style hosting option for Laravel blogs and small SaaS projects that need control, SSL, queues, and backups.', 'affiliate_url' => null, 'logo' => null, 'is_featured' => true],
+            ['name' => 'Managed Laravel Platform', 'category' => 'Hosting', 'description' => 'A simpler hosting path when you want deployment convenience, monitoring, and less server maintenance.', 'affiliate_url' => null, 'logo' => null, 'is_featured' => false],
+            ['name' => 'ChatGPT', 'category' => 'AI Tools', 'description' => 'Useful for outlines, research prompts, editing passes, customer replies, and structured business workflows.', 'affiliate_url' => null, 'logo' => null, 'is_featured' => true],
+            ['name' => 'AI Automation Builder', 'category' => 'AI Tools', 'description' => 'A no-code or low-code automation tool for connecting forms, email, spreadsheets, and AI-assisted operations.', 'affiliate_url' => null, 'logo' => null, 'is_featured' => true],
+            ['name' => 'Code Editor Setup', 'category' => 'Developer Tools', 'description' => 'A focused editor setup with linting, formatting, terminal workflows, and project search for faster shipping.', 'affiliate_url' => null, 'logo' => null, 'is_featured' => true],
+            ['name' => 'Cash Flow Spreadsheet', 'category' => 'Finance Tools', 'description' => 'A simple cash-flow tracker for freelancers to plan income, taxes, subscriptions, and savings buffers.', 'affiliate_url' => null, 'logo' => null, 'is_featured' => false],
+        ];
+    }
+
+    private function faqs(array $data): array
+    {
+        return [
+            [
+                'question' => 'Who is this guide for?',
+                'answer' => "This guide is for builders, freelancers, developers, and small business owners interested in {$data['category']} without unnecessary complexity.",
+            ],
+            [
+                'question' => 'Is this beginner-friendly?',
+                'answer' => 'Yes. The goal is to explain practical first steps, risks, and tradeoffs in plain language.',
             ],
         ];
     }

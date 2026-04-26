@@ -27,9 +27,21 @@
                 ['@type' => 'ListItem', 'position' => 3, 'name' => $post->title, 'item' => route('posts.show', $post)],
             ],
         ];
+        $faqLd = $post->faqs ? [
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => collect($post->faqs)->map(fn ($faq) => [
+                '@type' => 'Question',
+                'name' => $faq['question'],
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => $faq['answer']],
+            ])->values(),
+        ] : null;
     @endphp
     <script type="application/ld+json">@json($jsonLd)</script>
     <script type="application/ld+json">@json($breadcrumbLd)</script>
+    @if ($faqLd)
+        <script type="application/ld+json">@json($faqLd)</script>
+    @endif
 
     <article class="bg-white">
         <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
@@ -62,8 +74,8 @@
 
     <div class="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[1fr_300px] lg:px-8">
         <div>
-            <x-ad-placeholder label="Ad after intro" />
-            <x-affiliate-disclaimer class="mt-6" />
+            <x-ad-slot-top label="Ad after intro" />
+            <x-affiliate-disclosure class="mt-6" />
             @if ($headings->isNotEmpty())
                 <nav class="mt-6 rounded-lg border border-black/10 bg-white p-5 shadow-sm">
                     <p class="text-sm font-black uppercase text-emerald-600">Table of contents</p>
@@ -87,10 +99,36 @@
                     @endif
 
                     @if ($loop->iteration === max(3, (int) floor($blocks->count() / 2)))
-                        <x-ad-placeholder label="Middle article ad" class="my-8" />
+                        <x-ad-slot-middle label="Middle article ad" class="my-8" />
                     @endif
                 @endforeach
             </div>
+            @if ($post->faqs)
+                <section class="mt-8 rounded-lg border border-black/10 bg-white p-6 shadow-sm">
+                    <h2 class="text-2xl font-black">FAQ</h2>
+                    <div class="mt-5 grid gap-4">
+                        @foreach ($post->faqs as $faq)
+                            <details class="rounded-lg border border-black/10 p-4">
+                                <summary class="cursor-pointer font-black">{{ $faq['question'] }}</summary>
+                                <p class="mt-3 text-sm leading-6 text-slate-600">{{ $faq['answer'] }}</p>
+                            </details>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
+            <section class="mt-8 rounded-lg border border-black/10 bg-white p-6 shadow-sm">
+                <h2 class="text-2xl font-black">Continue Reading</h2>
+                <div class="mt-4 grid gap-3">
+                    @foreach ($internalLinks as $link)
+                        <a href="{{ route('posts.show', $link) }}" class="text-sm font-bold text-emerald-700 hover:text-black">{{ $link->title }}</a>
+                    @endforeach
+                </div>
+            </section>
+            <section class="mt-8 rounded-lg border border-black/10 bg-black p-6 text-white shadow-sm">
+                <p class="text-sm font-black uppercase text-brand">Author</p>
+                <h2 class="mt-2 text-2xl font-black">Youssef Youyou</h2>
+                <p class="mt-3 text-sm leading-6 text-white/70">Full-stack developer building practical finance, AI, Laravel, hosting, and online business guides for builders.</p>
+            </section>
             <div class="mt-8 flex flex-wrap gap-2">
                 @foreach ($post->tags as $tag)
                     <a href="{{ route('tags.show', $tag) }}" class="rounded-lg border border-black/10 bg-white px-3 py-2 text-sm font-bold text-slate-700 transition hover:border-emerald-500 hover:text-emerald-700">#{{ $tag->name }}</a>
@@ -110,7 +148,7 @@
                     </a>
                 @endif
             </div>
-            <x-ad-placeholder label="Ad before related posts" class="mt-8" />
+            <x-ad-slot-bottom label="Ad before related posts" class="mt-8" />
             <x-related-posts :posts="$relatedPosts" />
         </div>
         <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">

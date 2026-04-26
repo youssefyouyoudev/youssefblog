@@ -29,6 +29,7 @@ class Post extends Model
         'seo_title',
         'meta_description',
         'keywords',
+        'faqs',
         'canonical_url',
         'og_image',
         'reading_time',
@@ -42,6 +43,7 @@ class Post extends Model
             'published_at' => 'datetime',
             'is_featured' => 'boolean',
             'keywords' => 'array',
+            'faqs' => 'array',
         ];
     }
 

@@ -14,6 +14,7 @@
                 <x-post-card :post="$post" />
             @endforeach
         </div>
+        <x-ad-slot-middle label="Category ad placeholder" class="mt-8" />
     </section>
 
     <section class="border-y border-black/10 bg-white">

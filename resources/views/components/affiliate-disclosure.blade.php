@@ -1,0 +1,1 @@
+<x-affiliate-disclaimer {{ $attributes }} />

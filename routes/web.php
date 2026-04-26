@@ -15,8 +15,12 @@ Route::get('/category/{category:slug}', [PublicController::class, 'category'])->
 Route::get('/tag/{tag:slug}', [PublicController::class, 'tag'])->name('tags.show');
 Route::get('/about', [PublicController::class, 'page'])->defaults('page', 'about')->name('about');
 Route::get('/contact', [PublicController::class, 'page'])->defaults('page', 'contact')->name('contact');
+Route::post('/contact', [PublicController::class, 'contact'])->middleware('throttle:5,1')->name('contact.store');
 Route::get('/privacy-policy', [PublicController::class, 'page'])->defaults('page', 'privacy-policy')->name('privacy');
 Route::get('/terms', [PublicController::class, 'page'])->defaults('page', 'terms')->name('terms');
+Route::get('/editorial-policy', [PublicController::class, 'page'])->defaults('page', 'editorial-policy')->name('editorial-policy');
+Route::get('/affiliate-disclosure', [PublicController::class, 'page'])->defaults('page', 'affiliate-disclosure')->name('affiliate-disclosure');
+Route::get('/tools', [PublicController::class, 'tools'])->name('tools.index');
 Route::get('/sitemap.xml', [PublicController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [PublicController::class, 'robots'])->name('robots');
 Route::get('/feed.xml', [PublicController::class, 'feed'])->name('feed');

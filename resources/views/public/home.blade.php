@@ -35,6 +35,7 @@
                 <x-post-card :post="$post" />
             @endforeach
         </div>
+        <x-ad-slot-top label="Homepage ad placeholder" class="mt-8" />
     </section>
 
     <section class="border-y border-black/10 bg-white">
@@ -51,6 +52,25 @@
         </div>
     </section>
 
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div class="grid gap-6 lg:grid-cols-4">
+            <div class="lg:col-span-1">
+                <p class="text-sm font-black uppercase text-emerald-600">Start Here</p>
+                <h2 class="mt-2 text-3xl font-black">Choose your next move.</h2>
+            </div>
+            @foreach ([
+                ['AI workflows', route('categories.show', 'ai'), 'Use AI tools without losing quality or trust.'],
+                ['Laravel launch', route('categories.show', 'laravel'), 'Build fast, crawlable Blade-first products.'],
+                ['Online income', route('categories.show', 'business'), 'Package skills and content into useful assets.'],
+            ] as [$title, $url, $copy])
+                <a href="{{ $url }}" class="rounded-lg border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-emerald-500 hover:shadow-lg">
+                    <span class="text-lg font-black">{{ $title }}</span>
+                    <span class="mt-3 block text-sm leading-6 text-slate-600">{{ $copy }}</span>
+                </a>
+            @endforeach
+        </div>
+    </section>
+
     <section class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_360px] lg:px-8">
         <div class="rounded-lg border border-black/10 bg-white p-6 shadow-sm">
             <p class="text-sm font-black uppercase text-emerald-600">Trust</p>
@@ -58,6 +78,28 @@
             <p class="mt-4 max-w-2xl leading-7 text-slate-600">This blog is built for people who want practical systems: freelancers, developers, creators, and small business builders looking for clear finance, tech, AI, and Laravel guidance.</p>
         </div>
         <x-ad-placeholder label="Homepage sponsor placeholder" />
+    </section>
+
+    <section class="border-y border-black/10 bg-white">
+        <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div class="flex items-end justify-between gap-4">
+                <div>
+                    <p class="text-sm font-black uppercase text-emerald-600">Recommended Tools</p>
+                    <h2 class="mt-2 text-3xl font-black">Useful tools for builders</h2>
+                </div>
+                <a href="{{ route('tools.index') }}" class="text-sm font-black text-emerald-700">View tools</a>
+            </div>
+            <x-affiliate-disclosure class="mt-6" />
+            <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                @foreach ($tools as $tool)
+                    <a href="{{ $tool->affiliate_url ?: route('tools.index') }}" class="rounded-lg border border-black/10 p-5 shadow-sm transition hover:-translate-y-1 hover:border-emerald-500 hover:shadow-lg" rel="sponsored nofollow">
+                        <span class="text-xs font-black uppercase text-emerald-600">{{ $tool->category }}</span>
+                        <span class="mt-2 block text-lg font-black">{{ $tool->name }}</span>
+                        <span class="mt-3 block text-sm leading-6 text-slate-600">{{ $tool->description }}</span>
+                    </a>
+                @endforeach
+            </div>
+        </div>
     </section>
 
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

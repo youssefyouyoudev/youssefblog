@@ -6,6 +6,21 @@
     $image = $seo['image'] ?? asset('assets/brand/youssef-blog-og.png');
     $type = $seo['type'] ?? 'website';
     $keywords = $seo['keywords'] ?? null;
+    $organizationSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'Organization',
+        'name' => 'Youssef Blog',
+        'url' => url('/'),
+        'logo' => asset('assets/brand/youssef-blog-logo.png'),
+        'founder' => ['@type' => 'Person', 'name' => 'Youssef Youyou'],
+    ];
+    $websiteSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'WebSite',
+        'name' => 'Youssef Blog',
+        'url' => url('/'),
+        'publisher' => ['@type' => 'Organization', 'name' => 'Youssef Blog'],
+    ];
 @endphp
 <!doctype html>
 <html lang="en">
@@ -29,6 +44,8 @@
     <meta name="twitter:title" content="{{ $title }}">
     <meta name="twitter:description" content="{{ $description }}">
     <meta name="twitter:image" content="{{ $image }}">
+    <script type="application/ld+json">@json($organizationSchema)</script>
+    <script type="application/ld+json">@json($websiteSchema)</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased">
@@ -46,9 +63,24 @@
                 <a class="transition hover:text-emerald-700" href="{{ route('categories.show', 'finance') }}">Finance</a>
                 <a class="transition hover:text-emerald-700" href="{{ route('categories.show', 'ai') }}">AI</a>
                 <a class="transition hover:text-emerald-700" href="{{ route('categories.show', 'laravel') }}">Laravel</a>
+                <a class="transition hover:text-emerald-700" href="{{ route('tools.index') }}">Tools</a>
                 <a class="transition hover:text-emerald-700" href="{{ route('about') }}">About</a>
             </nav>
-            <a href="{{ route('posts.index') }}" class="rounded-lg bg-black px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-900">Read Latest</a>
+            <div class="hidden md:block">
+                <a href="{{ route('posts.index') }}" class="rounded-lg bg-black px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-900">Read Latest</a>
+            </div>
+            <details class="relative md:hidden">
+                <summary class="list-none rounded-lg border border-black/10 bg-white px-3 py-2 text-sm font-black">Menu</summary>
+                <nav class="absolute right-0 mt-3 grid w-56 gap-1 rounded-lg border border-black/10 bg-white p-3 text-sm font-bold shadow-xl">
+                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('posts.index') }}">Posts</a>
+                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('categories.show', 'finance') }}">Finance</a>
+                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('categories.show', 'ai') }}">AI</a>
+                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('categories.show', 'laravel') }}">Laravel</a>
+                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('tools.index') }}">Tools</a>
+                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('about') }}">About</a>
+                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('contact') }}">Contact</a>
+                </nav>
+            </details>
         </div>
     </header>
     <main>
@@ -64,6 +96,7 @@
                 <p class="font-bold">Explore</p>
                 <div class="mt-3 grid gap-2 text-sm text-white/70">
                     <a class="hover:text-brand" href="{{ route('posts.index') }}">Posts</a>
+                    <a class="hover:text-brand" href="{{ route('tools.index') }}">Tools</a>
                     <a class="hover:text-brand" href="{{ route('about') }}">About</a>
                     <a class="hover:text-brand" href="{{ route('contact') }}">Contact</a>
                     <a class="hover:text-brand" href="{{ route('feed') }}">RSS Feed</a>
@@ -74,6 +107,8 @@
                 <div class="mt-3 grid gap-2 text-sm text-white/70">
                     <a class="hover:text-brand" href="{{ route('privacy') }}">Privacy Policy</a>
                     <a class="hover:text-brand" href="{{ route('terms') }}">Terms</a>
+                    <a class="hover:text-brand" href="{{ route('editorial-policy') }}">Editorial Policy</a>
+                    <a class="hover:text-brand" href="{{ route('affiliate-disclosure') }}">Affiliate Disclosure</a>
                     <a class="hover:text-brand" href="{{ route('sitemap') }}">Sitemap</a>
                 </div>
             </div>

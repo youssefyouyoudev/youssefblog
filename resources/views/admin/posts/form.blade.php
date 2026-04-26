@@ -14,13 +14,17 @@
             @error('excerpt')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
             <label class="mt-4 block text-sm font-bold">Content</label>
             <textarea name="content" rows="16" class="mt-2 w-full border border-black/10 px-3 py-3 font-mono text-sm" required>{{ old('content', $post->content) }}</textarea>
+            <p class="mt-2 text-xs font-semibold text-slate-500">Reading time auto-calculates on save. Use headings like: ## Main section</p>
             @error('content')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
         </div>
         <div class="rounded-lg border border-black/10 bg-white p-5">
             <h2 class="font-black">SEO</h2>
             @foreach (['seo_title' => 'SEO Title', 'meta_description' => 'Meta Description', 'canonical_url' => 'Canonical URL', 'og_image' => 'OG Image URL'] as $field => $label)
                 <label class="mt-4 block text-sm font-bold">{{ $label }}</label>
-                <input name="{{ $field }}" value="{{ old($field, $post->{$field}) }}" class="mt-2 w-full border border-black/10 px-3 py-3">
+                <input name="{{ $field }}" value="{{ old($field, $post->{$field}) }}" @if($field === 'meta_description') maxlength="320" oninput="document.getElementById('meta-count').textContent=this.value.length" @endif class="mt-2 w-full border border-black/10 px-3 py-3">
+                @if ($field === 'meta_description')
+                    <p class="mt-2 text-xs font-semibold text-slate-500"><span id="meta-count">{{ strlen(old('meta_description', $post->meta_description ?? '')) }}</span>/320 characters</p>
+                @endif
                 @error($field)<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
             @endforeach
             <label class="mt-4 block text-sm font-bold">SEO Keywords</label>
@@ -32,6 +36,19 @@
                 <p class="text-sm text-emerald-700">{{ url('/posts/'.(old('slug', $post->slug) ?: 'your-post-slug')) }}</p>
                 <p class="mt-1 text-sm text-slate-600">{{ old('meta_description', $post->meta_description) ?: old('excerpt', $post->excerpt) ?: 'Meta description preview for search results.' }}</p>
             </div>
+            <div class="mt-5 rounded-lg border border-black/10 bg-white p-4">
+                <p class="text-xs font-black uppercase text-slate-500">SEO checklist</p>
+                <ul class="mt-3 grid gap-2 text-sm text-slate-600">
+                    <li>Title under 60 characters when possible</li>
+                    <li>Meta description around 140-160 characters</li>
+                    <li>Featured image alt text added</li>
+                    <li>Keywords are natural and not stuffed</li>
+                    <li>At least 2 useful headings in content</li>
+                </ul>
+            </div>
+            <label class="mt-4 block text-sm font-bold">FAQs</label>
+            <textarea name="faqs" rows="4" class="mt-2 w-full border border-black/10 px-3 py-3" placeholder="Question | Answer">{{ old('faqs', collect($post->faqs ?? [])->map(fn ($faq) => ($faq['question'] ?? '').' | '.($faq['answer'] ?? ''))->implode("\n")) }}</textarea>
+            <p class="mt-2 text-xs font-semibold text-slate-500">One FAQ per line: Question | Answer</p>
         </div>
     </div>
     <aside class="space-y-5">
@@ -61,6 +78,7 @@
                     <option value="{{ $status }}" @selected(old('status', $post->status) === $status)>{{ ucfirst($status) }}</option>
                 @endforeach
             </select>
+            <p class="mt-2 text-xs font-black uppercase text-emerald-700">Current status: {{ ucfirst(old('status', $post->status ?? 'draft')) }}</p>
             <label class="mt-4 block text-sm font-bold">Published At</label>
             <input name="published_at" type="datetime-local" value="{{ old('published_at', $post->published_at?->format('Y-m-d\TH:i')) }}" class="mt-2 w-full border border-black/10 px-3 py-3">
             <label class="mt-4 flex items-center gap-2 text-sm font-bold"><input type="checkbox" name="is_featured" value="1" @checked(old('is_featured', $post->is_featured))> Featured post</label>

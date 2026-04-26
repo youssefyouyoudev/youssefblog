@@ -32,6 +32,7 @@ class PostRequest extends FormRequest
             'seo_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:320'],
             'keywords' => ['nullable', 'string', 'max:500'],
+            'faqs' => ['nullable', 'string', 'max:3000'],
             'canonical_url' => ['nullable', 'url', 'max:2048'],
             'og_image' => ['nullable', 'url', 'max:2048'],
             'is_featured' => ['nullable', 'boolean'],

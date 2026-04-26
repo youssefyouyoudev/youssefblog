@@ -6,8 +6,8 @@
         </div>
         <a href="{{ route('admin.posts.create') }}" class="rounded-lg bg-black px-4 py-3 text-sm font-black text-white">New Post</a>
     </div>
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-        @foreach ([['Total Posts', $postCount], ['Published', $publishedCount], ['Drafts', $draftCount], ['Categories', $categoryCount], ['Tags', $tagCount]] as [$label, $value])
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-6">
+        @foreach ([['Total Posts', $postCount], ['Published', $publishedCount], ['Drafts', $draftCount], ['Scheduled', $scheduledCount], ['Categories', $categoryCount], ['Tags', $tagCount]] as [$label, $value])
             <div class="rounded-lg border border-black/10 bg-white p-5">
                 <p class="text-sm font-bold text-slate-500">{{ $label }}</p>
                 <p class="mt-2 text-3xl font-black">{{ $value }}</p>
@@ -26,6 +26,14 @@
                     <a class="text-sm font-black text-emerald-700" href="{{ route('admin.posts.edit', $post) }}">Edit</a>
                 </div>
             @endforeach
+        </div>
+    </section>
+    <section class="mt-8 rounded-lg border border-black/10 bg-white p-5">
+        <h2 class="font-black">Quick Actions</h2>
+        <div class="mt-4 flex flex-wrap gap-3">
+            <a href="{{ route('admin.posts.create') }}" class="rounded-lg bg-black px-4 py-2 text-sm font-black text-white">Create Post</a>
+            <a href="{{ route('admin.categories.index') }}" class="rounded-lg border border-black/10 px-4 py-2 text-sm font-black">Manage Categories</a>
+            <a href="{{ route('admin.tags.index') }}" class="rounded-lg border border-black/10 px-4 py-2 text-sm font-black">Manage Tags</a>
         </div>
     </section>
 </x-layouts.admin>

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Tool;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 
@@ -16,6 +19,7 @@ class PublicController extends Controller
             'featuredPosts' => Post::with('category')->latestPublished()->where('is_featured', true)->take(3)->get(),
             'latestPosts' => Post::with('category', 'tags')->latestPublished()->take(6)->get(),
             'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])->orderBy('name')->get(),
+            'tools' => Tool::where('is_featured', true)->orderBy('category')->take(4)->get(),
             'seo' => [
                 'title' => 'Youssef Blog | Smart Finance, Tech & AI Guides',
                 'description' => 'Actionable 2026 finance, technology, AI, Laravel, and online business guides for builders.',
@@ -56,6 +60,15 @@ class PublicController extends Controller
         return view('public.posts.show', [
             'post' => $post,
             'relatedPosts' => $relatedPosts,
+            'internalLinks' => Post::with('category')
+                ->latestPublished()
+                ->whereKeyNot($post->id)
+                ->where(function ($query) use ($post): void {
+                    $query->where('category_id', $post->category_id)
+                        ->orWhereHas('tags', fn ($tagQuery) => $tagQuery->whereIn('tags.id', $post->tags->pluck('id')));
+                })
+                ->take(5)
+                ->get(),
             'previousPost' => $previousPost,
             'nextPost' => $nextPost,
             'seo' => [
@@ -105,19 +118,46 @@ class PublicController extends Controller
 
     public function page(string $page): View
     {
-        abort_unless(in_array($page, ['about', 'contact', 'privacy-policy', 'terms'], true), 404);
+        abort_unless(in_array($page, ['about', 'contact', 'privacy-policy', 'terms', 'editorial-policy', 'affiliate-disclosure'], true), 404);
 
         $titles = [
             'about' => 'About Youssef Blog',
             'contact' => 'Contact',
             'privacy-policy' => 'Privacy Policy',
             'terms' => 'Terms',
+            'editorial-policy' => 'Editorial Policy',
+            'affiliate-disclosure' => 'Affiliate Disclosure',
+        ];
+        $descriptions = [
+            'about' => 'Learn about Youssef Blog, a finance, tech, AI, Laravel, and online business media site by Youssef Youyou.',
+            'contact' => 'Contact Youssef Blog for partnerships, corrections, sponsorship questions, and business inquiries.',
+            'privacy-policy' => 'Privacy Policy for Youssef Blog covering cookies, analytics, advertising partners, affiliate links, and contact data.',
+            'terms' => 'Terms for using Youssef Blog, including educational content disclaimers and acceptable use.',
+            'editorial-policy' => 'Editorial policy for Youssef Blog, including content standards, updates, affiliate transparency, and trust principles.',
+            'affiliate-disclosure' => 'Affiliate disclosure for Youssef Blog explaining affiliate links, sponsored content labels, and editorial independence.',
         ];
 
         return view("public.pages.{$page}", [
             'seo' => [
                 'title' => $titles[$page].' | Youssef Blog',
-                'description' => $titles[$page].' for Youssef Blog.',
+                'description' => $descriptions[$page],
+                'image' => asset('assets/brand/youssef-blog-og.png'),
+            ],
+        ]);
+    }
+
+    public function contact(ContactRequest $request): RedirectResponse
+    {
+        return back()->with('status', 'Thanks. Your message has been received for review.');
+    }
+
+    public function tools(): View
+    {
+        return view('public.tools.index', [
+            'toolsByCategory' => Tool::orderBy('category')->orderByDesc('is_featured')->orderBy('name')->get()->groupBy('category'),
+            'seo' => [
+                'title' => 'Recommended Tools | Youssef Blog',
+                'description' => 'Recommended hosting, AI, developer, and finance tools for builders in 2026.',
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
         ]);

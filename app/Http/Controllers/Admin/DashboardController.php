@@ -16,6 +16,7 @@ class DashboardController extends Controller
             'postCount' => Post::count(),
             'publishedCount' => Post::published()->count(),
             'draftCount' => Post::where('status', 'draft')->count(),
+            'scheduledCount' => Post::where('status', 'scheduled')->count(),
             'categoryCount' => Category::count(),
             'tagCount' => Tag::count(),
             'recentPosts' => Post::with('category')->latest()->take(5)->get(),
