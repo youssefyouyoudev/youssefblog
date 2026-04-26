@@ -1,9 +1,11 @@
 <x-layouts.public :seo="$seo">
+    @php($brand = config('brand'))
     <section class="bg-white">
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <p class="text-sm font-black uppercase tracking-wide text-emerald-600">Category</p>
             <h1 class="mt-3 text-4xl font-black sm:text-5xl">{{ $category->name }} Guides</h1>
             <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">{{ $category->description }}</p>
+            <p class="mt-4 max-w-3xl text-sm font-semibold text-slate-500">Part of Youssef Blog: insights by Youssef Youyou for businesses building stronger websites, SaaS platforms, dashboards, AI workflows, and digital systems.</p>
         </div>
     </section>
 
@@ -25,6 +27,13 @@
                     <a href="{{ route('tags.show', $tag) }}" class="rounded-lg border border-black/10 px-3 py-2 text-sm font-bold text-slate-700 transition hover:border-emerald-500 hover:text-emerald-700">#{{ $tag->name }}</a>
                 @endforeach
             </div>
+        </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div class="grid gap-6 lg:grid-cols-3">
+            <x-service-cta-card title="Need a business-ready system?" :description="$brand['positioning']" class="lg:col-span-2" />
+            <x-portfolio-link-card title="See related project proof" description="Explore premium SaaS, CRM, ERP, dashboards, landing pages, and internal tools on the main Youssef Youyou portfolio." />
         </div>
     </section>
 

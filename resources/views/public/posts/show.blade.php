@@ -1,5 +1,6 @@
 <x-layouts.public :seo="$seo">
     @php
+        $brand = config('brand');
         $blocks = collect(preg_split('/\n\s*\n/', $post->content))->filter();
         $headings = $blocks
             ->filter(fn ($block) => str_starts_with(trim($block), '## '))
@@ -14,7 +15,7 @@
             'datePublished' => $post->published_at?->toIso8601String(),
             'dateModified' => $post->updated_at?->toIso8601String(),
             'author' => ['@type' => 'Person', 'name' => $post->user->name],
-            'publisher' => ['@type' => 'Organization', 'name' => 'Youssef Blog', 'logo' => ['@type' => 'ImageObject', 'url' => asset('assets/brand/youssef-blog-logo.png')]],
+            'publisher' => ['@type' => 'Organization', 'name' => $brand['name'], 'logo' => ['@type' => 'ImageObject', 'url' => asset('assets/brand/youssef-blog-logo.png')]],
             'mainEntityOfPage' => route('posts.show', $post),
             'keywords' => $post->keywords,
         ];
@@ -74,7 +75,15 @@
 
     <div class="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[1fr_300px] lg:px-8">
         <div>
-            <x-ad-slot-top label="Ad after intro" />
+            <section class="rounded-lg border border-emerald-500/30 bg-emerald-50 p-6 shadow-sm">
+                <p class="text-sm font-black uppercase text-emerald-700">Implementation CTA</p>
+                <h2 class="mt-2 text-2xl font-black">Need this implemented for your business?</h2>
+                <p class="mt-3 text-sm leading-6 text-slate-700">Work with Youssef Youyou on Laravel systems, SaaS MVPs, dashboards, business websites, APIs, automation layers, and AI-enabled workflows.</p>
+                <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+                    <a href="{{ $brand['start_project_url'] }}" class="rounded-lg bg-black px-5 py-3 text-center text-sm font-black text-white">Work with Youssef</a>
+                    <x-whatsapp-cta />
+                </div>
+            </section>
             <x-affiliate-disclosure class="mt-6" />
             @if ($headings->isNotEmpty())
                 <nav class="mt-6 rounded-lg border border-black/10 bg-white p-5 shadow-sm">
@@ -124,11 +133,7 @@
                     @endforeach
                 </div>
             </section>
-            <section class="mt-8 rounded-lg border border-black/10 bg-black p-6 text-white shadow-sm">
-                <p class="text-sm font-black uppercase text-brand">Author</p>
-                <h2 class="mt-2 text-2xl font-black">Youssef Youyou</h2>
-                <p class="mt-3 text-sm leading-6 text-white/70">Full-stack developer building practical finance, AI, Laravel, hosting, and online business guides for builders.</p>
-            </section>
+            <x-author-trust-box class="mt-8" />
             <div class="mt-8 flex flex-wrap gap-2">
                 @foreach ($post->tags as $tag)
                     <a href="{{ route('tags.show', $tag) }}" class="rounded-lg border border-black/10 bg-white px-3 py-2 text-sm font-bold text-slate-700 transition hover:border-emerald-500 hover:text-emerald-700">#{{ $tag->name }}</a>
@@ -150,10 +155,14 @@
             </div>
             <x-ad-slot-bottom label="Ad before related posts" class="mt-8" />
             <x-related-posts :posts="$relatedPosts" />
+            <x-hire-youssef-banner class="mt-10" />
         </div>
         <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
+            <x-service-cta-card title="Laravel Development" :description="$brand['services']['Laravel Development']" />
+            <x-service-cta-card title="SaaS MVP" :description="$brand['services']['SaaS Platforms']" />
+            <x-service-cta-card title="Business Website" :description="$brand['services']['Business Websites']" />
+            <x-service-cta-card title="CRM / ERP Dashboard" :description="$brand['services']['CRM / ERP Systems']" />
             <x-newsletter-card />
-            <x-ad-placeholder label="Sidebar ad" />
         </aside>
     </div>
 </x-layouts.public>

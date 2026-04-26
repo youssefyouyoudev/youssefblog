@@ -21,6 +21,8 @@ Route::get('/terms', [PublicController::class, 'page'])->defaults('page', 'terms
 Route::get('/editorial-policy', [PublicController::class, 'page'])->defaults('page', 'editorial-policy')->name('editorial-policy');
 Route::get('/affiliate-disclosure', [PublicController::class, 'page'])->defaults('page', 'affiliate-disclosure')->name('affiliate-disclosure');
 Route::get('/tools', [PublicController::class, 'tools'])->name('tools.index');
+Route::get('/work-with-me', [PublicController::class, 'services'])->name('services');
+Route::get('/services', [PublicController::class, 'services'])->name('services.alias');
 Route::get('/sitemap.xml', [PublicController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [PublicController::class, 'robots'])->name('robots');
 Route::get('/feed.xml', [PublicController::class, 'feed'])->name('feed');

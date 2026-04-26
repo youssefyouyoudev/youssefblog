@@ -19,6 +19,8 @@ test('public launch pages render successfully', function () {
         route('categories.show', $category),
         route('tags.show', $tag),
         route('tools.index'),
+        route('services'),
+        route('services.alias'),
         route('about'),
         route('contact'),
         route('privacy'),

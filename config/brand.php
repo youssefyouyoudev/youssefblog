@@ -1,0 +1,37 @@
+<?php
+
+return [
+    'name' => 'Youssef Youyou',
+    'blog_name' => 'Youssef Blog',
+    'tagline' => 'Premium full-stack delivery for serious businesses.',
+    'positioning' => 'Websites, SaaS platforms, dashboards, and custom business software built to win trust fast.',
+    'insights' => 'Insights by Youssef Youyou on finance, tech, AI, Laravel, SaaS, and digital business.',
+    'portfolio_url' => 'https://www.youssefyouyou.com',
+    'start_project_url' => 'https://www.youssefyouyou.com/#contact',
+    'services_url' => 'https://www.youssefyouyou.com/#services',
+    'case_studies_url' => 'https://www.youssefyouyou.com/#projects',
+    'whatsapp_url' => 'https://wa.me/212610090070',
+    'email' => 'contact@youssefyouyou.com',
+    'phone' => '+212610090070',
+    'location' => 'Morocco',
+    'stats' => [
+        '5+ years building production systems',
+        '25+ projects across websites, dashboards, and SaaS',
+        'Laravel, SaaS, dashboards, CRM/ERP, APIs',
+        'Based in Morocco, available internationally',
+    ],
+    'services' => [
+        'Business Websites' => 'Premium websites and landing pages built to earn trust and generate serious leads.',
+        'SaaS Platforms' => 'Product-ready SaaS MVPs with onboarding, admin flows, payments-ready structure, and scalable Laravel foundations.',
+        'Dashboards & Internal Tools' => 'Readable dashboards, reporting views, approvals, and internal workflows for better operations.',
+        'CRM / ERP Systems' => 'Role-based systems for leads, sales, inventory, finance, teams, and day-to-day control.',
+        'Laravel Development' => 'Blade-first public pages, admin systems, APIs, queues, scheduler, performance, and deployment.',
+        'API & Automation Layers' => 'Integrations, backend workflows, sync systems, and automation glue for growing operations.',
+        'AI-Enabled Workflows' => 'AI-assisted research, support, reporting, content, and admin workflows with human review.',
+        'Deployment & VPS Hosting' => 'Production setup, SSL, Nginx, MySQL, backups, scheduler, queues, and launch readiness.',
+    ],
+    'social' => [
+        'github' => 'https://github.com/',
+        'linkedin' => 'https://linkedin.com/',
+    ],
+];

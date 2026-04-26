@@ -21,8 +21,8 @@ class PublicController extends Controller
             'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])->orderBy('name')->get(),
             'tools' => Tool::where('is_featured', true)->orderBy('category')->take(4)->get(),
             'seo' => [
-                'title' => 'Youssef Blog | Smart Finance, Tech & AI Guides',
-                'description' => 'Actionable 2026 finance, technology, AI, Laravel, and online business guides for builders.',
+                'title' => 'Youssef Blog | Finance, Tech, AI, Laravel & SaaS Insights',
+                'description' => 'Insights by Youssef Youyou on AI tools, Laravel, SaaS, websites, dashboards, and digital systems for serious businesses.',
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
         ]);
@@ -129,8 +129,8 @@ class PublicController extends Controller
             'affiliate-disclosure' => 'Affiliate Disclosure',
         ];
         $descriptions = [
-            'about' => 'Learn about Youssef Blog, a finance, tech, AI, Laravel, and online business media site by Youssef Youyou.',
-            'contact' => 'Contact Youssef Blog for partnerships, corrections, sponsorship questions, and business inquiries.',
+            'about' => 'Learn about Youssef Youyou, Senior Full-Stack Developer in Morocco, and the Youssef Blog media arm for finance, tech, AI, Laravel, SaaS, and digital business.',
+            'contact' => 'Contact Youssef Youyou for premium websites, SaaS platforms, dashboards, CRM/ERP systems, APIs, automation, and Laravel development.',
             'privacy-policy' => 'Privacy Policy for Youssef Blog covering cookies, analytics, advertising partners, affiliate links, and contact data.',
             'terms' => 'Terms for using Youssef Blog, including educational content disclaimers and acceptable use.',
             'editorial-policy' => 'Editorial policy for Youssef Blog, including content standards, updates, affiliate transparency, and trust principles.',
@@ -163,6 +163,17 @@ class PublicController extends Controller
         ]);
     }
 
+    public function services(): View
+    {
+        return view('public.services', [
+            'seo' => [
+                'title' => 'Work With Youssef Youyou | Websites, SaaS, Dashboards & Laravel',
+                'description' => 'Hire Youssef Youyou for premium business websites, SaaS MVPs, dashboards, CRM/ERP systems, Laravel development, APIs, automation, and AI workflows.',
+                'image' => asset('assets/brand/youssef-blog-og.png'),
+            ],
+        ]);
+    }
+
     public function sitemap(): Response
     {
         return response()
@@ -170,6 +181,7 @@ class PublicController extends Controller
                 'posts' => Post::latestPublished()->get(),
                 'categories' => Category::orderBy('name')->get(),
                 'tags' => Tag::orderBy('name')->get(),
+                'servicePages' => [route('services')],
             ])
             ->header('Content-Type', 'application/xml');
     }
