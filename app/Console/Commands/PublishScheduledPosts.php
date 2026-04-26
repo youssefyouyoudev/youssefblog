@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Post;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class PublishScheduledPosts extends Command
 {
@@ -18,6 +19,7 @@ class PublishScheduledPosts extends Command
             ->where('published_at', '<=', now())
             ->update(['status' => 'published']);
 
+        Log::info('Scheduled posts published.', ['count' => $count]);
         $this->info("Published {$count} scheduled posts.");
 
         return self::SUCCESS;
