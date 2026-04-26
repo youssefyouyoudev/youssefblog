@@ -13,8 +13,12 @@
         </h2>
         <p class="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{{ $post->excerpt }}</p>
         <div class="mt-5 flex items-center justify-between text-xs font-semibold text-slate-500">
-            <span>{{ $post->published_at?->format('M d, Y') }}</span>
-            <span>{{ $post->readingMinutes() }} min read</span>
+            <span class="flex items-center gap-2">
+                <span class="flex h-7 w-7 items-center justify-center rounded-full bg-black text-[10px] font-black text-brand">YY</span>
+                <span>{{ $post->user?->name ?: 'Youssef Youyou' }}</span>
+            </span>
+            <span>{{ $post->readingMinutes() }} min</span>
         </div>
+        <p class="mt-3 text-xs font-bold text-slate-400">{{ $post->published_at?->format('M d, Y') }}</p>
     </div>
 </article>

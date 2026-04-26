@@ -36,9 +36,13 @@
             </div>
         </div>
         <div class="mt-8 grid gap-6 md:grid-cols-3">
-            @foreach ($featuredPosts as $post)
+            @forelse ($featuredPosts as $post)
                 <x-featured-post-card :post="$post" />
-            @endforeach
+            @empty
+                <div class="rounded-2xl border border-black/10 bg-white p-6 text-slate-600 md:col-span-3">
+                    No published {{ $category->name }} posts yet. Try Finance, AI, Laravel, Tech, or Business while this hub fills up.
+                </div>
+            @endforelse
         </div>
         <x-ad-slot label="Category ad placeholder" class="mt-10" />
     </section>
@@ -66,9 +70,13 @@
             <a href="{{ route('services') }}" class="premium-button bg-black text-white">Work With Me</a>
         </div>
         <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            @foreach ($posts as $post)
+            @forelse ($posts as $post)
                 <x-post-card :post="$post" />
-            @endforeach
+            @empty
+                <div class="rounded-2xl border border-black/10 bg-white p-6 text-slate-600 lg:col-span-3">
+                    This category is currently empty. Explore another hub or check back after the scheduler publishes new articles.
+                </div>
+            @endforelse
         </div>
         <div class="mt-8">{{ $posts->links() }}</div>
     </section>

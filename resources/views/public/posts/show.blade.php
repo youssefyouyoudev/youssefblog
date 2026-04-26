@@ -6,28 +6,6 @@
             ->filter(fn ($block) => str_starts_with(trim($block), '## '))
             ->map(fn ($block) => trim(str_replace('## ', '', $block)))
             ->values();
-        $jsonLd = [
-            '@context' => 'https://schema.org',
-            '@type' => 'Article',
-            'headline' => $post->title,
-            'description' => $post->meta_description ?: $post->excerpt,
-            'image' => $post->og_image ?: $post->featured_image,
-            'datePublished' => $post->published_at?->toIso8601String(),
-            'dateModified' => $post->updated_at?->toIso8601String(),
-            'author' => ['@type' => 'Person', 'name' => $post->user->name],
-            'publisher' => ['@type' => 'Organization', 'name' => $brand['name'], 'logo' => ['@type' => 'ImageObject', 'url' => asset('assets/brand/youssef-blog-logo.png')]],
-            'mainEntityOfPage' => route('posts.show', $post),
-            'keywords' => $post->keywords,
-        ];
-        $breadcrumbLd = [
-            '@context' => 'https://schema.org',
-            '@type' => 'BreadcrumbList',
-            'itemListElement' => [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => $post->category->name, 'item' => route('categories.show', $post->category)],
-                ['@type' => 'ListItem', 'position' => 3, 'name' => $post->title, 'item' => route('posts.show', $post)],
-            ],
-        ];
         $faqLd = $post->faqs ? [
             '@context' => 'https://schema.org',
             '@type' => 'FAQPage',
@@ -38,8 +16,6 @@
             ])->values(),
         ] : null;
     @endphp
-    <script type="application/ld+json">@json($jsonLd)</script>
-    <script type="application/ld+json">@json($breadcrumbLd)</script>
     @if ($faqLd)
         <script type="application/ld+json">@json($faqLd)</script>
     @endif
@@ -69,6 +45,7 @@
                         <div class="mt-6 flex flex-wrap gap-2">
                             <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('posts.show', $post)) }}" class="premium-button border border-white/20 text-white hover:border-brand hover:text-brand" rel="nofollow noopener" target="_blank">Share LinkedIn</a>
                             <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('posts.show', $post)) }}&text={{ urlencode($post->title) }}" class="premium-button border border-white/20 text-white hover:border-brand hover:text-brand" rel="nofollow noopener" target="_blank">Share X</a>
+                            <a href="https://wa.me/?text={{ urlencode($post->title.' '.route('posts.show', $post)) }}" class="premium-button border border-white/20 text-white hover:border-brand hover:text-brand" rel="nofollow noopener" target="_blank">Share WhatsApp</a>
                         </div>
                     </div>
                     <x-founder-card />
@@ -88,7 +65,7 @@
         <div class="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[260px_minmax(0,1fr)_300px] lg:px-8">
             <aside class="hidden lg:block">
                 <div class="sticky top-28 space-y-6">
-                    <x-table-of-contents :headings="$headings" />
+                    <x-table-of-contents :content="$post->content" />
                     <x-ad-slot label="Desktop TOC ad slot" />
                 </div>
             </aside>
@@ -115,13 +92,16 @@
                         @elseif (str_starts_with($trimmed, '### '))
                             <h3>{{ trim(str_replace('### ', '', $trimmed)) }}</h3>
                         @else
-                            <p>{!! nl2br(e($trimmed)) !!}</p>
+                            <p>{!! app(\App\Services\ContentService::class)->secureLinks(nl2br(e($trimmed))) !!}</p>
                         @endif
 
                         @if (in_array($loop->iteration, [3, 8], true))
                             <x-ad-slot label="{{ $loop->iteration === 3 ? 'Clean ad after paragraph 3' : 'Clean ad after paragraph 8' }}" class="my-8" />
                         @elseif ($loop->iteration === max(4, (int) floor($blocks->count() / 2)))
                             <x-ad-slot label="Mobile mid article ad" class="my-8 lg:hidden" />
+                        @endif
+                        @if ($loop->iteration % 4 === 0)
+                            <x-cta variant="freelance" class="my-8" />
                         @endif
                     @endforeach
                 </div>
@@ -181,12 +161,13 @@
             </div>
 
             <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
-                <x-ad-slot label="Sticky sidebar ad" />
-                <x-service-cta-card title="Laravel Development" :description="$brand['services']['Laravel Development']" />
-                <x-service-cta-card title="SaaS MVP" :description="$brand['services']['SaaS Platforms']" />
-                <x-service-cta-card title="Business Website" :description="$brand['services']['Business Websites']" />
-                <x-service-cta-card title="CRM / ERP Dashboard" :description="$brand['services']['CRM / ERP Systems']" />
+                <x-blog-sidebar />
             </aside>
+        </div>
+        <div class="fixed inset-x-4 bottom-4 z-50 flex justify-center gap-2 rounded-2xl border border-black/10 bg-white/95 p-2 shadow-2xl backdrop-blur lg:hidden">
+            <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('posts.show', $post)) }}&text={{ urlencode($post->title) }}" class="flex-1 rounded-xl bg-black px-3 py-2 text-center text-xs font-black text-white" rel="nofollow noopener" target="_blank">X</a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('posts.show', $post)) }}" class="flex-1 rounded-xl bg-black px-3 py-2 text-center text-xs font-black text-white" rel="nofollow noopener" target="_blank">LinkedIn</a>
+            <a href="https://wa.me/?text={{ urlencode($post->title.' '.route('posts.show', $post)) }}" class="flex-1 rounded-xl bg-brand px-3 py-2 text-center text-xs font-black text-black" rel="nofollow noopener" target="_blank">WhatsApp</a>
         </div>
     </article>
 </x-layouts.public>

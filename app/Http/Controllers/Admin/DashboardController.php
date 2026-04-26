@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostViewLog;
 use App\Models\Tag;
 use Illuminate\View\View;
 
@@ -27,6 +28,12 @@ class DashboardController extends Controller
             'recentPosts' => Post::with('category')->latest()->take(5)->get(),
             'topPosts' => Post::with('category')->orderByDesc('views')->take(5)->get(),
             'topCategories' => Category::withSum('posts as total_views', 'views')->orderByDesc('total_views')->take(5)->get(),
+            'publishedToday' => Post::published()->whereDate('published_at', today())->count(),
+            'viewsToday' => PostViewLog::whereDate('viewed_at', today())->count(),
+            'topPostsThisWeek' => Post::withCount(['viewLogs as week_views' => fn ($query) => $query->where('viewed_at', '>=', now()->startOfWeek())])
+                ->orderByDesc('week_views')
+                ->take(5)
+                ->get(),
             'totalViews' => $totalViews,
             'adClicks' => $adClicks,
             'affiliateClicks' => $affiliateClicks,

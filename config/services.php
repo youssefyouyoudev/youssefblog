@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'indexnow' => [
+        'key' => env('INDEXNOW_KEY'),
+        'key_location' => env('INDEXNOW_KEY_LOCATION'),
+    ],
+
 ];

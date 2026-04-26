@@ -1,12 +1,5 @@
 @php
     $seo = $seo ?? [];
-    $title = $seo['title'] ?? 'Youssef Blog | Finance, Tech & AI';
-    $description = $seo['description'] ?? 'Smart finance, tech, AI, Laravel, and online business guides for builders.';
-    $canonical = $seo['canonical'] ?? url()->current();
-    $image = $seo['image'] ?? asset('assets/brand/youssef-blog-og.png');
-    $type = $seo['type'] ?? 'website';
-    $keywords = $seo['keywords'] ?? null;
-    $noindex = $seo['noindex'] ?? false;
     $brand = config('brand');
     $navLinks = [
         ['Home', route('home')],
@@ -18,64 +11,21 @@
         ['Tools', route('tools.index')],
         ['Work With Me', route('services')],
     ];
-    $organizationSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'Organization',
-        'name' => $brand['name'],
-        'url' => $brand['portfolio_url'],
-        'logo' => asset('assets/brand/youssef-blog-logo.png'),
-        'email' => $brand['email'],
-        'telephone' => $brand['phone'],
-        'founder' => ['@type' => 'Person', 'name' => $brand['name']],
-        'sameAs' => array_values($brand['social']),
-    ];
-    $personSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'Person',
-        'name' => $brand['name'],
-        'url' => $brand['portfolio_url'],
-        'jobTitle' => 'Senior Full-Stack Developer',
-        'email' => $brand['email'],
-        'telephone' => $brand['phone'],
-        'address' => ['@type' => 'PostalAddress', 'addressCountry' => 'MA'],
-    ];
-    $websiteSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'WebSite',
-        'name' => $brand['blog_name'],
-        'url' => url('/'),
-        'publisher' => ['@type' => 'Organization', 'name' => $brand['name']],
-    ];
 @endphp
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <script>
+        if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title }}</title>
-    <meta name="description" content="{{ $description }}">
-    @if ($noindex)
-        <meta name="robots" content="noindex, nofollow">
-    @endif
-    @if ($keywords)
-        <meta name="keywords" content="{{ $keywords }}">
-    @endif
-    <link rel="canonical" href="{{ $canonical }}">
+    <x-seo :seo="$seo" />
     <link rel="icon" type="image/png" href="{{ asset('assets/brand/youssef-blog-logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('assets/brand/youssef-blog-logo.png') }}">
     <link rel="preload" as="image" href="{{ asset('assets/brand/youssef-blog-logo.png') }}">
-    <meta property="og:title" content="{{ $title }}">
-    <meta property="og:description" content="{{ $description }}">
-    <meta property="og:type" content="{{ $type }}">
-    <meta property="og:url" content="{{ $canonical }}">
-    <meta property="og:image" content="{{ $image }}">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $title }}">
-    <meta name="twitter:description" content="{{ $description }}">
-    <meta name="twitter:image" content="{{ $image }}">
-    <script type="application/ld+json">@json($organizationSchema)</script>
-    <script type="application/ld+json">@json($personSchema)</script>
-    <script type="application/ld+json">@json($websiteSchema)</script>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="preconnect" href="https://images.unsplash.com">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-[#f8faf9] font-sans antialiased">
@@ -96,6 +46,9 @@
             </nav>
 
             <div class="hidden items-center gap-2 lg:flex">
+                <button type="button" id="theme-toggle" class="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-ink transition hover:border-emerald-500 hover:text-emerald-700" aria-label="Toggle dark mode">
+                    <span class="text-sm font-black">D</span>
+                </button>
                 <a href="{{ route('posts.index') }}" aria-label="Search posts" class="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-ink transition hover:border-emerald-500 hover:text-emerald-700">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
                 </a>
@@ -176,5 +129,34 @@
             </div>
         </div>
     </footer>
+    <button id="back-to-top" type="button" class="fixed bottom-5 right-5 z-50 hidden rounded-full bg-black px-4 py-3 text-sm font-black text-brand shadow-glow">Top</button>
+    <div id="cookie-consent" class="fixed inset-x-4 bottom-20 z-50 hidden rounded-2xl border border-black/10 bg-white p-4 shadow-2xl sm:left-auto sm:max-w-md">
+        <p class="text-sm font-black text-ink">Cookie consent</p>
+        <p class="mt-2 text-xs leading-5 text-slate-600">We use essential cookies and may use analytics/advertising cookies after consent to improve Youssef Blog.</p>
+        <button type="button" id="cookie-accept" class="premium-button mt-3 bg-black text-white">Accept</button>
+    </div>
+    <script>
+        const backToTop = document.getElementById('back-to-top');
+        const themeToggle = document.getElementById('theme-toggle');
+        const cookieConsent = document.getElementById('cookie-consent');
+        const cookieAccept = document.getElementById('cookie-accept');
+
+        window.addEventListener('scroll', () => {
+            if (!backToTop) return;
+            backToTop.classList.toggle('hidden', window.scrollY < 300);
+        }, { passive: true });
+
+        backToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        themeToggle?.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        if (!document.cookie.includes('yb_cookie_consent=accepted')) cookieConsent?.classList.remove('hidden');
+        cookieAccept?.addEventListener('click', () => {
+            document.cookie = 'yb_cookie_consent=accepted; max-age=31536000; path=/; SameSite=Lax';
+            cookieConsent?.classList.add('hidden');
+        });
+    </script>
 </body>
 </html>

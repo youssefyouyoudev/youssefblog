@@ -27,6 +27,24 @@
         <p class="mt-2 text-3xl font-black">${{ number_format($estimatedRevenue, 2) }}</p>
         <p class="mt-2 text-xs leading-5 text-slate-500">Planning estimate only. Real RPM depends on niche, countries, viewability, policy compliance, and advertiser demand.</p>
     </div>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div class="rounded-lg border border-black/10 bg-white p-5">
+            <p class="text-sm font-bold text-slate-500">Posts Published Today</p>
+            <p class="mt-2 text-3xl font-black">{{ number_format($publishedToday) }}</p>
+        </div>
+        <div class="rounded-lg border border-black/10 bg-white p-5">
+            <p class="text-sm font-bold text-slate-500">Views Today</p>
+            <p class="mt-2 text-3xl font-black">{{ number_format($viewsToday) }}</p>
+        </div>
+        <div class="rounded-lg border border-black/10 bg-white p-5">
+            <p class="text-sm font-bold text-slate-500">Top This Week</p>
+            <div class="mt-3 grid gap-2">
+                @foreach ($topPostsThisWeek as $post)
+                    <p class="truncate text-sm font-bold">{{ $post->title }} <span class="text-slate-400">({{ $post->week_views }})</span></p>
+                @endforeach
+            </div>
+        </div>
+    </div>
     <div class="mt-8 grid gap-6 lg:grid-cols-2">
         <section class="rounded-lg border border-black/10 bg-white">
             <div class="border-b border-black/10 p-5"><h2 class="font-black">Top Posts</h2></div>

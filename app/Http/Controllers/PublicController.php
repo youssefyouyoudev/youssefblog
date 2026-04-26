@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\Tool;
+use App\Services\SeoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
@@ -15,11 +16,11 @@ class PublicController extends Controller
 {
     public function home(): View
     {
-        $trendingPosts = Post::with('category', 'tags')->latestPublished()->orderByDesc('views')->take(4)->get();
-        $latestPosts = Post::with('category', 'tags')->latestPublished()->take(6)->get();
+        $trendingPosts = Post::with('category', 'tags', 'user')->latestPublished()->orderByDesc('views')->take(4)->get();
+        $latestPosts = Post::with('category', 'tags', 'user')->latestPublished()->take(6)->get();
 
         return view('public.home', [
-            'featuredPosts' => Post::with('category')->latestPublished()->where('is_featured', true)->take(4)->get(),
+            'featuredPosts' => Post::with('category', 'tags', 'user')->latestPublished()->where('is_featured', true)->take(4)->get(),
             'trendingPosts' => $trendingPosts->isNotEmpty() ? $trendingPosts : $latestPosts->take(4),
             'popularPosts' => $trendingPosts->isNotEmpty() ? $trendingPosts->take(3) : $latestPosts->take(3),
             'latestPosts' => $latestPosts,
@@ -37,7 +38,13 @@ class PublicController extends Controller
     public function posts(): View
     {
         return view('public.posts.index', [
-            'posts' => Post::with('category', 'tags')->latestPublished()->paginate(9),
+            'posts' => Post::with('category', 'tags', 'user')
+                ->latestPublished()
+                ->when(request('q'), fn ($query, $search) => $query->where(fn ($searchQuery) => $searchQuery
+                    ->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('excerpt', 'like', '%'.$search.'%')
+                    ->orWhere('content', 'like', '%'.$search.'%')))
+                ->paginate(9),
             'seo' => [
                 'title' => 'Latest Posts | Youssef Blog',
                 'description' => 'Browse the latest finance, tech, AI, Laravel, and online business articles from Youssef Blog.',
@@ -51,22 +58,21 @@ class PublicController extends Controller
         abort_unless(in_array($post->status, ['published', 'scheduled'], true) && $post->published_at?->lte(now()), 404);
 
         $post->load('category', 'tags', 'user');
-        $post->increment('views');
 
-        $relatedPosts = Post::with('category')
+        $relatedPosts = Post::with('category', 'tags', 'user')
             ->latestPublished()
             ->whereKeyNot($post->id)
             ->where('category_id', $post->category_id)
             ->take(3)
             ->get();
 
-        $previousPost = Post::published()->where('published_at', '<', $post->published_at)->latest('published_at')->first();
-        $nextPost = Post::published()->where('published_at', '>', $post->published_at)->oldest('published_at')->first();
+        $previousPost = Post::published()->where('category_id', $post->category_id)->where('published_at', '<', $post->published_at)->latest('published_at')->first();
+        $nextPost = Post::published()->where('category_id', $post->category_id)->where('published_at', '>', $post->published_at)->oldest('published_at')->first();
 
         return view('public.posts.show', [
             'post' => $post,
             'relatedPosts' => $relatedPosts,
-            'internalLinks' => Post::with('category')
+            'internalLinks' => Post::with('category', 'tags', 'user')
                 ->latestPublished()
                 ->whereKeyNot($post->id)
                 ->where(function ($query) use ($post): void {
@@ -84,13 +90,14 @@ class PublicController extends Controller
                 'image' => $post->og_image ?: $post->featured_image ?: asset('assets/brand/youssef-blog-og.png'),
                 'type' => 'article',
                 'keywords' => $post->keywordList(),
+                'schemas' => app(SeoService::class)->postSchemas($post),
             ],
         ]);
     }
 
     public function category(Category $category): View
     {
-        $postsQuery = $category->posts()->with('category', 'tags')->latestPublished();
+        $postsQuery = $category->posts()->with('category', 'tags', 'user')->latestPublished();
 
         return view('public.posts.category', [
             'category' => $category,
@@ -113,7 +120,7 @@ class PublicController extends Controller
     {
         return view('public.posts.index', [
             'heading' => '#'.$tag->name,
-            'posts' => $tag->posts()->with('category', 'tags')->latestPublished()->paginate(9),
+            'posts' => $tag->posts()->with('category', 'tags', 'user')->latestPublished()->paginate(9),
             'seo' => [
                 'title' => '#'.$tag->name.' | Youssef Blog',
                 'description' => "Read practical {$tag->name} articles from Youssef Blog.",
@@ -216,7 +223,7 @@ class PublicController extends Controller
     {
         return response()
             ->view('public.sitemap', [
-                'posts' => Post::latestPublished()->get(),
+                'posts' => Post::with('category', 'tags', 'user')->latestPublished()->get(),
                 'categories' => Category::orderBy('name')->get(),
                 'tags' => Tag::orderBy('name')->get(),
                 'servicePages' => [route('services')],
@@ -233,7 +240,7 @@ class PublicController extends Controller
     public function feed(): Response
     {
         return response()
-            ->view('public.feed', ['posts' => Post::with('category')->latestPublished()->take(20)->get()])
+            ->view('public.feed', ['posts' => Post::with('category', 'tags', 'user')->latestPublished()->take(20)->get()])
             ->header('Content-Type', 'application/rss+xml');
     }
 }

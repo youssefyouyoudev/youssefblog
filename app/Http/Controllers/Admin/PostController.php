@@ -69,6 +69,32 @@ class PostController extends Controller
         return redirect()->route('admin.posts.index')->with('status', 'Post deleted.');
     }
 
+    public function bulk(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'action' => ['required', 'in:publish,reschedule,delete'],
+            'posts' => ['required', 'array'],
+            'posts.*' => ['integer', 'exists:posts,id'],
+            'published_at' => ['nullable', 'date'],
+        ]);
+
+        $posts = Post::whereIn('id', $data['posts'])->get();
+
+        if ($data['action'] === 'publish') {
+            $posts->each->update(['status' => 'published', 'published_at' => now()]);
+        }
+
+        if ($data['action'] === 'reschedule') {
+            $posts->each->update(['status' => 'scheduled', 'published_at' => $data['published_at'] ?? now()->addDay()]);
+        }
+
+        if ($data['action'] === 'delete') {
+            $posts->each->delete();
+        }
+
+        return back()->with('status', 'Bulk action completed.');
+    }
+
     private function formData(Post $post): array
     {
         return [
