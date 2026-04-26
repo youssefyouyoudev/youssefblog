@@ -1,83 +1,86 @@
 <x-layouts.public :seo="$seo">
     @php
         $brand = config('brand');
+        $categoryMap = $categories->keyBy('slug');
         $hubs = [
-            ['Finance', 'Money systems, savings, fintech, freelancer finance.', route('categories.show', 'finance')],
-            ['AI', 'Tools, workflows, automation, agents, productivity.', route('categories.show', 'ai')],
-            ['Tech', 'Hosting, gear, productivity, cybersecurity, systems.', route('categories.show', 'tech')],
-            ['Online Income', 'Practical digital income and service business ideas.', route('posts.index')],
-            ['Morocco', 'Guides for Moroccan freelancers and business owners.', route('posts.index')],
-            ['Developer', 'Laravel, deployment, SaaS, dashboards, and APIs.', route('categories.show', 'laravel')],
+            ['Finance', 'Money systems, freelancer finance, fintech tools, and online income basics.', route('categories.show', 'finance'), $categoryMap->get('finance')?->posts_count, '$'],
+            ['Tech', 'Hosting, devices, productivity, cybersecurity, and digital infrastructure.', route('categories.show', 'tech'), $categoryMap->get('tech')?->posts_count, 'T'],
+            ['AI', 'AI tools, agents, workflows, automation, and practical business use cases.', route('categories.show', 'ai'), $categoryMap->get('ai')?->posts_count, 'AI'],
+            ['Laravel', 'SEO, deployment, performance, security, SaaS ideas, and backend systems.', route('categories.show', 'laravel'), $categoryMap->get('laravel')?->posts_count, 'L'],
+            ['Business', 'SaaS ideas, client acquisition, digital services, and Morocco-ready growth.', route('categories.show', 'business'), $categoryMap->get('business')?->posts_count, 'B'],
         ];
+        $leadPost = $featuredPosts->first();
+        $sideFeatured = $featuredPosts->skip(1)->take(3);
     @endphp
 
-    <section class="overflow-hidden border-b border-black/10 bg-white">
-        <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.08fr_.92fr] lg:px-8 lg:py-20">
-            <div>
-                <img src="{{ asset('assets/brand/youssef-blog-logo.png') }}" alt="Youssef Blog - Finance Tech AI" class="h-24 w-auto rounded-xl object-contain shadow-sm sm:h-32" width="320" height="144" fetchpriority="high">
-                <p class="mt-8 text-sm font-black uppercase tracking-wide text-emerald-600">Morocco-born media for builders</p>
-                <h1 class="mt-4 max-w-4xl text-4xl font-black tracking-tight text-black sm:text-6xl">Smart Finance, Tech & AI Guides for Morocco & Global Readers</h1>
-                <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Actionable content on money, online business, AI tools, tech trends, and growth strategies.</p>
+    <section class="hero-grid overflow-hidden bg-[#050505] text-white">
+        <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.04fr_.96fr] lg:px-8 lg:py-24">
+            <div class="fade-up">
+                <img src="{{ asset('assets/brand/youssef-blog-logo.png') }}" alt="Youssef Blog - Finance Tech AI" class="h-24 w-auto rounded-2xl object-contain shadow-glow sm:h-32" width="320" height="144" fetchpriority="high">
+                <p class="mt-8 text-xs font-black uppercase tracking-[0.24em] text-brand">Youssef Blog by Youssef Youyou</p>
+                <h1 class="accent-line mt-5 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl lg:text-7xl">Smart Finance, Tech & AI Guides for Builders</h1>
+                <p class="mt-8 max-w-2xl text-lg leading-8 text-white/70">Practical insights from Youssef Youyou on AI tools, Laravel, SaaS, online income, and digital business systems.</p>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                    <a href="{{ route('posts.index') }}" class="rounded-lg bg-black px-6 py-3 text-center text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-900">Start Reading</a>
-                    <a href="{{ route('services') }}" class="rounded-lg border border-black/10 bg-brand px-6 py-3 text-center text-sm font-black text-black shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-300">Work With Youssef</a>
+                    <a href="{{ route('posts.index') }}" class="premium-button bg-brand text-black">Read Latest Posts</a>
+                    <a href="{{ route('services') }}" class="premium-button border border-white/20 text-white hover:border-brand hover:text-brand">Work With Youssef</a>
                 </div>
-                <div class="mt-8 grid gap-3 text-sm font-bold text-slate-600 sm:grid-cols-3">
-                    @foreach ($brand['stats'] as $stat)
-                        <span class="rounded-lg border border-black/10 bg-white px-4 py-3 shadow-sm">{{ $stat }}</span>
+                <x-trust-stats class="mt-8" />
+            </div>
+            <div class="grid gap-5">
+                <x-founder-card />
+                <div class="grid gap-4 sm:grid-cols-2">
+                    @foreach (['No hype, just practical guides', 'Morocco + global perspective', 'SEO, CRO, and systems thinking', 'Built around real business outcomes'] as $item)
+                        <div class="rounded-2xl border border-white/10 bg-white/5 p-5 text-sm font-black text-white/80 shadow-soft backdrop-blur">{{ $item }}</div>
                     @endforeach
                 </div>
             </div>
-            <div class="rounded-lg border border-black/10 bg-black p-6 text-white shadow-2xl">
-                <p class="text-sm font-black uppercase tracking-wide text-brand">Work with Youssef</p>
-                <h2 class="mt-3 text-3xl font-black">Premium full-stack delivery for serious businesses.</h2>
-                <p class="mt-4 text-sm leading-6 text-white/70">Websites, SaaS platforms, dashboards, CRM/ERP systems, APIs, automation layers, AI workflows, and Laravel deployment built to win trust fast.</p>
-                <div class="mt-6 grid gap-3">
-                    <a href="{{ $brand['portfolio_url'] }}" class="rounded-lg border border-white/10 bg-white px-4 py-3 text-sm font-black text-black transition hover:bg-brand">View Portfolio</a>
-                    <a href="{{ $brand['whatsapp_url'] }}" class="rounded-lg border border-white/10 px-4 py-3 text-sm font-black text-white transition hover:border-brand hover:text-brand">Contact / WhatsApp</a>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div class="flex items-end justify-between gap-4">
             <div>
-                <p class="text-sm font-black uppercase text-emerald-600">Featured Posts</p>
-                <h2 class="mt-2 text-3xl font-black">Editor-selected guides</h2>
+                <p class="text-xs font-black uppercase tracking-[0.24em] text-emerald-600">Featured Articles</p>
+                <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Editorial picks for serious builders</h2>
             </div>
-            <a href="{{ route('posts.index') }}" class="text-sm font-black text-emerald-700">All posts</a>
+            <a href="{{ route('posts.index') }}" class="premium-button border border-black/10 bg-white text-black">View All</a>
         </div>
-        <div class="mt-6 grid gap-6 md:grid-cols-3">
-            @foreach ($featuredPosts as $post)
-                <x-post-card :post="$post" />
-            @endforeach
+        <div class="mt-8 grid gap-6 lg:grid-cols-[1.2fr_.8fr]">
+            @if ($leadPost)
+                <x-featured-post-card :post="$leadPost" large />
+            @endif
+            <div class="grid gap-6">
+                @foreach ($sideFeatured as $post)
+                    <x-featured-post-card :post="$post" />
+                @endforeach
+            </div>
         </div>
     </section>
 
-    <section class="border-y border-black/10 bg-slate-50">
-        <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_360px] lg:px-8">
+    <section class="border-y border-black/10 bg-white">
+        <div class="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_360px] lg:px-8">
             <div>
-                <h2 class="text-3xl font-black">Trending Posts</h2>
-                <div class="mt-6 grid gap-4 md:grid-cols-2">
+                <p class="text-xs font-black uppercase tracking-[0.24em] text-emerald-600">Trending Now</p>
+                <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">What readers are opening next</h2>
+                <div class="mt-8 grid gap-4 md:grid-cols-2">
                     @foreach ($trendingPosts as $post)
-                        <a href="{{ route('posts.show', $post) }}" class="rounded-lg border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-500 hover:shadow-lg">
-                            <span class="text-xs font-black uppercase text-emerald-600">{{ $post->category->name }}</span>
-                            <h3 class="mt-2 text-lg font-black">{{ $post->title }}</h3>
-                            <p class="mt-3 text-sm leading-6 text-slate-600">{{ $post->excerpt }}</p>
+                        <a href="{{ route('posts.show', $post) }}" class="group rounded-2xl border border-black/10 bg-white p-5 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:shadow-glow">
+                            <span class="category-pill">{{ $post->category->name }}</span>
+                            <h3 class="mt-4 text-lg font-black text-ink group-hover:text-emerald-700">{{ $post->title }}</h3>
+                            <p class="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">{{ $post->excerpt }}</p>
                         </a>
                     @endforeach
                 </div>
             </div>
             <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
-                <x-ad-slot-top label="Homepage sidebar ad" />
-                <div class="rounded-lg border border-black/10 bg-white p-5 shadow-sm">
-                    <h2 class="text-xl font-black">Popular This Week</h2>
-                    <div class="mt-4 grid gap-4">
+                <x-ad-slot label="Premium sidebar ad slot" />
+                <div class="rounded-2xl border border-black/10 bg-[#050505] p-6 text-white shadow-glow">
+                    <p class="text-xs font-black uppercase tracking-[0.2em] text-brand">Popular This Week</p>
+                    <div class="mt-5 grid gap-4">
                         @foreach ($popularPosts as $post)
-                            <a href="{{ route('posts.show', $post) }}" class="border-b border-black/10 pb-4 last:border-b-0 last:pb-0">
-                                <span class="text-xs font-black uppercase text-slate-500">{{ $post->readingMinutes() }} min read</span>
-                                <span class="mt-1 block font-black hover:text-emerald-700">{{ $post->title }}</span>
+                            <a href="{{ route('posts.show', $post) }}" class="border-b border-white/10 pb-4 last:border-b-0 last:pb-0">
+                                <span class="text-xs font-black uppercase text-white/45">{{ $post->readingMinutes() }} min read</span>
+                                <span class="mt-1 block font-black text-white transition hover:text-brand">{{ $post->title }}</span>
                             </a>
                         @endforeach
                     </div>
@@ -86,97 +89,76 @@
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-black">Category Blocks</h2>
-        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach ($hubs as [$name, $description, $url])
-                <a href="{{ $url }}" class="rounded-lg border border-black/10 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-emerald-500 hover:bg-emerald-50 hover:shadow-lg">
-                    <span class="text-xl font-black">{{ $name }}</span>
-                    <span class="mt-3 block text-sm leading-6 text-slate-600">{{ $description }}</span>
-                </a>
+    <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between gap-4">
+            <div>
+                <p class="text-xs font-black uppercase tracking-[0.24em] text-emerald-600">Category Hubs</p>
+                <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Choose your advantage</h2>
+            </div>
+        </div>
+        <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+            @foreach ($hubs as [$name, $description, $url, $count, $icon])
+                <x-category-card :name="$name" :description="$description" :url="$url" :count="$count" :icon="$icon" />
             @endforeach
         </div>
     </section>
 
-    <section class="border-y border-black/10 bg-black text-white">
-        <div class="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[.85fr_1.15fr] lg:px-8">
-            <div>
-                <p class="text-sm font-black uppercase tracking-wide text-brand">Built by Youssef Youyou</p>
-                <h2 class="mt-3 text-3xl font-black">Senior Full-Stack Developer helping businesses grow online.</h2>
-                <p class="mt-4 text-sm leading-6 text-white/70">This blog is the media arm of Youssef Youyou’s professional brand: practical thinking on finance, AI, Laravel, SaaS, websites, dashboards, automation, and digital systems for serious businesses.</p>
-            </div>
-            <div class="grid gap-4 sm:grid-cols-2">
-                @foreach (['Business websites that win trust fast', 'SaaS MVPs built with Laravel', 'Dashboards, CRM / ERP, and internal tools', 'AI workflows, APIs, VPS deployment'] as $promise)
-                    <div class="rounded-lg border border-white/10 bg-white/5 p-5 text-sm font-black text-white/85">{{ $promise }}</div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    <section class="border-y border-black/10 bg-white">
-        <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div class="flex items-end justify-between gap-4">
-                <div>
-                    <p class="text-sm font-black uppercase text-emerald-600">Affiliate Guides</p>
-                    <h2 class="mt-2 text-3xl font-black">Money pages built for helpful comparisons</h2>
+    <section class="bg-[#0B0F0A] text-white">
+        <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+            <div class="grid gap-6 lg:grid-cols-4">
+                <div class="lg:col-span-1">
+                    <p class="text-xs font-black uppercase tracking-[0.24em] text-brand">Why Trust This Blog?</p>
+                    <h2 class="mt-3 text-3xl font-black">Built for readers who value signal.</h2>
                 </div>
-                <a href="{{ route('money.index') }}" class="text-sm font-black text-emerald-700">View all</a>
-            </div>
-            <x-affiliate-disclosure class="mt-6" />
-            <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                @foreach ($moneyPages as $page)
-                    <a href="{{ route('money.show', $page['slug']) }}" class="rounded-lg border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-emerald-500 hover:shadow-lg">
-                        <span class="text-xs font-black uppercase text-emerald-600">{{ $page['category'] }}</span>
-                        <span class="mt-2 block text-lg font-black">{{ $page['title'] }}</span>
-                        <span class="mt-3 block text-sm leading-6 text-slate-600">{{ $page['excerpt'] }}</span>
-                    </a>
+                @foreach ([
+                    ['Built by a real developer', 'Youssef builds production websites, SaaS platforms, dashboards, APIs, and AI-enabled workflows.'],
+                    ['Practical business focus', 'Guides connect tools and tactics to revenue, trust, speed, and operational clarity.'],
+                    ['Morocco + global perspective', 'Content is useful for Moroccan freelancers and international builders alike.'],
+                ] as [$title, $copy])
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-soft">
+                        <h3 class="text-xl font-black">{{ $title }}</h3>
+                        <p class="mt-3 text-sm leading-6 text-white/65">{{ $copy }}</p>
+                    </div>
                 @endforeach
             </div>
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div class="flex items-end justify-between gap-4">
             <div>
-                <p class="text-sm font-black uppercase text-emerald-600">Recommended Tools</p>
-                <h2 class="mt-2 text-3xl font-black">Hosting, VPS, AI tools, and software stack picks</h2>
-            </div>
-            <a href="{{ route('tools.index') }}" class="text-sm font-black text-emerald-700">All tools</a>
-        </div>
-        <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            @foreach ($tools as $tool)
-                <a href="{{ $tool->affiliate_url ?: route('tools.index') }}" class="rounded-lg border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-emerald-500 hover:shadow-lg" rel="sponsored nofollow">
-                    <span class="text-xs font-black uppercase text-emerald-600">{{ $tool->category }}</span>
-                    <span class="mt-2 block text-lg font-black">{{ $tool->name }}</span>
-                    <span class="mt-3 block text-sm leading-6 text-slate-600">{{ $tool->description }}</span>
-                </a>
-            @endforeach
-        </div>
-    </section>
-
-    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <x-ad-slot-middle label="Homepage display ad placeholder" />
-    </section>
-
-    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div class="flex items-end justify-between gap-4">
-            <div>
-                <p class="text-sm font-black uppercase text-emerald-600">Latest Posts</p>
-                <h2 class="mt-2 text-3xl font-black">Fresh guides for builders</h2>
+                <p class="text-xs font-black uppercase tracking-[0.24em] text-emerald-600">Latest Posts</p>
+                <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Fresh guides from the desk</h2>
             </div>
             <a href="{{ route('posts.index') }}" class="text-sm font-black text-emerald-700">Read latest</a>
         </div>
-        <div class="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             @foreach ($latestPosts as $post)
                 <x-post-card :post="$post" />
             @endforeach
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-        <div class="grid gap-6 lg:grid-cols-[1fr_1fr]">
-            <x-newsletter-card />
-            <x-hire-youssef-banner />
+    <section class="border-y border-black/10 bg-white">
+        <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+            <div class="flex items-end justify-between gap-4">
+                <div>
+                    <p class="text-xs font-black uppercase tracking-[0.24em] text-emerald-600">Money Pages</p>
+                    <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Recommended guides before you buy</h2>
+                </div>
+                <a href="{{ route('money.index') }}" class="text-sm font-black text-emerald-700">All comparisons</a>
+            </div>
+            <x-affiliate-disclosure class="mt-6" />
+            <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+                @foreach ($moneyPages as $page)
+                    <x-money-guide-card :page="$page" />
+                @endforeach
+            </div>
         </div>
+    </section>
+
+    <section class="mx-auto grid max-w-7xl gap-6 px-4 py-14 sm:px-6 lg:grid-cols-[.95fr_1.05fr] lg:px-8">
+        <x-newsletter-box />
+        <x-service-cta title="Need a website, SaaS platform, dashboard, or AI workflow?" description="Work with Youssef Youyou on a premium build that connects strategy, design, Laravel engineering, automation, and deployment." />
     </section>
 </x-layouts.public>

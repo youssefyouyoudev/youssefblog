@@ -19,7 +19,7 @@ class PublicController extends Controller
         $latestPosts = Post::with('category', 'tags')->latestPublished()->take(6)->get();
 
         return view('public.home', [
-            'featuredPosts' => Post::with('category')->latestPublished()->where('is_featured', true)->take(3)->get(),
+            'featuredPosts' => Post::with('category')->latestPublished()->where('is_featured', true)->take(4)->get(),
             'trendingPosts' => $trendingPosts->isNotEmpty() ? $trendingPosts : $latestPosts->take(4),
             'popularPosts' => $trendingPosts->isNotEmpty() ? $trendingPosts->take(3) : $latestPosts->take(3),
             'latestPosts' => $latestPosts,

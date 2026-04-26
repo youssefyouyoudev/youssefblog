@@ -8,6 +8,16 @@
     $keywords = $seo['keywords'] ?? null;
     $noindex = $seo['noindex'] ?? false;
     $brand = config('brand');
+    $navLinks = [
+        ['Home', route('home')],
+        ['Finance', route('categories.show', 'finance')],
+        ['Tech', route('categories.show', 'tech')],
+        ['AI', route('categories.show', 'ai')],
+        ['Laravel', route('categories.show', 'laravel')],
+        ['Business', route('categories.show', 'business')],
+        ['Tools', route('tools.index')],
+        ['Work With Me', route('services')],
+    ];
     $organizationSchema = [
         '@context' => 'https://schema.org',
         '@type' => 'Organization',
@@ -68,102 +78,92 @@
     <script type="application/ld+json">@json($websiteSchema)</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased">
-    <header class="sticky top-0 z-50 border-b border-black/10 bg-white/90 shadow-sm backdrop-blur">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
+<body class="bg-[#f8faf9] font-sans antialiased">
+    <header class="sticky top-0 z-50 border-b border-black/10 bg-white/85 shadow-sm backdrop-blur-xl">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-5 px-4 py-3 sm:px-6 lg:px-8">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <img src="{{ asset('assets/brand/youssef-blog-logo.png') }}" alt="Youssef Blog - Finance Tech AI" class="h-11 w-auto rounded-md object-contain" width="80" height="44">
-                <span>
-                    <span class="block text-base font-black tracking-tight">{{ $brand['blog_name'] }}</span>
-                    <span class="block text-xs font-semibold uppercase text-slate-500">By {{ $brand['name'] }}</span>
+                <img src="{{ asset('assets/brand/youssef-blog-logo.png') }}" alt="Youssef Blog - Finance Tech AI" class="h-12 w-auto rounded-lg object-contain" width="88" height="48">
+                <span class="hidden sm:block">
+                    <span class="block text-base font-black tracking-tight text-ink">{{ $brand['blog_name'] }}</span>
+                    <span class="block text-xs font-bold uppercase tracking-wide text-slate-500">By {{ $brand['name'] }}</span>
                 </span>
             </a>
-            <nav class="hidden items-center gap-6 text-sm font-semibold text-slate-700 md:flex">
-                <a class="transition hover:text-emerald-700" href="{{ route('posts.index') }}">Posts</a>
-                <a class="transition hover:text-emerald-700" href="{{ route('money.index') }}">Best</a>
-                <a class="transition hover:text-emerald-700" href="{{ route('services') }}">Services</a>
-                <a class="transition hover:text-emerald-700" href="{{ route('categories.show', 'finance') }}">Finance</a>
-                <a class="transition hover:text-emerald-700" href="{{ route('categories.show', 'ai') }}">AI</a>
-                <a class="transition hover:text-emerald-700" href="{{ route('categories.show', 'laravel') }}">Laravel</a>
-                <a class="transition hover:text-emerald-700" href="{{ route('tools.index') }}">Tools</a>
-                <a class="transition hover:text-emerald-700" href="{{ $brand['case_studies_url'] }}">Case Studies</a>
+
+            <nav class="hidden items-center gap-1 rounded-full border border-black/10 bg-white px-2 py-2 text-sm font-bold text-slate-700 shadow-sm lg:flex">
+                @foreach ($navLinks as [$label, $url])
+                    <a href="{{ $url }}" class="rounded-full px-3 py-2 transition hover:bg-emerald-50 hover:text-emerald-700 {{ url()->current() === $url ? 'bg-black text-white hover:bg-black hover:text-white' : '' }}">{{ $label }}</a>
+                @endforeach
             </nav>
-            <div class="hidden md:block">
-                <a href="{{ $brand['start_project_url'] }}" class="rounded-lg bg-black px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-900">Start a Project</a>
+
+            <div class="hidden items-center gap-2 lg:flex">
+                <a href="{{ route('posts.index') }}" aria-label="Search posts" class="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-ink transition hover:border-emerald-500 hover:text-emerald-700">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                </a>
+                <a href="{{ route('services') }}" class="premium-button bg-black text-white">Work With Me</a>
             </div>
-            <details class="relative md:hidden">
-                <summary class="list-none rounded-lg border border-black/10 bg-white px-3 py-2 text-sm font-black">Menu</summary>
-                <nav class="absolute right-0 mt-3 grid w-56 gap-1 rounded-lg border border-black/10 bg-white p-3 text-sm font-bold shadow-xl">
-                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('posts.index') }}">Posts</a>
-                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('money.index') }}">Best</a>
-                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('services') }}">Services</a>
-                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('categories.show', 'finance') }}">Finance</a>
-                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('categories.show', 'ai') }}">AI</a>
-                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('categories.show', 'laravel') }}">Laravel</a>
-                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('tools.index') }}">Tools</a>
-                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ $brand['portfolio_url'] }}">Portfolio</a>
-                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ $brand['whatsapp_url'] }}">WhatsApp</a>
-                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('contact') }}">Contact</a>
+
+            <details class="group relative lg:hidden">
+                <summary class="flex list-none items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-black shadow-sm">
+                    Menu
+                    <span class="block h-2 w-2 rounded-full bg-brand"></span>
+                </summary>
+                <nav class="absolute right-0 mt-3 grid w-72 gap-1 rounded-2xl border border-black/10 bg-white p-3 text-sm font-bold shadow-2xl">
+                    @foreach ($navLinks as [$label, $url])
+                        <a class="rounded-xl px-3 py-3 transition hover:bg-emerald-50 hover:text-emerald-700" href="{{ $url }}">{{ $label }}</a>
+                    @endforeach
+                    <a class="rounded-xl px-3 py-3 transition hover:bg-emerald-50 hover:text-emerald-700" href="{{ route('money.index') }}">Best Comparisons</a>
+                    <a class="rounded-xl bg-black px-3 py-3 text-white transition hover:bg-emerald-600" href="{{ $brand['whatsapp_url'] }}">WhatsApp Now</a>
                 </nav>
             </details>
         </div>
     </header>
+
     <main>
         {{ $slot }}
     </main>
+
     <section class="border-t border-black/10 bg-white">
         <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-            <div class="grid gap-6 rounded-lg border border-black/10 bg-slate-50 p-6 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
-                <div>
-                    <p class="text-sm font-black uppercase tracking-wide text-emerald-600">Need this built for your business?</p>
-                    <h2 class="mt-2 text-2xl font-black text-black">Hire Youssef for websites, SaaS, dashboards, Laravel systems, and AI-enabled workflows.</h2>
-                    <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">Turn useful ideas from the blog into production-ready business systems: strategy, UI, Laravel backend, deployment, and launch polish.</p>
-                </div>
-                <div class="flex flex-col gap-3 sm:flex-row">
-                    <a href="{{ route('services') }}" class="rounded-lg bg-black px-5 py-3 text-center text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-900">Need Website?</a>
-                    <a href="{{ $brand['start_project_url'] }}" class="rounded-lg border border-black/10 bg-brand px-5 py-3 text-center text-sm font-black text-black shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-300">Need SaaS?</a>
-                    <a href="{{ $brand['whatsapp_url'] }}" class="rounded-lg border border-black/10 bg-white px-5 py-3 text-center text-sm font-black text-black shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-500">WhatsApp Now</a>
-                </div>
-            </div>
+            <x-service-cta title="Need a website, SaaS platform, dashboard, or AI workflow?" description="Turn useful ideas from the blog into production-ready business systems: strategy, UI, Laravel backend, deployment, and launch polish." />
         </div>
     </section>
-    <footer class="border-t border-black/10 bg-black text-white">
-        <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-5 lg:px-8">
+
+    <footer class="border-t border-black/10 bg-[#050505] text-white">
+        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-5 lg:px-8">
             <div class="md:col-span-2">
-                <img src="{{ asset('assets/brand/youssef-blog-logo.png') }}" alt="Youssef Blog - Finance Tech AI" class="h-20 w-auto rounded-lg object-contain" width="180" height="80">
-                <p class="mt-3 max-w-md text-sm leading-6 text-white/70">{{ $brand['insights'] }} {{ $brand['positioning'] }}</p>
-                <div class="mt-5 grid gap-2 text-sm text-white/70">
+                <img src="{{ asset('assets/brand/youssef-blog-logo.png') }}" alt="Youssef Blog - Finance Tech AI" class="h-20 w-auto rounded-xl object-contain" width="180" height="80">
+                <p class="mt-4 max-w-md text-sm leading-6 text-white/70">{{ $brand['insights'] }} {{ $brand['positioning'] }}</p>
+                <div class="mt-6 grid gap-2 text-sm text-white/70">
                     <a class="hover:text-brand" href="mailto:{{ $brand['email'] }}">{{ $brand['email'] }}</a>
                     <a class="hover:text-brand" href="{{ $brand['whatsapp_url'] }}">WhatsApp {{ $brand['phone'] }}</a>
                     <span>{{ $brand['location'] }} + international work</span>
                 </div>
             </div>
             <div>
-                <p class="font-bold">Brand</p>
-                <div class="mt-3 grid gap-2 text-sm text-white/70">
-                    <a class="hover:text-brand" href="{{ $brand['portfolio_url'] }}">Main Portfolio</a>
-                    <a class="hover:text-brand" href="{{ $brand['start_project_url'] }}">Start a Project</a>
+                <p class="font-black text-white">Categories</p>
+                <div class="mt-4 grid gap-2 text-sm text-white/70">
+                    <a class="hover:text-brand" href="{{ route('categories.show', 'finance') }}">Finance</a>
+                    <a class="hover:text-brand" href="{{ route('categories.show', 'tech') }}">Tech</a>
+                    <a class="hover:text-brand" href="{{ route('categories.show', 'ai') }}">AI</a>
+                    <a class="hover:text-brand" href="{{ route('categories.show', 'laravel') }}">Laravel</a>
+                    <a class="hover:text-brand" href="{{ route('categories.show', 'business') }}">Business</a>
+                </div>
+            </div>
+            <div>
+                <p class="font-black text-white">Services</p>
+                <div class="mt-4 grid gap-2 text-sm text-white/70">
+                    <a class="hover:text-brand" href="{{ route('services') }}">Work With Me</a>
+                    <a class="hover:text-brand" href="{{ $brand['portfolio_url'] }}">Portfolio</a>
                     <a class="hover:text-brand" href="{{ $brand['services_url'] }}">Services</a>
                     <a class="hover:text-brand" href="{{ $brand['case_studies_url'] }}">Case Studies</a>
-                    <a class="hover:text-brand" href="{{ route('services') }}">Work With Me</a>
+                    <a class="hover:text-brand" href="{{ route('money.index') }}">Best Comparisons</a>
                 </div>
             </div>
             <div>
-                <p class="font-bold">Explore</p>
-                <div class="mt-3 grid gap-2 text-sm text-white/70">
-                    <a class="hover:text-brand" href="{{ route('posts.index') }}">Posts</a>
-                    <a class="hover:text-brand" href="{{ route('money.index') }}">Best Comparisons</a>
-                    <a class="hover:text-brand" href="{{ route('tools.index') }}">Tools</a>
+                <p class="font-black text-white">Legal</p>
+                <div class="mt-4 grid gap-2 text-sm text-white/70">
                     <a class="hover:text-brand" href="{{ route('about') }}">About</a>
                     <a class="hover:text-brand" href="{{ route('contact') }}">Contact</a>
-                    <a class="hover:text-brand" href="{{ route('feed') }}">RSS Feed</a>
-                    <a class="hover:text-brand" href="{{ $brand['social']['github'] }}">GitHub</a>
-                    <a class="hover:text-brand" href="{{ $brand['social']['linkedin'] }}">LinkedIn</a>
-                </div>
-            </div>
-            <div>
-                <p class="font-bold">Legal</p>
-                <div class="mt-3 grid gap-2 text-sm text-white/70">
                     <a class="hover:text-brand" href="{{ route('privacy') }}">Privacy Policy</a>
                     <a class="hover:text-brand" href="{{ route('terms') }}">Terms</a>
                     <a class="hover:text-brand" href="{{ route('editorial-policy') }}">Editorial Policy</a>
@@ -172,7 +172,7 @@
                 </div>
             </div>
             <div class="md:col-span-5 border-t border-white/10 pt-6 text-xs text-white/50">
-                2026 {{ $brand['name'] }}. {{ $brand['tagline'] }} GitHub and LinkedIn links are placeholders until final profile URLs are connected.
+                2026 {{ $brand['name'] }}. {{ $brand['tagline'] }} Youssef Blog is the media arm of the Youssef Youyou professional brand.
             </div>
         </div>
     </footer>
