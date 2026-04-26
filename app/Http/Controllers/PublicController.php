@@ -15,14 +15,20 @@ class PublicController extends Controller
 {
     public function home(): View
     {
+        $trendingPosts = Post::with('category', 'tags')->latestPublished()->orderByDesc('views')->take(4)->get();
+        $latestPosts = Post::with('category', 'tags')->latestPublished()->take(6)->get();
+
         return view('public.home', [
             'featuredPosts' => Post::with('category')->latestPublished()->where('is_featured', true)->take(3)->get(),
-            'latestPosts' => Post::with('category', 'tags')->latestPublished()->take(6)->get(),
+            'trendingPosts' => $trendingPosts->isNotEmpty() ? $trendingPosts : $latestPosts->take(4),
+            'popularPosts' => $trendingPosts->isNotEmpty() ? $trendingPosts->take(3) : $latestPosts->take(3),
+            'latestPosts' => $latestPosts,
             'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])->orderBy('name')->get(),
             'tools' => Tool::where('is_featured', true)->orderBy('category')->take(4)->get(),
+            'moneyPages' => collect(config('money_pages'))->take(4),
             'seo' => [
-                'title' => 'Youssef Blog | Finance, Tech, AI, Laravel & SaaS Insights',
-                'description' => 'Insights by Youssef Youyou on AI tools, Laravel, SaaS, websites, dashboards, and digital systems for serious businesses.',
+                'title' => 'Smart Finance, Tech & AI Guides for Morocco & Global Readers | Youssef Blog',
+                'description' => 'Actionable content on money, online business, AI tools, tech trends, and growth strategies from Youssef Youyou.',
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
         ]);
@@ -163,6 +169,38 @@ class PublicController extends Controller
         ]);
     }
 
+    public function moneyIndex(): View
+    {
+        return view('public.money.index', [
+            'moneyPages' => collect(config('money_pages')),
+            'seo' => [
+                'title' => 'Best Tools, Hosting, Laptops & Finance Comparisons | Youssef Blog',
+                'description' => 'Affiliate-ready comparison guides for hosting, Laravel VPS, AI tools, laptops, budget phones, banking, and side hustle tools.',
+                'image' => asset('assets/brand/youssef-blog-og.png'),
+            ],
+        ]);
+    }
+
+    public function moneyShow(string $slug): View
+    {
+        $page = collect(config('money_pages'))->firstWhere('slug', $slug);
+
+        abort_unless($page, 404);
+
+        return view('public.money.show', [
+            'page' => $page,
+            'relatedPages' => collect(config('money_pages'))->where('slug', '!=', $slug)->take(3),
+            'seo' => [
+                'title' => $page['title'].' | Youssef Blog',
+                'description' => $page['excerpt'],
+                'canonical' => route('money.show', $page['slug']),
+                'image' => $page['image'] ?? asset('assets/brand/youssef-blog-og.png'),
+                'type' => 'article',
+                'keywords' => implode(', ', $page['keywords'] ?? []),
+            ],
+        ]);
+    }
+
     public function services(): View
     {
         return view('public.services', [
@@ -182,6 +220,7 @@ class PublicController extends Controller
                 'categories' => Category::orderBy('name')->get(),
                 'tags' => Tag::orderBy('name')->get(),
                 'servicePages' => [route('services')],
+                'moneyPages' => collect(config('money_pages')),
             ])
             ->header('Content-Type', 'application/xml');
     }

@@ -12,6 +12,11 @@ class DashboardController extends Controller
 {
     public function __invoke(): View
     {
+        $totalViews = Post::sum('views');
+        $adClicks = Post::sum('ad_clicks');
+        $affiliateClicks = Post::sum('affiliate_clicks');
+        $estimatedRpm = 3.5;
+
         return view('admin.dashboard', [
             'postCount' => Post::count(),
             'publishedCount' => Post::published()->count(),
@@ -20,6 +25,14 @@ class DashboardController extends Controller
             'categoryCount' => Category::count(),
             'tagCount' => Tag::count(),
             'recentPosts' => Post::with('category')->latest()->take(5)->get(),
+            'topPosts' => Post::with('category')->orderByDesc('views')->take(5)->get(),
+            'topCategories' => Category::withSum('posts as total_views', 'views')->orderByDesc('total_views')->take(5)->get(),
+            'totalViews' => $totalViews,
+            'adClicks' => $adClicks,
+            'affiliateClicks' => $affiliateClicks,
+            'estimatedRpm' => $estimatedRpm,
+            'estimatedRevenue' => round(($totalViews / 1000) * $estimatedRpm, 2),
+            'ctr' => $totalViews > 0 ? round(($adClicks / $totalViews) * 100, 2) : 0,
         ]);
     }
 }

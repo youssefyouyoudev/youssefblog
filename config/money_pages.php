@@ -1,0 +1,95 @@
+<?php
+
+return [
+    [
+        'title' => 'Best Hosting Morocco 2026',
+        'slug' => 'best-hosting-morocco-2026',
+        'category' => 'Hosting',
+        'excerpt' => 'A practical comparison framework for Moroccan businesses choosing hosting for websites, blogs, and Laravel apps.',
+        'keywords' => ['best hosting Morocco 2026', 'website hosting Morocco', 'Laravel hosting Morocco'],
+        'image' => 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1400&q=80',
+        'rows' => [
+            ['Shared Hosting', 'Simple websites', 'Low cost, easy setup', 'Less control for Laravel queues and custom apps'],
+            ['VPS Hosting', 'Laravel and SaaS apps', 'Control, performance, deployment flexibility', 'Needs server maintenance'],
+            ['Managed Platform', 'Teams that want convenience', 'Support and easier deployment', 'Higher monthly cost'],
+        ],
+    ],
+    [
+        'title' => 'Best VPS for Laravel',
+        'slug' => 'best-vps-for-laravel',
+        'category' => 'Laravel Hosting',
+        'excerpt' => 'How to compare VPS hosting for Laravel projects using uptime, backups, SSH, resources, and deployment workflow.',
+        'keywords' => ['best VPS for Laravel', 'Laravel VPS hosting', 'Laravel deployment VPS'],
+        'image' => 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1400&q=80',
+        'rows' => [
+            ['Budget VPS', 'MVPs and small blogs', 'Affordable and flexible', 'You own setup and monitoring'],
+            ['Performance VPS', 'Growing SaaS apps', 'More CPU/RAM headroom', 'Costs more before revenue is proven'],
+            ['Managed VPS', 'Client projects', 'Less ops friction', 'Less raw control'],
+        ],
+    ],
+    [
+        'title' => 'Best AI Tools for Freelancers',
+        'slug' => 'best-ai-tools-for-freelancers',
+        'category' => 'AI Tools',
+        'excerpt' => 'AI tool categories freelancers can use for research, proposals, content, support, and admin work.',
+        'keywords' => ['best AI tools for freelancers 2026', 'AI tools freelancers', 'ChatGPT workflows freelancers'],
+        'image' => 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=80',
+        'rows' => [
+            ['Chat Assistant', 'Research and drafts', 'Fast outlines and editing', 'Needs human review'],
+            ['Automation Tool', 'Admin workflows', 'Saves repetitive time', 'Can break if poorly configured'],
+            ['Meeting Summary Tool', 'Client calls', 'Better notes and follow-up', 'Privacy must be reviewed'],
+        ],
+    ],
+    [
+        'title' => 'Best Laptops Under $700',
+        'slug' => 'best-laptops-under-700',
+        'category' => 'Developer Gear',
+        'excerpt' => 'A buying framework for students, developers, and freelancers choosing a practical laptop under $700.',
+        'keywords' => ['best laptops under 700', 'budget laptop for coding', 'developer laptop budget'],
+        'image' => 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80',
+        'rows' => [
+            ['16GB RAM laptop', 'Developers', 'Better multitasking', 'May trade off display quality'],
+            ['Business refurbished laptop', 'Freelancers', 'Strong keyboard and durability', 'Older design'],
+            ['Student ultrabook', 'Students', 'Lightweight and battery friendly', 'Less upgradeable'],
+        ],
+    ],
+    [
+        'title' => 'Best Budget Phones Morocco',
+        'slug' => 'best-budget-phones-morocco',
+        'category' => 'Tech Buying',
+        'excerpt' => 'A practical phone buying checklist for Moroccan freelancers, students, and small business owners.',
+        'keywords' => ['best budget phones Morocco', 'budget phones Morocco 2026', 'phone for freelancers'],
+        'image' => 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1400&q=80',
+        'rows' => [
+            ['Long battery phone', 'Field work', 'Reliable all day', 'May have weaker camera'],
+            ['Camera-focused budget phone', 'Creators', 'Better content capture', 'Storage fills quickly'],
+            ['Performance budget phone', 'Students', 'Smoother apps', 'May cost slightly more'],
+        ],
+    ],
+    [
+        'title' => 'Best Banks in Morocco for Freelancers',
+        'slug' => 'best-banks-in-morocco-for-freelancers',
+        'category' => 'Finance Tools',
+        'excerpt' => 'A non-advisory checklist for comparing banks and accounts as a Moroccan freelancer or online business owner.',
+        'keywords' => ['best banks in Morocco freelancers', 'Morocco freelancer banking', 'digital payments Morocco'],
+        'image' => 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=80',
+        'rows' => [
+            ['Traditional bank', 'Business credibility', 'Branch access and documents', 'Can be slower'],
+            ['Digital account', 'Online income tracking', 'Convenient app experience', 'Limits vary by provider'],
+            ['Separate savings account', 'Tax and emergency fund', 'Cleaner money separation', 'Requires discipline'],
+        ],
+    ],
+    [
+        'title' => 'Best Side Hustle Tools',
+        'slug' => 'best-side-hustle-tools',
+        'category' => 'Online Income',
+        'excerpt' => 'Tool categories that help side hustlers publish, sell, automate, and track without overspending.',
+        'keywords' => ['best side hustle tools', 'online income tools 2026', 'tools for side hustles'],
+        'image' => 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=80',
+        'rows' => [
+            ['Landing page builder', 'Testing offers', 'Fast validation', 'Can become limiting later'],
+            ['Email newsletter', 'Audience building', 'Owned channel', 'Requires consistency'],
+            ['Automation tool', 'Repeating admin', 'Saves time', 'Needs process clarity first'],
+        ],
+    ],
+];

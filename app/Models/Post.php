@@ -34,6 +34,8 @@ class Post extends Model
         'og_image',
         'reading_time',
         'views',
+        'ad_clicks',
+        'affiliate_clicks',
         'is_featured',
     ];
 

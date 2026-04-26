@@ -43,6 +43,9 @@
     @if ($faqLd)
         <script type="application/ld+json">@json($faqLd)</script>
     @endif
+    <div class="fixed left-0 top-0 z-[60] h-1 w-full bg-transparent" aria-hidden="true">
+        <div id="reading-progress" class="h-1 w-0 bg-brand"></div>
+    </div>
 
     <article class="bg-white">
         <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
@@ -61,6 +64,10 @@
                 <span>{{ $post->readingMinutes() }} min read</span>
                 <span>Published {{ $post->published_at?->format('M d, Y') }}</span>
                 <span>Updated {{ $post->updated_at?->format('M d, Y') }}</span>
+            </div>
+            <div class="mt-6 flex flex-wrap gap-2">
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('posts.show', $post)) }}" class="rounded-lg border border-black/10 px-3 py-2 text-xs font-black text-slate-700 transition hover:border-emerald-500 hover:text-emerald-700" rel="nofollow noopener" target="_blank">Share on LinkedIn</a>
+                <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('posts.show', $post)) }}&text={{ urlencode($post->title) }}" class="rounded-lg border border-black/10 px-3 py-2 text-xs font-black text-slate-700 transition hover:border-emerald-500 hover:text-emerald-700" rel="nofollow noopener" target="_blank">Share on X</a>
             </div>
         </div>
         @if ($post->featured_image)
@@ -85,6 +92,7 @@
                 </div>
             </section>
             <x-affiliate-disclosure class="mt-6" />
+            <x-ad-slot-top label="Ad after intro" class="mt-6 lg:hidden" />
             @if ($headings->isNotEmpty())
                 <nav class="mt-6 rounded-lg border border-black/10 bg-white p-5 shadow-sm">
                     <p class="text-sm font-black uppercase text-emerald-600">Table of contents</p>
@@ -107,8 +115,10 @@
                         <p>{!! nl2br(e($trimmed)) !!}</p>
                     @endif
 
-                    @if ($loop->iteration === max(3, (int) floor($blocks->count() / 2)))
-                        <x-ad-slot-middle label="Middle article ad" class="my-8" />
+                    @if (in_array($loop->iteration, [3, 8], true))
+                        <x-ad-slot-middle label="{{ $loop->iteration === 3 ? 'Ad after paragraph 3' : 'Ad after paragraph 8' }}" class="my-8" />
+                    @elseif ($loop->iteration === max(4, (int) floor($blocks->count() / 2)))
+                        <x-ad-slot-middle label="Mobile mid article ad" class="my-8 lg:hidden" />
                     @endif
                 @endforeach
             </div>
@@ -158,6 +168,7 @@
             <x-hire-youssef-banner class="mt-10" />
         </div>
         <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
+            <x-ad-slot-top label="Sticky sidebar ad" />
             <x-service-cta-card title="Laravel Development" :description="$brand['services']['Laravel Development']" />
             <x-service-cta-card title="SaaS MVP" :description="$brand['services']['SaaS Platforms']" />
             <x-service-cta-card title="Business Website" :description="$brand['services']['Business Websites']" />
@@ -165,4 +176,11 @@
             <x-newsletter-card />
         </aside>
     </div>
+    <script>
+        document.addEventListener('scroll', () => {
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = height > 0 ? (window.scrollY / height) * 100 : 0;
+            document.getElementById('reading-progress').style.width = `${progress}%`;
+        }, { passive: true });
+    </script>
 </x-layouts.public>

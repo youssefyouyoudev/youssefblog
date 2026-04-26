@@ -53,6 +53,7 @@
     <link rel="canonical" href="{{ $canonical }}">
     <link rel="icon" type="image/png" href="{{ asset('assets/brand/youssef-blog-logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('assets/brand/youssef-blog-logo.png') }}">
+    <link rel="preload" as="image" href="{{ asset('assets/brand/youssef-blog-logo.png') }}">
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:type" content="{{ $type }}">
@@ -79,6 +80,7 @@
             </a>
             <nav class="hidden items-center gap-6 text-sm font-semibold text-slate-700 md:flex">
                 <a class="transition hover:text-emerald-700" href="{{ route('posts.index') }}">Posts</a>
+                <a class="transition hover:text-emerald-700" href="{{ route('money.index') }}">Best</a>
                 <a class="transition hover:text-emerald-700" href="{{ route('services') }}">Services</a>
                 <a class="transition hover:text-emerald-700" href="{{ route('categories.show', 'finance') }}">Finance</a>
                 <a class="transition hover:text-emerald-700" href="{{ route('categories.show', 'ai') }}">AI</a>
@@ -93,6 +95,7 @@
                 <summary class="list-none rounded-lg border border-black/10 bg-white px-3 py-2 text-sm font-black">Menu</summary>
                 <nav class="absolute right-0 mt-3 grid w-56 gap-1 rounded-lg border border-black/10 bg-white p-3 text-sm font-bold shadow-xl">
                     <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('posts.index') }}">Posts</a>
+                    <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('money.index') }}">Best</a>
                     <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('services') }}">Services</a>
                     <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('categories.show', 'finance') }}">Finance</a>
                     <a class="rounded-md px-3 py-2 hover:bg-emerald-50" href="{{ route('categories.show', 'ai') }}">AI</a>
@@ -133,6 +136,7 @@
                 <p class="font-bold">Explore</p>
                 <div class="mt-3 grid gap-2 text-sm text-white/70">
                     <a class="hover:text-brand" href="{{ route('posts.index') }}">Posts</a>
+                    <a class="hover:text-brand" href="{{ route('money.index') }}">Best Comparisons</a>
                     <a class="hover:text-brand" href="{{ route('tools.index') }}">Tools</a>
                     <a class="hover:text-brand" href="{{ route('about') }}">About</a>
                     <a class="hover:text-brand" href="{{ route('contact') }}">Contact</a>
