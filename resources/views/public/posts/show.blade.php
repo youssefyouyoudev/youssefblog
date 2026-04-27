@@ -6,6 +6,25 @@
             ->filter(fn ($block) => str_starts_with(trim($block), '## '))
             ->map(fn ($block) => trim(str_replace('## ', '', $block)))
             ->values();
+        $articleHtml = $blocks->map(function ($block): string {
+            $trimmed = trim($block);
+
+            if (str_starts_with($trimmed, '```')) {
+                return '<pre><code>'.e(trim($trimmed, "` \n\r\t")).'</code></pre>';
+            }
+
+            if (str_starts_with($trimmed, '## ')) {
+                $heading = trim(str_replace('## ', '', $trimmed));
+
+                return '<h2 id="'.Str::slug($heading).'">'.e($heading).'</h2>';
+            }
+
+            if (str_starts_with($trimmed, '### ')) {
+                return '<h3>'.e(trim(str_replace('### ', '', $trimmed))).'</h3>';
+            }
+
+            return '<p>'.nl2br(e($trimmed)).'</p>';
+        })->implode("\n");
         $faqLd = $post->faqs ? [
             '@context' => 'https://schema.org',
             '@type' => 'FAQPage',
@@ -62,48 +81,22 @@
             </div>
         @endif
 
-        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[260px_minmax(0,1fr)_300px] lg:px-8">
+        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[260px_minmax(0,720px)_300px] lg:px-8">
             <aside class="hidden lg:block">
-                <div class="sticky top-28 space-y-6">
+                <div class="sticky top-8 space-y-6">
                     <x-table-of-contents :content="$post->content" />
-                    <x-ad-slot label="Desktop TOC ad slot" />
+                    <x-ad-slot />
                 </div>
             </aside>
 
             <div class="min-w-0">
-                <section class="rounded-2xl border border-emerald-500/20 bg-emerald-50 p-6 shadow-soft">
-                    <p class="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">Editorial note</p>
-                    <p class="mt-3 text-sm leading-6 text-slate-700">This guide is written for practical decision-making. No hype, no guaranteed outcomes, and no risky financial advice. When a topic connects to implementation, Youssef can help turn it into a production-ready system.</p>
-                </section>
+                <x-author-trust-box compact />
+                <x-editorial-note :post="$post" class="mt-6" />
 
-                <section class="mt-6 rounded-2xl border border-black/10 bg-white p-6 shadow-soft">
-                    <p class="text-sm font-black text-ink">Written by Youssef Youyou</p>
-                    <p class="mt-2 text-sm leading-6 text-slate-600">Senior Full-Stack Developer in Morocco helping businesses grow with websites, SaaS platforms, dashboards, APIs, and AI-enabled workflows.</p>
-                </section>
-
-                <x-ad-slot label="Ad after intro" class="mt-8" />
+                <x-ad-slot class="mt-8" />
 
                 <div class="content-body mt-8 rounded-3xl border border-black/10 bg-white p-6 shadow-soft sm:p-10">
-                    @foreach ($blocks as $block)
-                        @php $trimmed = trim($block); @endphp
-                        @if (str_starts_with($trimmed, '## '))
-                            @php $heading = trim(str_replace('## ', '', $trimmed)); @endphp
-                            <h2 id="{{ Str::slug($heading) }}">{{ $heading }}</h2>
-                        @elseif (str_starts_with($trimmed, '### '))
-                            <h3>{{ trim(str_replace('### ', '', $trimmed)) }}</h3>
-                        @else
-                            <p>{!! app(\App\Services\ContentService::class)->secureLinks(nl2br(e($trimmed))) !!}</p>
-                        @endif
-
-                        @if (in_array($loop->iteration, [3, 8], true))
-                            <x-ad-slot label="{{ $loop->iteration === 3 ? 'Clean ad after paragraph 3' : 'Clean ad after paragraph 8' }}" class="my-8" />
-                        @elseif ($loop->iteration === max(4, (int) floor($blocks->count() / 2)))
-                            <x-ad-slot label="Mobile mid article ad" class="my-8 lg:hidden" />
-                        @endif
-                        @if ($loop->iteration % 4 === 0)
-                            <x-cta variant="freelance" class="my-8" />
-                        @endif
-                    @endforeach
+                    {!! \App\Helpers\ContentHelper::process($articleHtml) !!}
                 </div>
 
                 @if ($post->faqs)
@@ -154,13 +147,13 @@
                     @endif
                 </div>
 
-                <x-ad-slot label="Ad before related posts" class="mt-8" />
+                <x-ad-slot class="mt-8" />
                 <x-related-posts :posts="$relatedPosts" />
                 <x-newsletter-box class="mt-10" />
                 <x-service-cta class="mt-10" />
             </div>
 
-            <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
+            <aside class="space-y-6 lg:sticky lg:top-8 lg:self-start">
                 <x-blog-sidebar />
             </aside>
         </div>

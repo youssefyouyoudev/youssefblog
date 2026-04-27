@@ -18,8 +18,22 @@
         <p class="text-xs font-black uppercase tracking-[0.2em] text-emerald-600">Table of contents</p>
         <div class="mt-4 grid gap-2 text-sm font-bold text-slate-700">
             @foreach ($headings as $heading)
-                <a class="toc-link rounded-lg px-2 py-1 transition hover:bg-emerald-50 hover:text-emerald-700" href="#{{ Str::slug($heading) }}">{{ $heading }}</a>
+                <a class="toc-link rounded-lg px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" data-toc-target="{{ Str::slug($heading) }}" href="#{{ Str::slug($heading) }}">{{ $heading }}</a>
             @endforeach
         </div>
     </nav>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const links = [...document.querySelectorAll('.toc-link')];
+            const sections = links.map(link => document.getElementById(link.dataset.tocTarget)).filter(Boolean);
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    links.forEach(link => link.classList.remove('bg-blue-50', 'text-blue-600'));
+                    document.querySelector(`[data-toc-target="${entry.target.id}"]`)?.classList.add('bg-blue-50', 'text-blue-600');
+                });
+            }, { rootMargin: '-20% 0px -70% 0px' });
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
 @endif

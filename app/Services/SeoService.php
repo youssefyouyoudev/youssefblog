@@ -13,7 +13,7 @@ class SeoService
         $title = Arr::get($seo, 'title', $brand['blog_name'].' | Finance, Tech & AI');
         $description = Arr::get($seo, 'description', 'Smart finance, tech, AI, Laravel, and online business guides for builders.');
         $canonical = Arr::get($seo, 'canonical', url()->current());
-        $image = Arr::get($seo, 'image', asset('assets/brand/youssef-blog-og.png'));
+        $image = Arr::get($seo, 'image', asset('assets/og-default.png'));
 
         return [
             'title' => $title,
@@ -39,7 +39,7 @@ class SeoService
                 '@type' => $post->schema_type ?: 'BlogPosting',
                 'headline' => $post->title,
                 'description' => $post->meta_description ?: $post->excerpt,
-                'image' => $post->og_image ?: $post->featured_image ?: asset('assets/brand/youssef-blog-og.png'),
+                'image' => $post->og_image ?: $post->featured_image ?: asset('assets/og-default.png'),
                 'datePublished' => $post->published_at?->toIso8601String(),
                 'dateModified' => ($post->last_updated_at ?: $post->updated_at)?->toIso8601String(),
                 'author' => $this->personSchema(),

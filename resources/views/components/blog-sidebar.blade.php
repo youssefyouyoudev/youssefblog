@@ -10,7 +10,7 @@
         <div class="mt-4 grid gap-4">
             @foreach ($popularPosts as $post)
                 <a href="{{ route('posts.show', $post) }}" class="border-b border-black/10 pb-4 last:border-b-0 last:pb-0">
-                    <span class="text-xs font-black uppercase text-slate-400">{{ number_format($post->views) }} views</span>
+                    <span class="text-xs font-black uppercase text-slate-400">{{ $post->views === 1 ? '1 view' : number_format($post->views).' views' }}</span>
                     <span class="mt-1 block text-sm font-black text-ink hover:text-emerald-700">{{ $post->title }}</span>
                 </a>
             @endforeach
@@ -28,5 +28,5 @@
         </div>
     </div>
     <x-newsletter-box />
-    <x-ad-slot label="Affiliate banner slot" />
+    <x-ad-slot />
 </aside>

@@ -3,11 +3,11 @@
         $brand = config('brand');
         $categoryMap = $categories->keyBy('slug');
         $hubs = [
-            ['Finance', 'Money systems, freelancer finance, fintech tools, and online income basics.', route('categories.show', 'finance'), $categoryMap->get('finance')?->posts_count, '$'],
-            ['Tech', 'Hosting, devices, productivity, cybersecurity, and digital infrastructure.', route('categories.show', 'tech'), $categoryMap->get('tech')?->posts_count, 'T'],
-            ['AI', 'AI tools, agents, workflows, automation, and practical business use cases.', route('categories.show', 'ai'), $categoryMap->get('ai')?->posts_count, 'AI'],
-            ['Laravel', 'SEO, deployment, performance, security, SaaS ideas, and backend systems.', route('categories.show', 'laravel'), $categoryMap->get('laravel')?->posts_count, 'L'],
-            ['Business', 'SaaS ideas, client acquisition, digital services, and Morocco-ready growth.', route('categories.show', 'business'), $categoryMap->get('business')?->posts_count, 'B'],
+            ['Finance', 'Money systems, freelancer finance, fintech tools, and online income basics.', route('categories.show', 'finance'), $categoryMap->get('finance')?->posts_count, 'chart'],
+            ['Tech', 'Hosting, devices, productivity, cybersecurity, and digital infrastructure.', route('categories.show', 'tech'), $categoryMap->get('tech')?->posts_count, 'cpu'],
+            ['AI', 'AI tools, agents, workflows, automation, and practical business use cases.', route('categories.show', 'ai'), $categoryMap->get('ai')?->posts_count, 'sparkle'],
+            ['Laravel', 'SEO, deployment, performance, security, SaaS ideas, and backend systems.', route('categories.show', 'laravel'), $categoryMap->get('laravel')?->posts_count, 'code'],
+            ['Business', 'SaaS ideas, client acquisition, digital services, and Morocco-ready growth.', route('categories.show', 'business'), $categoryMap->get('business')?->posts_count, 'briefcase'],
         ];
         $leadPost = $featuredPosts->first();
         $sideFeatured = $featuredPosts->skip(1)->take(3);
@@ -18,7 +18,7 @@
             <div class="fade-up">
                 <img src="{{ asset('assets/brand/youssef-blog-logo.png') }}" alt="Youssef Blog - Finance Tech AI" class="h-24 w-auto rounded-2xl object-contain shadow-glow sm:h-32" width="320" height="144" fetchpriority="high">
                 <p class="mt-8 text-xs font-black uppercase tracking-[0.24em] text-brand">Youssef Blog by Youssef Youyou</p>
-                <h1 class="accent-line mt-5 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl lg:text-7xl">Smart Finance, Tech & AI Guides for Builders</h1>
+                <h1 class="accent-line mt-5 max-w-5xl text-5xl font-black tracking-tight sm:text-7xl lg:text-8xl">Smart Finance, Tech & AI Guides for Builders</h1>
                 <p class="mt-8 max-w-2xl text-lg leading-8 text-white/70">Practical insights from Youssef Youyou on AI tools, Laravel, SaaS, online income, and digital business systems.</p>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                     <a href="{{ route('posts.index') }}" class="premium-button bg-brand text-black">Read Latest Posts</a>
@@ -36,6 +36,8 @@
             </div>
         </div>
     </section>
+
+    <x-trust-bar />
 
     <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div class="flex items-end justify-between gap-4">
@@ -73,7 +75,7 @@
                 </div>
             </div>
             <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
-                <x-ad-slot label="Premium sidebar ad slot" />
+                <x-ad-slot />
                 <div class="rounded-2xl border border-black/10 bg-[#050505] p-6 text-white shadow-glow">
                     <p class="text-xs font-black uppercase tracking-[0.2em] text-brand">Popular This Week</p>
                     <div class="mt-5 grid gap-4">

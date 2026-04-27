@@ -1,6 +1,6 @@
 @props(['post', 'large' => false])
 
-<article {{ $attributes->merge(['class' => $large ? 'group overflow-hidden rounded-2xl border border-white/10 bg-white text-ink shadow-glow lg:row-span-2' : 'group overflow-hidden rounded-2xl border border-black/10 bg-white shadow-soft']) }}>
+<article {{ $attributes->merge(['class' => ($large ? 'group overflow-hidden rounded-2xl border border-white/10 bg-white text-ink shadow-glow lg:row-span-2' : 'group overflow-hidden rounded-2xl border border-black/10 bg-white shadow-soft').' transition duration-200 hover:-translate-y-0.5 hover:shadow-lg']) }}>
     @if ($post->featured_image)
         <a href="{{ route('posts.show', $post) }}" class="block overflow-hidden {{ $large ? 'aspect-[16/10]' : 'aspect-[16/9]' }} bg-slate-100">
             <img src="{{ $post->featured_image }}" alt="{{ $post->featured_image_alt ?: $post->title }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" width="{{ $large ? 960 : 640 }}" height="{{ $large ? 600 : 360 }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('assets/brand/youssef-blog-og.png') }}';">

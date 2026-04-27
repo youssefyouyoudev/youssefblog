@@ -400,21 +400,52 @@ class DatabaseSeeder extends Seeder
 
     private function content(string $title, string $category, string $angle): string
     {
+        $specific = match ($category) {
+            'Laravel' => [
+                'example' => 'For a Laravel project, I normally start with routes, Blade views, database indexes, queues, and deployment checks before I touch fancy features.',
+                'tooling' => "```bash\nphp artisan route:list\nphp artisan config:cache\nphp artisan queue:work --tries=3\n```",
+                'mistake' => 'The mistake I see often is shipping a Laravel app with no queue plan, no backup plan, and no production cache strategy. It works on the first day, then becomes fragile when real users arrive.',
+            ],
+            'AI' => [
+                'example' => 'For AI work, I use ChatGPT for drafting and edge cases, Claude for long document reasoning, Perplexity for research trails, and Cursor when I want AI close to the codebase.',
+                'tooling' => 'A real workflow is simple: ask Perplexity for sources, use Claude to compare options, use ChatGPT to draft the checklist, then verify everything manually before publishing or building.',
+                'mistake' => 'The mistake is letting AI make decisions without context. AI is useful when you bring judgment, constraints, and examples from the real business.',
+            ],
+            'Finance' => [
+                'example' => 'For a freelancer making 12,000 MAD one month and 4,000 MAD the next, the system matters more than motivation: separate tax money, operating money, emergency savings, and personal spending.',
+                'tooling' => 'A practical setup is 50% essentials, 20% tax and emergency buffer, 20% business reinvestment, and 10% flexible spending until your income becomes predictable.',
+                'mistake' => 'The mistake is treating every paid invoice like profit. A good month can hide weak cash flow if you forget taxes, subscriptions, hosting, transport, and slow client payments.',
+            ],
+            'Business' => [
+                'example' => 'I have seen developers sell a website when the client actually needed a lead system: landing page, CRM pipeline, WhatsApp follow-up, analytics, and a clean offer.',
+                'tooling' => 'A serious small business does not need twenty tools. It needs one clear offer, one page that explains it, one way to capture leads, and one follow-up process that someone actually uses.',
+                'mistake' => 'The mistake is copying a startup playbook before proving the offer. Most early businesses need trust, distribution, and delivery discipline before they need complex automation.',
+            ],
+            default => [
+                'example' => 'For a tech setup, I look at uptime, backups, security, device reliability, and how much friction the tool removes from daily work.',
+                'tooling' => 'A useful technical decision has a checklist: cost per month, setup time, recovery plan, security risk, and whether it still works when the project grows.',
+                'mistake' => 'The mistake is buying the popular tool without asking what job it must do. Good tech feels boring because it quietly reduces mistakes every week.',
+            ],
+        };
+
         return collect([
-            '## Why this matters in 2026',
-            "{$title} is important because builders now have more tools, more competition, and more noise than ever. The advantage is not doing everything. The advantage is choosing a practical system and repeating it long enough to get useful feedback.",
-            "For {$category} readers, the key angle is {$angle}. That means the guide should help you make clearer decisions, avoid expensive mistakes, and build a routine that still works on a busy week.",
-            '## The simple starting point',
-            'Start with one measurable outcome. If the topic is money, track one number weekly. If it is software, track speed, reliability, or time saved. If it is business, track leads, published assets, and useful conversations.',
-            'Do not build a complicated dashboard on day one. A simple note, spreadsheet, or checklist is enough until the habit is stable. Complexity should arrive only when it removes friction.',
-            '## A practical workflow',
-            'First, define the job you need the system to do. Second, pick the smallest tool stack that can do that job. Third, schedule a weekly review so you can remove what is not helping.',
-            'This workflow creates internal linking opportunities too. A finance reader can move into fintech tools, an AI reader can move into ChatGPT workflows, and a Laravel reader can move into deployment or SEO guides.',
-            '## Common mistakes to avoid',
-            "Avoid chasing tools before you understand the problem. Avoid copying someone else's setup without adapting it to your market, budget, and skill level. Avoid advice that promises fast results without explaining risk, tradeoffs, or maintenance.",
-            'The better path is boring in the best way: clear inputs, simple execution, honest review, and gradual improvement.',
-            '## Next step',
-            'Choose one idea from this guide and turn it into a checklist you can use this week. If it saves time, reduces confusion, or improves decision quality, keep it. If not, simplify it and try again.',
+            "Most people do not fail at {$title} because they are lazy. They fail because the system is vague, the advice is too broad, and nobody shows what the work looks like on a normal week.",
+            "I care about {$angle} because I have watched small decisions compound inside real projects. When you choose the wrong process, tool, or budget rule, the damage usually appears later: missed deadlines, weak cash flow, slow pages, messy operations, or confused clients.",
+            'The problem is not lack of information. The problem is that too much content sounds confident but does not survive contact with real work. You need a simple way to decide what matters, what can wait, and what will create fewer problems next month.',
+            '## Start with the real constraint',
+            "Before you copy any tactic, write down the constraint. Is it time, cash, trust, technical skill, distribution, or maintenance? For {$category}, this one question changes the answer. {$specific['example']} That is the difference between advice that sounds smart and advice you can use.",
+            'A practical example: if you only have five hours this week, do not build a complete system. Build the smallest version that gives you feedback. One checklist, one spreadsheet, one landing page, one workflow, or one deployment improvement is enough if it removes friction.',
+            '## Build the workflow before the tool stack',
+            "{$specific['tooling']} Tools are useful only when they serve a workflow. I prefer writing the workflow first: trigger, action, review, and next decision. This keeps you from buying software, installing packages, or opening accounts you do not actually need.",
+            'When I build for clients, the best results come from boring clarity. Who uses this? What happens first? What happens when something fails? What number tells us it is working? If those answers are missing, the tool choice will not save the project.',
+            '## Avoid the expensive version of the mistake',
+            "{$specific['mistake']} Be direct with yourself here. If a decision adds monthly cost, maintenance, or operational dependency, it needs to earn its place.",
+            'The cheaper mistake is testing manually for a week. The expensive mistake is automating a bad process, signing up for tools too early, or designing a system nobody on the team understands. I would rather see you move slower for seven days than lock yourself into a weak setup for six months.',
+            '## What To Do This Week',
+            "Pick one part of {$title} and turn it into a one-page operating note. Write the goal, the next action, the tool you will use, the review date, and the number you will check. Keep it visible for one week.",
+            'After seven days, ask one honest question: did this reduce confusion or create more of it? If it reduced confusion, improve it. If it created more, simplify it until the next step is obvious.',
+            'The best systems I have built were not impressive on day one; they became valuable because someone used them, reviewed them, and kept improving the boring parts.',
+            'If you want this built properly, I do exactly this kind of work. Reach out here.',
         ])->implode("\n\n");
     }
 }

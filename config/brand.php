@@ -14,6 +14,7 @@ return [
     'email' => 'contact@youssefyouyou.com',
     'phone' => '+212610090070',
     'location' => 'Morocco',
+    'author_photo' => null,
     'stats' => [
         '5+ years building production systems',
         '25+ projects across websites, dashboards, and SaaS',

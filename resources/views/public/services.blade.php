@@ -1,34 +1,50 @@
 <x-layouts.public :seo="$seo">
-    @php($brand = config('brand'))
+    @php
+        $brand = config('brand');
+        $services = [
+            ['code', 'Laravel Development', 'Production Laravel apps with Blade, queues, scheduler, auth, admin panels, APIs, and deployment discipline.'],
+            ['sparkle', 'SaaS MVP', 'A focused product foundation with onboarding, dashboards, core workflows, and clean architecture.'],
+            ['chart', 'Business Website', 'A premium website that explains the offer, earns trust fast, and gives prospects a clear next step.'],
+            ['briefcase', 'CRM / ERP Dashboard', 'Internal tools for leads, operations, inventory, reporting, approvals, and team workflows.'],
+        ];
+    @endphp
 
-    <section class="bg-white">
-        <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-            <p class="text-sm font-black uppercase tracking-wide text-emerald-600">Work with Youssef Youyou</p>
-            <h1 class="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">Premium websites, SaaS platforms, dashboards, and custom systems for serious businesses.</h1>
-            <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">{{ $brand['positioning'] }} Built with Laravel, Blade, Tailwind, MySQL, APIs, automation, and deployment discipline.</p>
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href="{{ $brand['start_project_url'] }}" class="rounded-lg bg-black px-6 py-3 text-center text-sm font-black text-white">Start a Project</a>
-                <x-whatsapp-cta />
-                <a href="{{ $brand['portfolio_url'] }}" class="rounded-lg border border-black/10 bg-white px-6 py-3 text-center text-sm font-black text-black">View Portfolio</a>
-            </div>
+    <section class="hero-grid bg-[#050505] text-white">
+        <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+            <p class="text-sm font-black uppercase tracking-wide text-blue-300">Work with Youssef Youyou</p>
+            <h1 class="mt-4 max-w-4xl text-5xl font-black tracking-tight sm:text-7xl">Let's Build Something That Actually Works.</h1>
+            <p class="mt-6 max-w-3xl text-lg leading-8 text-white/70">I don't take every project. I work with founders and companies who care about quality, speed, and long-term maintainability.</p>
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div class="grid gap-6 md:grid-cols-2">
-            @foreach ($brand['services'] as $service => $description)
-                <x-service-cta-card :title="$service" :description="$description">
-                    <div class="mt-4 grid gap-2 text-sm text-slate-600">
-                        <p><strong class="text-black">Problem solved:</strong> unclear digital presence, manual work, weak conversion, or fragmented operations.</p>
-                        <p><strong class="text-black">What I build:</strong> a polished, responsive, business-ready system around the real workflow.</p>
-                        <p><strong class="text-black">Best for:</strong> B2B/B2C businesses, founders, agencies, SMEs, and teams that need serious execution.</p>
+            @foreach ($services as [$icon, $title, $description])
+                <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-soft">
+                    <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-white">
+                        <span class="text-sm font-black">{{ Str::of($title)->words(1, '') }}</span>
                     </div>
-                </x-service-cta-card>
+                    <h2 class="text-2xl font-black text-gray-900">{{ $title }}</h2>
+                    <p class="mt-3 text-sm leading-6 text-gray-600">{{ $description }}</p>
+                    <a href="{{ $brand['start_project_url'] }}" class="mt-5 inline-flex text-sm font-black text-blue-600" rel="noopener noreferrer">Discuss this build →</a>
+                </div>
             @endforeach
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <x-hire-youssef-banner />
+    <section class="mx-auto max-w-5xl px-4 pb-8 sm:px-6 lg:px-8">
+        <div class="rounded-3xl border border-dashed border-gray-300 bg-gray-50 p-8">
+            {{-- testimonial slot --}}
+        </div>
+    </section>
+
+    <section class="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8">
+        <div class="rounded-3xl bg-gray-900 p-8 text-white shadow-glow">
+            <h2 class="text-3xl font-black">Usually respond within 24 hours.</h2>
+            <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+                <a href="{{ $brand['whatsapp_url'] }}" class="premium-button bg-blue-600 text-white" rel="noopener noreferrer">WhatsApp</a>
+                <a href="mailto:{{ $brand['email'] }}" class="premium-button border border-white/20 text-white" rel="noopener noreferrer">{{ $brand['email'] }}</a>
+            </div>
+        </div>
     </section>
 </x-layouts.public>

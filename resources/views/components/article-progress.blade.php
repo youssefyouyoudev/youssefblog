@@ -1,5 +1,5 @@
 <div class="fixed left-0 top-0 z-[70] h-1 w-full bg-transparent" aria-hidden="true">
-    <div id="reading-progress" class="h-1 w-0 bg-brand shadow-[0_0_18px_rgba(57,255,136,.85)]"></div>
+    <div id="reading-progress" class="h-[3px] w-0 bg-blue-600"></div>
 </div>
 
 <script>
