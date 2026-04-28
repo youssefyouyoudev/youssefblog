@@ -34,5 +34,7 @@ return [
     'social' => [
         'github' => 'https://github.com/',
         'linkedin' => 'https://linkedin.com/',
+        'twitter' => null,
+        'youtube' => null,
     ],
 ];

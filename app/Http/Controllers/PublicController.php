@@ -16,19 +16,31 @@ class PublicController extends Controller
 {
     public function home(): View
     {
-        $trendingPosts = Post::with('category', 'tags', 'user')->latestPublished()->orderByDesc('views')->take(4)->get();
-        $latestPosts = Post::with('category', 'tags', 'user')->latestPublished()->take(6)->get();
+        $featuredPosts = Post::with('category', 'tags', 'user')->latestPublished()->where('is_featured', true)->take(4)->get();
+        $featuredIds = $featuredPosts->modelKeys();
+        $trendingPosts = Post::with('category', 'tags', 'user')
+            ->latestPublished()
+            ->when($featuredIds, fn ($query) => $query->whereKeyNot($featuredIds))
+            ->orderByDesc('views')
+            ->take(4)
+            ->get();
+        $latestExclusions = array_values(array_unique([...$featuredIds, ...$trendingPosts->modelKeys()]));
+        $latestPosts = Post::with('category', 'tags', 'user')
+            ->latestPublished()
+            ->when($latestExclusions, fn ($query) => $query->whereKeyNot($latestExclusions))
+            ->take(6)
+            ->get();
 
         return view('public.home', [
-            'featuredPosts' => Post::with('category', 'tags', 'user')->latestPublished()->where('is_featured', true)->take(4)->get(),
-            'trendingPosts' => $trendingPosts->isNotEmpty() ? $trendingPosts : $latestPosts->take(4),
-            'popularPosts' => $trendingPosts->isNotEmpty() ? $trendingPosts->take(3) : $latestPosts->take(3),
+            'featuredPosts' => $featuredPosts,
+            'trendingPosts' => $trendingPosts,
+            'popularPosts' => $trendingPosts->take(3),
             'latestPosts' => $latestPosts,
             'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])->orderBy('name')->get(),
             'tools' => Tool::where('is_featured', true)->orderBy('category')->take(4)->get(),
             'moneyPages' => collect(config('money_pages'))->take(4),
             'seo' => [
-                'title' => 'Smart Finance, Tech & AI Guides for Morocco & Global Readers | Youssef Blog',
+                'title' => 'Smart Finance, Tech & AI Guides | Youssef Blog',
                 'description' => 'Actionable content on money, online business, AI tools, tech trends, and growth strategies from Youssef Youyou.',
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
@@ -98,11 +110,14 @@ class PublicController extends Controller
     public function category(Category $category): View
     {
         $postsQuery = $category->posts()->with('category', 'tags', 'user')->latestPublished();
+        $featuredPosts = (clone $postsQuery)->take(3)->get();
 
         return view('public.posts.category', [
             'category' => $category,
-            'featuredPosts' => (clone $postsQuery)->take(3)->get(),
-            'posts' => $postsQuery->paginate(9),
+            'featuredPosts' => $featuredPosts,
+            'posts' => $postsQuery
+                ->when($featuredPosts->isNotEmpty(), fn ($query) => $query->whereKeyNot($featuredPosts->modelKeys()))
+                ->paginate(9),
             'relatedTags' => Tag::whereHas('posts', fn ($query) => $query->where('category_id', $category->id)->published())
                 ->withCount(['posts' => fn ($query) => $query->published()])
                 ->orderByDesc('posts_count')

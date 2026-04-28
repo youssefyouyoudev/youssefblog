@@ -11,6 +11,14 @@
         ['Tools', route('tools.index')],
         ['Work With Me', route('services')],
     ];
+    $socialLinks = collect($brand['social'] ?? [])->filter();
+    $socialLabels = [
+        'github' => 'GitHub',
+        'linkedin' => 'LinkedIn',
+        'twitter' => 'X',
+        'youtube' => 'YouTube',
+        'instagram' => 'Instagram',
+    ];
 @endphp
 <!doctype html>
 <html lang="en">
@@ -108,6 +116,13 @@
                     <a class="hover:text-brand" href="{{ $brand['whatsapp_url'] }}" rel="noopener noreferrer">WhatsApp {{ $brand['phone'] }}</a>
                     <span>{{ $brand['location'] }} + international work</span>
                 </div>
+                @if ($socialLinks->isNotEmpty())
+                    <div class="mt-5 flex flex-wrap gap-3 text-sm font-bold text-white/70">
+                        @foreach ($socialLinks as $network => $url)
+                            <a class="hover:text-brand" href="{{ $url }}" rel="noopener noreferrer me" target="_blank">{{ $socialLabels[$network] ?? Str::headline($network) }}</a>
+                        @endforeach
+                    </div>
+                @endif
             </div>
             <div>
                 <p class="font-black text-white">Categories</p>

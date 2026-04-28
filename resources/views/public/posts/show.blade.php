@@ -6,7 +6,8 @@
             ->filter(fn ($block) => str_starts_with(trim($block), '## '))
             ->map(fn ($block) => trim(str_replace('## ', '', $block)))
             ->values();
-        $articleHtml = $blocks->map(function ($block): string {
+        $seenHeadings = [];
+        $articleHtml = $blocks->map(function ($block) use (&$seenHeadings): string {
             $trimmed = trim($block);
 
             if (str_starts_with($trimmed, '```')) {
@@ -15,12 +16,28 @@
 
             if (str_starts_with($trimmed, '## ')) {
                 $heading = trim(str_replace('## ', '', $trimmed));
+                $key = Str::slug($heading);
+
+                if (isset($seenHeadings[$key])) {
+                    return '<p class="font-black">'.e($heading).'</p>';
+                }
+
+                $seenHeadings[$key] = true;
 
                 return '<h2 id="'.Str::slug($heading).'">'.e($heading).'</h2>';
             }
 
             if (str_starts_with($trimmed, '### ')) {
-                return '<h3>'.e(trim(str_replace('### ', '', $trimmed))).'</h3>';
+                $heading = trim(str_replace('### ', '', $trimmed));
+                $key = Str::slug($heading);
+
+                if (isset($seenHeadings[$key])) {
+                    return '<p class="font-black">'.e($heading).'</p>';
+                }
+
+                $seenHeadings[$key] = true;
+
+                return '<h3>'.e($heading).'</h3>';
             }
 
             return '<p>'.nl2br(e($trimmed)).'</p>';
@@ -119,7 +136,7 @@
                     <h2 class="mt-3 text-2xl font-black">Internal links worth opening</h2>
                     <div class="mt-5 grid gap-3">
                         @foreach ($internalLinks as $link)
-                            <a href="{{ route('posts.show', $link) }}" class="rounded-xl border border-black/10 px-4 py-3 text-sm font-black text-emerald-700 transition hover:border-emerald-500 hover:bg-emerald-50 hover:text-black">{{ $link->title }}</a>
+                            <a href="{{ route('posts.show', $link) }}" class="rounded-xl border border-black/10 px-4 py-3 text-sm font-black text-emerald-700 transition hover:border-emerald-500 hover:bg-emerald-50 hover:text-black">{{ Str::limit($link->title, 72) }}</a>
                         @endforeach
                     </div>
                 </section>

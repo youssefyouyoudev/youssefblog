@@ -18,9 +18,9 @@
     @endif
     <div class="flex flex-1 flex-col p-5">
         <a href="{{ route('categories.show', $post->category) }}" class="inline-flex w-fit rounded-full border px-3 py-1 text-[11px] font-black uppercase tracking-wide {{ $badge }}">{{ $post->category->name }}</a>
-        <h2 class="mt-3 text-xl font-black leading-tight">
+        <h3 class="mt-3 text-xl font-black leading-tight">
             <a href="{{ route('posts.show', $post) }}" class="hover:text-emerald-700">{{ $post->title }}</a>
-        </h2>
+        </h3>
         <p class="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">{{ $post->excerpt }}</p>
         <div class="mt-auto flex items-center justify-between pt-5 text-xs font-semibold text-slate-500">
             <span class="flex items-center gap-2">

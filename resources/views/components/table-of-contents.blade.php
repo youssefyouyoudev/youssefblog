@@ -9,6 +9,7 @@
             ->merge($matches[2])
             ->map(fn ($heading) => trim(strip_tags($heading)))
             ->filter()
+            ->unique(fn ($heading) => Str::slug($heading))
             ->values();
     }
 @endphp

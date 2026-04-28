@@ -84,6 +84,8 @@ class DatabaseSeeder extends Seeder
         foreach ($this->tools() as $tool) {
             Tool::updateOrCreate(['name' => $tool['name']], $tool);
         }
+
+        $this->call(ProfessionalBlogPostSeeder::class);
     }
 
     private function posts(): array
