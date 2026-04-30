@@ -1,0 +1,139 @@
+<?php
+
+namespace App\Console\Commands;
+
+use App\Models\Category;
+use App\Models\Post;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+
+class QualityAuditPosts extends Command
+{
+    protected $signature = 'posts:quality-audit';
+
+    protected $description = 'Audit blog post quality signals without using external APIs.';
+
+    private const INTERNAL_PHRASES = [
+        'seeded as draft',
+        'admin panel',
+        'focus keyword',
+        'placeholder',
+        'ai-generated',
+        'as an ai',
+        'internal link placeholder',
+        'generated article',
+    ];
+
+    private const TEMPLATE_PHRASES = [
+        'Why This Matters Now',
+        'The Simple Starting Point',
+        'A Practical Workflow',
+        'Start With One Measurable Outcome',
+        'Next Step',
+    ];
+
+    public function handle(): int
+    {
+        $posts = Post::with(['category', 'tags'])->orderBy('id')->get();
+        $emptyCategories = Category::withCount(['posts' => fn ($query) => $query->published()])->having('posts_count', '=', 0)->get();
+        $rows = [];
+
+        foreach ($posts as $post) {
+            $content = $post->content ?? '';
+            $lower = Str::lower($content);
+            $wordCount = Str::wordCount(strip_tags($content));
+            $ctaCount = substr_count($lower, 'need help building a laravel, saas, or business website?');
+            $issues = [];
+
+            if ($wordCount < 1500) {
+                $issues[] = 'under 1500 words';
+            } elseif ($wordCount < 2000) {
+                $issues[] = 'under 2000 words';
+            }
+
+            if (! filled($post->meta_description)) {
+                $issues[] = 'missing meta description';
+            }
+
+            if (! filled($post->getRawOriginal('excerpt'))) {
+                $issues[] = 'missing excerpt';
+            }
+
+            foreach (self::TEMPLATE_PHRASES as $phrase) {
+                if (Str::contains($content, $phrase)) {
+                    $issues[] = "template phrase: {$phrase}";
+                }
+            }
+
+            foreach (self::INTERNAL_PHRASES as $phrase) {
+                if (Str::contains($lower, $phrase)) {
+                    $issues[] = "internal phrase: {$phrase}";
+                }
+            }
+
+            if (! Str::contains($lower, 'faq')) {
+                $issues[] = 'missing FAQ';
+            }
+
+            if (! Str::contains($lower, 'checklist')) {
+                $issues[] = 'missing checklist';
+            }
+
+            if (! preg_match('/\]\(\/posts\/[a-z0-9-]+\)/', $content) && ! preg_match('/\/posts\/[a-z0-9-]+/', $content)) {
+                $issues[] = 'no internal links in body';
+            }
+
+            if ($ctaCount > 1) {
+                $issues[] = "repeated CTA text ({$ctaCount})";
+            }
+
+            if ($this->brokenLookingTitle($post->title)) {
+                $issues[] = 'broken-looking title';
+            }
+
+            if ($issues !== []) {
+                $rows[] = [
+                    'slug' => $post->slug,
+                    'status' => $post->status,
+                    'words' => $wordCount,
+                    'title' => $post->title,
+                    'issues' => $issues,
+                ];
+            }
+        }
+
+        $report = "# Posts Quality Audit\n\n";
+        $report .= 'Generated at: '.now('Africa/Casablanca')->toDateTimeString()."\n";
+        $report .= "Total posts scanned: {$posts->count()}\n";
+        $report .= "Posts with issues: ".count($rows)."\n";
+        $report .= "Empty public categories: {$emptyCategories->count()}\n\n";
+        $report .= "## Empty Categories\n\n";
+        $report .= $emptyCategories->isEmpty()
+            ? "- None\n"
+            : $emptyCategories->map(fn (Category $category): string => "- {$category->name} ({$category->slug})")->implode("\n")."\n";
+        $report .= "\n## Post Issues\n\n";
+
+        foreach ($rows as $row) {
+            $report .= "- {$row['slug']} [{$row['status']}, {$row['words']} words] {$row['title']}: ".implode('; ', $row['issues'])."\n";
+        }
+
+        File::put(storage_path('app/posts-quality-audit.md'), $report);
+
+        $this->info("Quality audit complete: {$posts->count()} scanned, ".count($rows).' posts with issues.');
+        $this->line('Report: storage/app/posts-quality-audit.md');
+
+        return self::SUCCESS;
+    }
+
+    private function brokenLookingTitle(string $title): bool
+    {
+        return in_array($title, [
+            'Turn a Portfolio Website Into a',
+            'Best Features Every Moroccan School Management',
+            'Build a Professional Business Website Converts',
+            'Freelance Developer Pricing Morocco: Much Should',
+            'Laravel Hosting Morocco: VPS vs Shared',
+        ], true);
+    }
+}

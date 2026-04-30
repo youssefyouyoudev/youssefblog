@@ -131,10 +131,6 @@
                     {!! \App\Helpers\ContentHelper::process($articleHtml) !!}
                 </div>
 
-                <section class="mt-8">
-                    <x-service-cta title="Need help building a Laravel/SaaS project?" description="Work with Youssef Youyou on a focused, production-ready build: UX, Laravel backend, integrations, deployment, and launch polish." />
-                </section>
-
                 @if ($post->faqs)
                     <section class="mt-8 rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-soft sm:p-8">
                         <p class="text-xs font-black uppercase tracking-[0.2em] text-[var(--accent)]">FAQ</p>

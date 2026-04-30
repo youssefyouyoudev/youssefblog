@@ -78,7 +78,9 @@ class PublicController extends Controller
             'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])
                 ->orderByDesc('posts_count')
                 ->orderBy('name')
-                ->get(),
+                ->get()
+                ->filter(fn (Category $category) => $category->posts_count > 0)
+                ->values(),
             'seo' => [
                 'title' => 'Youssef Blog — Laravel, SaaS, AI & Business Guides',
                 'description' => 'Practical Laravel, SaaS, AI and business guides by Youssef Youyou for developers, freelancers and Moroccan SMEs.',
