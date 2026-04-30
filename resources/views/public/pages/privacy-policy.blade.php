@@ -1,8 +1,8 @@
 <x-layouts.public :seo="$seo">
-    <section class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="rounded-lg border border-black/10 bg-white p-8 shadow-sm">
-            <p class="text-sm font-black uppercase text-emerald-600">Legal</p>
-            <h1 class="mt-3 text-4xl font-black">Privacy Policy</h1>
+    <section class="safe-container max-w-4xl py-12 sm:py-16">
+        <div class="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft sm:p-8">
+            <p class="text-sm font-black uppercase text-[var(--accent)]">Legal</p>
+            <h1 class="mt-3 text-[clamp(2rem,9vw,3rem)] font-black leading-tight text-[var(--text)]">Privacy Policy</h1>
             <div class="content-body mt-6">
                 <p>Youssef Blog may collect standard technical data such as browser type, pages visited, cookies, approximate location, and referral source through analytics tools when enabled.</p>
                 <p>Contact forms may collect your name, email address, and message so Youssef Blog can respond. You can contact admin@youssefyouyou.com for privacy questions.</p>

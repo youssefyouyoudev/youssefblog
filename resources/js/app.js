@@ -32,11 +32,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenuButton = document.querySelector('[data-mobile-menu-button]');
     const mobileMenu = document.querySelector('[data-mobile-menu]');
 
+    const setMobileMenu = (open) => {
+        mobileMenuButton?.setAttribute('aria-expanded', open ? 'true' : 'false');
+        mobileMenu?.classList.toggle('hidden', !open);
+        document.body.classList.toggle('menu-open', open);
+    };
+
     mobileMenuButton?.addEventListener('click', () => {
-        const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-        mobileMenuButton.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        mobileMenu?.classList.toggle('hidden', expanded);
+        setMobileMenu(mobileMenuButton.getAttribute('aria-expanded') !== 'true');
     });
+
+    document.querySelectorAll('[data-mobile-menu-link]').forEach((link) => {
+        link.addEventListener('click', () => setMobileMenu(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setMobileMenu(false);
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1280) setMobileMenu(false);
+    }, { passive: true });
 
     const backToTop = document.getElementById('back-to-top');
     const siteHeader = document.getElementById('site-header');

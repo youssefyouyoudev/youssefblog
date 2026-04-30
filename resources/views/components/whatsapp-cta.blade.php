@@ -1,3 +1,3 @@
-<a href="{{ config('brand.whatsapp_url') }}" {{ $attributes->merge(['class' => 'inline-flex items-center justify-center rounded-lg bg-brand px-5 py-3 text-sm font-black text-black shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-300']) }}>
+<a href="{{ config('brand.whatsapp_url') }}" {{ $attributes->merge(['class' => 'inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5']) }}>
     WhatsApp {{ config('brand.phone') }}
 </a>

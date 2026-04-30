@@ -31,7 +31,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-[var(--bg)] font-sans text-[var(--text)] antialiased selection:bg-[var(--accent)] selection:text-white">
+<body class="min-h-svh bg-[var(--bg)] font-sans text-[var(--text)] antialiased selection:bg-[var(--accent)] selection:text-white">
     <x-public.navbar />
 
     <main>
@@ -40,7 +40,7 @@
 
     @unless (request()->routeIs('home') || request()->routeIs('posts.show'))
         <section class="border-t border-[var(--border)] bg-[var(--surface)]">
-            <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <div class="safe-container py-10">
                 <x-service-cta title="Need a Laravel, SaaS, dashboard, or AI workflow?" description="Turn useful ideas from the blog into production-ready business systems with strategy, UI, Laravel engineering, deployment, and launch polish." />
             </div>
         </section>
@@ -48,11 +48,11 @@
 
     <x-public.footer />
 
-    <button id="back-to-top" type="button" class="fixed bottom-5 right-5 z-50 hidden rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm font-black text-[var(--text)] shadow-soft transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]">Top</button>
+    <button id="back-to-top" type="button" class="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))] z-50 hidden min-h-11 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm font-black text-[var(--text)] shadow-soft transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]">Top</button>
 
-    <div id="cookie-consent" class="fixed inset-x-4 bottom-20 z-50 hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-2xl sm:left-auto sm:max-w-md">
+    <div id="cookie-consent" class="fixed inset-x-[max(1rem,env(safe-area-inset-left))] bottom-[max(5rem,env(safe-area-inset-bottom))] z-50 hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-2xl sm:left-auto sm:right-6 sm:max-w-md">
         <p class="text-sm font-black text-[var(--text)]">Cookie consent</p>
-        <p class="mt-2 text-xs leading-5 text-[var(--muted)]">We use essential cookies and may use analytics/advertising cookies after consent to improve Youssef Youyou Blog.</p>
+        <p class="mt-2 text-sm leading-6 text-[var(--muted)]">We use essential cookies and may use analytics/advertising cookies after consent to improve Youssef Youyou Blog.</p>
         <button type="button" id="cookie-accept" class="premium-button mt-3 bg-[var(--text)] text-[var(--bg)]">Accept</button>
     </div>
 </body>

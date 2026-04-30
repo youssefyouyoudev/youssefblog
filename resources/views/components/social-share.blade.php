@@ -15,7 +15,7 @@
     @foreach ($links as [$label, $shareUrl])
         <a
             href="{{ $shareUrl }}"
-            class="rounded-full border border-current/20 px-3 py-2 text-xs font-black transition hover:border-current"
+            class="inline-flex min-h-11 items-center rounded-full border border-current/20 px-3 py-2 text-xs font-black transition hover:border-current"
             target="_blank"
             rel="nofollow noopener noreferrer"
             aria-label="Share on {{ $label }}"

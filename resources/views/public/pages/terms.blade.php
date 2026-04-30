@@ -1,8 +1,8 @@
 <x-layouts.public :seo="$seo">
-    <section class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="rounded-lg border border-black/10 bg-white p-8 shadow-sm">
-            <p class="text-sm font-black uppercase text-emerald-600">Legal</p>
-            <h1 class="mt-3 text-4xl font-black">Terms</h1>
+    <section class="safe-container max-w-4xl py-12 sm:py-16">
+        <div class="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft sm:p-8">
+            <p class="text-sm font-black uppercase text-[var(--accent)]">Legal</p>
+            <h1 class="mt-3 text-[clamp(2rem,9vw,3rem)] font-black leading-tight text-[var(--text)]">Terms</h1>
             <div class="content-body mt-6">
                 <p>Content on Youssef Blog is educational and informational. Finance articles are not personal financial advice, investment advice, legal advice, or tax advice.</p>
                 <p>You are responsible for your own decisions, tools, accounts, and business actions. Always verify details before acting on financial, technical, or legal matters.</p>

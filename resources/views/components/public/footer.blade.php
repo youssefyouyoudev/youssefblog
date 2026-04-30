@@ -9,11 +9,11 @@
 @endphp
 
 <footer class="border-t border-[var(--border)] bg-[var(--surface-2)]">
-    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-5 lg:px-8">
-        <div class="md:col-span-2">
-            <a href="{{ route('home') }}" class="flex items-center gap-3">
+    <div class="safe-container grid gap-9 py-12 sm:grid-cols-2 lg:grid-cols-5 lg:py-14">
+        <div class="sm:col-span-2">
+            <a href="{{ route('home') }}" class="flex min-w-0 items-center gap-3">
                 <img src="{{ asset('assets/brand/youssef-blog-logo.png') }}" alt="Youssef Youyou Blog" class="h-12 w-12 rounded-2xl object-cover ring-1 ring-[var(--border)]" width="48" height="48" loading="lazy">
-                <span>
+                <span class="min-w-0">
                     <span class="block text-lg font-black text-[var(--text)]">Youssef Youyou Blog</span>
                     <span class="block text-sm font-bold text-[var(--muted)]">Practical guides for serious builders</span>
                 </span>
@@ -59,9 +59,9 @@
             </div>
         </div>
 
-        <div class="md:col-span-5 flex flex-col gap-3 border-t border-[var(--border)] pt-6 text-xs font-semibold text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
+        <div class="sm:col-span-2 lg:col-span-5 flex flex-col gap-3 border-t border-[var(--border)] pt-6 text-xs font-semibold text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
             <span>{{ now()->year }} {{ $brand['name'] }}. {{ $brand['tagline'] }}</span>
-            <a href="mailto:{{ $brand['email'] }}" class="hover:text-[var(--accent)]">{{ $brand['email'] }}</a>
+            <a href="mailto:{{ $brand['email'] }}" class="break-all hover:text-[var(--accent)]">{{ $brand['email'] }}</a>
         </div>
     </div>
 </footer>

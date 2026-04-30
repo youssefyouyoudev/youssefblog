@@ -63,8 +63,8 @@
 
     <article>
         <section class="hero-grid text-white">
-            <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-                <nav class="text-sm font-semibold text-white/55">
+            <div class="safe-container py-10 lg:py-12">
+                <nav class="flex flex-wrap gap-y-1 text-sm font-semibold text-white/55">
                     <a class="hover:text-emerald-300" href="{{ route('home') }}">Home</a>
                     <span class="px-2">/</span>
                     <a class="hover:text-emerald-300" href="{{ route('categories.show', $post->category) }}">{{ $post->category->name }}</a>
@@ -74,8 +74,8 @@
                 <div class="mt-10 grid gap-10 lg:grid-cols-[1fr_340px] lg:items-end">
                     <div>
                         <a href="{{ route('categories.show', $post->category) }}" class="category-pill">{{ $post->category->name }}</a>
-                        <h1 class="mt-5 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">{{ $post->title }}</h1>
-                        <p class="mt-5 max-w-3xl text-xl leading-8 text-white/70">{{ $post->excerpt }}</p>
+                        <h1 class="mt-5 max-w-4xl text-[clamp(1.875rem,9vw,3.5rem)] font-black leading-tight tracking-tight">{{ $post->title }}</h1>
+                        <p class="mt-5 max-w-3xl text-lg leading-8 text-white/70 sm:text-xl">{{ $post->excerpt }}</p>
                         <div class="mt-7 flex flex-wrap gap-3 text-sm font-bold text-white/60">
                             <span>By {{ $post->user->name ?: 'Youssef Youyou' }}</span>
                             <span>{{ $post->readingMinutes() }} min read</span>
@@ -89,14 +89,14 @@
             </div>
         </section>
 
-        <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-            <img src="{{ $featuredImage }}" alt="{{ $post->featured_image_alt ?: $post->title }}" class="aspect-[16/8] w-full rounded-3xl border border-[var(--border)] object-cover shadow-glow" width="1200" height="600" fetchpriority="high" onerror="this.onerror=null;this.src='{{ asset('assets/brand/youssef-blog-og.png') }}';">
+        <div class="safe-container max-w-6xl py-6 sm:py-8">
+            <img src="{{ $featuredImage }}" alt="{{ $post->featured_image_alt ?: $post->title }}" class="aspect-[16/10] w-full rounded-2xl border border-[var(--border)] object-cover shadow-glow sm:aspect-[16/8] sm:rounded-3xl" width="1200" height="600" fetchpriority="high" onerror="this.onerror=null;this.src='{{ asset('assets/brand/youssef-blog-og.png') }}';">
             @if ($post->image_credit)
                 <p class="mt-3 text-xs font-semibold text-[var(--muted)]">{{ $post->image_credit }}</p>
             @endif
         </div>
 
-        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[260px_minmax(0,800px)_300px] lg:px-8">
+        <div class="safe-container grid gap-8 py-6 sm:py-8 lg:grid-cols-[240px_minmax(0,800px)_280px] xl:grid-cols-[260px_minmax(0,800px)_300px]">
             <aside class="hidden lg:block">
                 <div class="sticky top-24 space-y-6">
                     <x-table-of-contents :headings="$headings" />
@@ -108,12 +108,12 @@
                 <x-author-trust-box compact />
 
                 <div class="mt-6 lg:hidden">
-                    <x-table-of-contents :headings="$headings" />
+                    <x-table-of-contents :headings="$headings" collapsible />
                 </div>
 
                 <x-editorial-note :post="$post" class="mt-6" />
 
-                <div class="content-body mt-8 rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-soft sm:p-10">
+                <div class="content-body mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft sm:rounded-3xl sm:p-8 lg:p-10">
                     {!! \App\Helpers\ContentHelper::process($articleHtml) !!}
                 </div>
 

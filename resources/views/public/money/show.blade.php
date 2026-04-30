@@ -27,31 +27,31 @@
     <script type="application/ld+json">@json($reviewLd)</script>
     <script type="application/ld+json">@json($breadcrumbLd)</script>
 
-    <article class="bg-white">
-        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_320px] lg:px-8">
+    <article>
+        <div class="safe-container grid gap-10 py-10 lg:grid-cols-[1fr_320px] lg:py-12">
             <div>
-                <nav class="text-sm font-semibold text-slate-500">
-                    <a class="hover:text-emerald-700" href="{{ route('home') }}">Home</a>
+                <nav class="flex flex-wrap gap-y-1 text-sm font-semibold text-[var(--muted)]">
+                    <a class="hover:text-[var(--accent)]" href="{{ route('home') }}">Home</a>
                     <span class="px-2">/</span>
-                    <a class="hover:text-emerald-700" href="{{ route('money.index') }}">Best</a>
+                    <a class="hover:text-[var(--accent)]" href="{{ route('money.index') }}">Best</a>
                     <span class="px-2">/</span>
                     <span>{{ $page['title'] }}</span>
                 </nav>
 
-                <span class="mt-8 inline-flex rounded-lg bg-emerald-100 px-3 py-1 text-xs font-black uppercase text-emerald-700">{{ $page['category'] }}</span>
-                <h1 class="mt-5 text-4xl font-black tracking-tight sm:text-6xl">{{ $page['title'] }}</h1>
-                <p class="mt-5 max-w-3xl text-xl leading-8 text-slate-600">{{ $page['excerpt'] }}</p>
+                <span class="category-pill mt-8">{{ $page['category'] }}</span>
+                <h1 class="mt-5 text-[clamp(2rem,9vw,3.75rem)] font-black leading-tight tracking-tight text-[var(--text)]">{{ $page['title'] }}</h1>
+                <p class="mt-5 max-w-3xl text-lg leading-8 text-[var(--muted)] sm:text-xl">{{ $page['excerpt'] }}</p>
                 <div class="mt-6 flex flex-wrap gap-3">
                     @foreach ($page['keywords'] as $keyword)
-                        <span class="rounded-lg border border-black/10 px-3 py-2 text-xs font-black text-slate-600">{{ $keyword }}</span>
+                        <span class="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs font-black text-[var(--muted)]">{{ $keyword }}</span>
                     @endforeach
                 </div>
 
-                <img src="{{ $page['image'] }}" alt="{{ $page['title'] }}" class="mt-8 aspect-[16/8] w-full rounded-lg object-cover shadow-xl" width="1200" height="600" fetchpriority="high" onerror="this.onerror=null;this.src='{{ asset('assets/brand/youssef-blog-og.png') }}';">
+                <img src="{{ $page['image'] }}" alt="{{ $page['title'] }}" class="mt-8 aspect-[16/10] w-full rounded-2xl border border-[var(--border)] object-cover shadow-glow sm:aspect-[16/8]" width="1200" height="600" fetchpriority="high" onerror="this.onerror=null;this.src='{{ asset('assets/brand/youssef-blog-og.png') }}';">
 
                 <x-affiliate-disclosure class="mt-8" />
 
-                <section class="content-body mt-8 rounded-lg bg-white p-6 shadow-sm sm:p-8">
+                <section class="content-body mt-8 rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft sm:p-8">
                     <h2 id="quick-verdict">Quick verdict</h2>
                     <p>This guide is built for readers who want a practical shortlist, not a noisy ranking. The best choice depends on your budget, technical comfort, support needs, and whether the tool will support a real business workflow.</p>
                     <h2 id="comparison-table">Comparison table</h2>
@@ -64,11 +64,11 @@
                     <p>If this choice is connected to a website, SaaS MVP, dashboard, Laravel app, or automation workflow, the smartest move is to design the business system first, then pick the tool stack around that system.</p>
                 </section>
 
-                <section class="mt-8 rounded-lg border border-black/10 bg-white p-6 shadow-sm">
-                    <h2 class="text-2xl font-black">Read next</h2>
+                <section class="mt-8 rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-soft">
+                    <h2 class="text-2xl font-black text-[var(--text)]">Read next</h2>
                     <div class="mt-4 grid gap-3">
                         @foreach ($relatedPages as $relatedPage)
-                            <a href="{{ route('money.show', $relatedPage['slug']) }}" class="font-bold text-emerald-700 hover:text-black">{{ $relatedPage['title'] }}</a>
+                            <a href="{{ route('money.show', $relatedPage['slug']) }}" class="font-bold text-[var(--accent)] hover:text-[var(--text)]">{{ $relatedPage['title'] }}</a>
                         @endforeach
                     </div>
                 </section>

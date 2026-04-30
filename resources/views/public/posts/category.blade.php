@@ -11,7 +11,7 @@
     @endphp
 
     <section class="hero-grid text-white">
-        <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div class="safe-container py-12 lg:py-14">
             <nav class="text-sm font-semibold text-white/55">
                 <a class="hover:text-emerald-300" href="{{ route('home') }}">Home</a>
                 <span class="px-2">/</span>
@@ -20,7 +20,7 @@
             <div class="mt-10 grid gap-8 lg:grid-cols-[1fr_360px] lg:items-end">
                 <div>
                     <p class="text-xs font-black uppercase tracking-[0.24em] text-emerald-300">Category Hub</p>
-                    <h1 class="accent-line mt-4 text-4xl font-black tracking-tight sm:text-6xl">{{ $category->name }} Guides</h1>
+                    <h1 class="accent-line mt-4 text-[clamp(2rem,10vw,3.75rem)] font-black tracking-tight">{{ $category->name }} Guides</h1>
                     <p class="mt-8 max-w-3xl text-lg leading-8 text-white/70">{{ $category->description ?: ($categoryDescriptions[$category->slug] ?? "Practical {$category->name} guides from Youssef Youyou Blog.") }}</p>
                 </div>
                 <x-founder-card />
@@ -28,14 +28,14 @@
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <section class="safe-container py-12 lg:py-14">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <p class="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent)]">Featured in {{ $category->name }}</p>
                 <h2 class="mt-3 text-3xl font-black tracking-tight text-[var(--text)]">Start with these guides</h2>
             </div>
         </div>
-        <div class="mt-8 grid gap-6 md:grid-cols-3">
+        <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             @forelse ($featuredPosts as $post)
                 <x-featured-post-card :post="$post" />
             @empty
@@ -47,7 +47,7 @@
     </section>
 
     <section class="border-y border-[var(--border)] bg-[var(--surface)]">
-        <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_340px] lg:px-8">
+        <div class="safe-container grid gap-8 py-12 lg:grid-cols-[1fr_340px]">
             <div>
                 <h2 class="text-2xl font-black text-[var(--text)]">Related Tags</h2>
                 <div class="mt-5 flex flex-wrap gap-2">
@@ -62,7 +62,7 @@
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <section class="safe-container py-12 lg:py-14">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <p class="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent)]">Latest Posts</p>

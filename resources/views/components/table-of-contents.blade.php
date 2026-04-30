@@ -1,4 +1,4 @@
-@props(['headings' => null, 'content' => null])
+@props(['headings' => null, 'content' => null, 'collapsible' => false])
 
 @php
     $headings = $headings ?: collect();
@@ -15,14 +15,28 @@
 @endphp
 
 @if ($headings->isNotEmpty())
-    <nav {{ $attributes->merge(['class' => 'rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft']) }}>
-        <p class="text-xs font-black uppercase tracking-[0.2em] text-[var(--accent)]">On this page</p>
-        <div class="mt-4 grid gap-2 text-sm font-bold text-[var(--muted)]">
-            @foreach ($headings as $heading)
-                <a class="toc-link rounded-lg px-2 py-1 transition hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]" data-toc-target="{{ Str::slug($heading) }}" href="#{{ Str::slug($heading) }}">{{ $heading }}</a>
-            @endforeach
-        </div>
-    </nav>
+    @if ($collapsible)
+        <details {{ $attributes->merge(['class' => 'rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft']) }}>
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-xs font-black uppercase tracking-[0.2em] text-[var(--accent)]">
+                On this page
+                <span class="text-base">+</span>
+            </summary>
+            <div class="mt-4 grid gap-2 text-sm font-bold text-[var(--muted)]">
+                @foreach ($headings as $heading)
+                    <a class="toc-link rounded-lg px-2 py-2 transition hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]" data-toc-target="{{ Str::slug($heading) }}" href="#{{ Str::slug($heading) }}">{{ $heading }}</a>
+                @endforeach
+            </div>
+        </details>
+    @else
+        <nav {{ $attributes->merge(['class' => 'rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft']) }}>
+            <p class="text-xs font-black uppercase tracking-[0.2em] text-[var(--accent)]">On this page</p>
+            <div class="mt-4 grid gap-2 text-sm font-bold text-[var(--muted)]">
+                @foreach ($headings as $heading)
+                    <a class="toc-link rounded-lg px-2 py-1 transition hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]" data-toc-target="{{ Str::slug($heading) }}" href="#{{ Str::slug($heading) }}">{{ $heading }}</a>
+                @endforeach
+            </div>
+        </nav>
+    @endif
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const links = [...document.querySelectorAll('.toc-link')];

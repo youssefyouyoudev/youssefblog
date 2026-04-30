@@ -8,8 +8,8 @@
     ][$variant] ?? ['Work with Youssef', config('brand.positioning'), 'Start a Project', config('brand.start_project_url')];
 @endphp
 
-<section {{ $attributes->merge(['class' => 'rounded-3xl border border-emerald-500/20 bg-emerald-50 p-6 shadow-soft']) }}>
-    <p class="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{{ $copy[0] }}</p>
-    <p class="mt-3 text-sm leading-6 text-slate-700">{{ $copy[1] }}</p>
-    <a href="{{ $copy[3] }}" class="premium-button mt-5 bg-black text-white">{{ $copy[2] }}</a>
+<section {{ $attributes->merge(['class' => 'rounded-3xl border border-[var(--border)] bg-[var(--accent-soft)] p-6 shadow-soft']) }}>
+    <p class="text-xs font-black uppercase tracking-[0.2em] text-[var(--accent)]">{{ $copy[0] }}</p>
+    <p class="mt-3 text-sm leading-6 text-[var(--muted)]">{{ $copy[1] }}</p>
+    <a href="{{ $copy[3] }}" class="premium-button mt-5 bg-[var(--text)] text-[var(--bg)]">{{ $copy[2] }}</a>
 </section>

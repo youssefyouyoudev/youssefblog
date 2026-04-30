@@ -9,7 +9,7 @@
             <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off">
             <input type="hidden" name="name" value="Newsletter subscriber">
             <input type="hidden" name="message" value="Newsletter subscription request from Youssef Blog. Please add this email to the newsletter list.">
-            <input type="email" name="email" required placeholder="you@example.com" class="min-h-12 rounded-xl border border-[var(--border)] bg-[var(--bg)] px-4 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]">
+            <input type="email" name="email" required placeholder="you@example.com" class="min-h-12 rounded-xl border border-[var(--border)] bg-[var(--bg)] px-4 text-base text-[var(--text)] outline-none focus:border-[var(--accent)]">
             <button class="premium-button bg-[var(--accent)] text-white" type="submit">Subscribe</button>
             <p class="newsletter-status hidden text-sm font-bold sm:col-span-2"></p>
         </form>
