@@ -16,35 +16,78 @@ class PublicController extends Controller
 {
     public function home(): View
     {
-        $featuredPosts = Post::with('category', 'tags', 'user')->latestPublished()->where('is_featured', true)->take(4)->get();
-        $featuredIds = $featuredPosts->modelKeys();
-        $trendingPosts = Post::with('category', 'tags', 'user')
-            ->latestPublished()
-            ->when($featuredIds, fn ($query) => $query->whereKeyNot($featuredIds))
-            ->orderByDesc('views')
-            ->take(4)
-            ->get();
-        $latestExclusions = array_values(array_unique([...$featuredIds, ...$trendingPosts->modelKeys()]));
+        $guideGroups = [
+            [
+                'For Moroccan Freelancers',
+                'Money, budgeting, and online income guides for realistic freelance growth.',
+                $this->homeGuidePosts([
+                    'Online Income Ideas That Fit Beginners in Morocco',
+                    'Budgeting for Freelancers in Morocco in 2026',
+                    'How Moroccan Freelancers Can Make Money Online in 2026',
+                ]),
+            ],
+            [
+                'For Developers',
+                'Finance and business systems for developers building useful side projects.',
+                $this->homeGuidePosts([
+                    'Personal Finance System for Developers With Side Projects',
+                    'Beginner Investing Education: What to Learn Before You Invest',
+                    'Avoiding Debt While Building an Online Business',
+                    'Side Hustle Budgeting: How to Reinvest Without Overspending',
+                ]),
+            ],
+            [
+                'For Business Builders',
+                'Practical technology, AI, and SaaS guidance for stronger digital operations.',
+                $this->homeGuidePosts([
+                    'Laravel SEO Guide 2026 for Blade Blogs',
+                    'AI Automation Ideas for Small Online Businesses',
+                    'SaaS Ideas Morocco 2026: Practical Local Niches',
+                ]),
+            ],
+        ];
+        $guidePostIds = collect($guideGroups)
+            ->flatMap(fn (array $group) => $group[2]->modelKeys())
+            ->unique()
+            ->values()
+            ->all();
         $latestPosts = Post::with('category', 'tags', 'user')
             ->latestPublished()
-            ->when($latestExclusions, fn ($query) => $query->whereKeyNot($latestExclusions))
+            ->when($guidePostIds, fn ($query) => $query->whereKeyNot($guidePostIds))
             ->take(6)
             ->get();
 
         return view('public.home', [
-            'featuredPosts' => $featuredPosts,
-            'trendingPosts' => $trendingPosts,
-            'popularPosts' => $trendingPosts->take(3),
+            'guideGroups' => $guideGroups,
             'latestPosts' => $latestPosts,
-            'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])->orderBy('name')->get(),
-            'tools' => Tool::where('is_featured', true)->orderBy('category')->take(4)->get(),
-            'moneyPages' => collect(config('money_pages'))->take(4),
             'seo' => [
                 'title' => 'Smart Finance, Tech & AI Guides | Youssef Blog',
                 'description' => 'Actionable content on money, online business, AI tools, tech trends, and growth strategies from Youssef Youyou.',
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
         ]);
+    }
+
+    private function homeGuidePosts(array $titles)
+    {
+        $posts = Post::with('category', 'tags', 'user')
+            ->latestPublished()
+            ->whereIn('title', $titles)
+            ->get()
+            ->sortBy(fn (Post $post) => array_search($post->title, $titles, true))
+            ->values();
+
+        if ($posts->count() >= 3) {
+            return $posts;
+        }
+
+        return $posts
+            ->merge(Post::with('category', 'tags', 'user')
+                ->latestPublished()
+                ->when($posts->isNotEmpty(), fn ($query) => $query->whereKeyNot($posts->modelKeys()))
+                ->take(3 - $posts->count())
+                ->get())
+            ->values();
     }
 
     public function posts(): View

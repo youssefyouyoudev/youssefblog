@@ -78,11 +78,7 @@
                             <span>Published {{ $post->published_at?->format('M d, Y') }}</span>
                             <span>Last updated {{ $post->updated_at?->format('M d, Y') }}</span>
                         </div>
-                        <div class="mt-6 flex flex-wrap gap-2">
-                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('posts.show', $post)) }}" class="premium-button border border-white/20 text-white hover:border-brand hover:text-brand" rel="nofollow noopener" target="_blank">Share LinkedIn</a>
-                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('posts.show', $post)) }}&text={{ urlencode($post->title) }}" class="premium-button border border-white/20 text-white hover:border-brand hover:text-brand" rel="nofollow noopener" target="_blank">Share X</a>
-                            <a href="https://wa.me/?text={{ urlencode($post->title.' '.route('posts.show', $post)) }}" class="premium-button border border-white/20 text-white hover:border-brand hover:text-brand" rel="nofollow noopener" target="_blank">Share WhatsApp</a>
-                        </div>
+                        <x-social-share :url="route('posts.show', $post)" :title="$post->title" class="mt-6 text-white/75" />
                     </div>
                     <x-founder-card />
                 </div>
@@ -136,7 +132,7 @@
                     <h2 class="mt-3 text-2xl font-black">Internal links worth opening</h2>
                     <div class="mt-5 grid gap-3">
                         @foreach ($internalLinks as $link)
-                            <a href="{{ route('posts.show', $link) }}" class="rounded-xl border border-black/10 px-4 py-3 text-sm font-black text-emerald-700 transition hover:border-emerald-500 hover:bg-emerald-50 hover:text-black">{{ Str::limit($link->title, 72) }}</a>
+                            <a href="{{ route('posts.show', $link) }}" class="rounded-xl border border-black/10 px-4 py-3 text-sm font-black text-emerald-700 transition hover:border-emerald-500 hover:bg-emerald-50 hover:text-black">{{ $link->shortAnchorTitle() }}</a>
                         @endforeach
                     </div>
                 </section>
@@ -173,11 +169,6 @@
             <aside class="space-y-6 lg:sticky lg:top-8 lg:self-start">
                 <x-blog-sidebar />
             </aside>
-        </div>
-        <div class="fixed inset-x-4 bottom-4 z-50 flex justify-center gap-2 rounded-2xl border border-black/10 bg-white/95 p-2 shadow-2xl backdrop-blur lg:hidden">
-            <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('posts.show', $post)) }}&text={{ urlencode($post->title) }}" class="flex-1 rounded-xl bg-black px-3 py-2 text-center text-xs font-black text-white" rel="nofollow noopener" target="_blank">X</a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('posts.show', $post)) }}" class="flex-1 rounded-xl bg-black px-3 py-2 text-center text-xs font-black text-white" rel="nofollow noopener" target="_blank">LinkedIn</a>
-            <a href="https://wa.me/?text={{ urlencode($post->title.' '.route('posts.show', $post)) }}" class="flex-1 rounded-xl bg-brand px-3 py-2 text-center text-xs font-black text-black" rel="nofollow noopener" target="_blank">WhatsApp</a>
         </div>
     </article>
 </x-layouts.public>

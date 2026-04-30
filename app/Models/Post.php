@@ -126,4 +126,13 @@ class Post extends Model
     {
         return collect($this->keywords ?? [])->filter()->implode(', ');
     }
+
+    public function shortAnchorTitle(): string
+    {
+        return Str::of($this->title)
+            ->replaceMatches('/\b(in|for|with|without|while|before|after|from|that|what|how|to)\b/i', '')
+            ->squish()
+            ->words(6, '')
+            ->toString();
+    }
 }

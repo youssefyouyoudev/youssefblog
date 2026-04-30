@@ -11,6 +11,14 @@
         ['Tools', route('tools.index')],
         ['Work With Me', route('services')],
     ];
+    $mobileNavLabels = [
+        'Finance' => 'Money guides',
+        'Tech' => 'Tech notes',
+        'AI' => 'AI workflows',
+        'Laravel' => 'Laravel SEO',
+        'Business' => 'Business growth',
+        'Work With Me' => 'Hire Youssef',
+    ];
     $socialLinks = collect($brand['social'] ?? [])->filter();
     $socialLabels = [
         'github' => 'GitHub',
@@ -75,7 +83,7 @@
                 <a href="{{ route('posts.index') }}" aria-label="Search posts" class="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-ink transition hover:border-emerald-500 hover:text-emerald-700">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
                 </a>
-                <a href="{{ route('services') }}" class="premium-button bg-black text-white">Work With Me</a>
+                <a href="{{ route('services') }}" class="premium-button bg-black text-white">Services</a>
             </div>
 
             <details class="group relative lg:hidden">
@@ -85,7 +93,7 @@
                 </summary>
                 <nav class="absolute right-0 mt-3 grid w-72 gap-1 rounded-2xl border border-black/10 bg-white p-3 text-sm font-bold shadow-2xl">
                     @foreach ($navLinks as [$label, $url])
-                        <a class="rounded-xl px-3 py-3 transition hover:bg-emerald-50 hover:text-emerald-700" href="{{ $url }}">{{ $label }}</a>
+                        <a class="rounded-xl px-3 py-3 transition hover:bg-emerald-50 hover:text-emerald-700" href="{{ $url }}">{{ $mobileNavLabels[$label] ?? $label }}</a>
                     @endforeach
                     <a class="rounded-xl px-3 py-3 transition hover:bg-emerald-50 hover:text-emerald-700" href="{{ route('money.index') }}">Best Comparisons</a>
                     <a class="rounded-xl bg-black px-3 py-3 text-white transition hover:bg-emerald-600" href="{{ $brand['whatsapp_url'] }}" rel="noopener noreferrer">WhatsApp Now</a>
@@ -137,7 +145,7 @@
             <div>
                 <p class="font-black text-white">Services</p>
                 <div class="mt-4 grid gap-2 text-sm text-white/70">
-                    <a class="hover:text-brand" href="{{ route('services') }}">Work With Me</a>
+                    <a class="hover:text-brand" href="{{ route('services') }}">Hire Youssef</a>
                     <a class="hover:text-brand" href="{{ $brand['portfolio_url'] }}" rel="noopener noreferrer">Portfolio</a>
                     <a class="hover:text-brand" href="{{ $brand['services_url'] }}" rel="noopener noreferrer">Services</a>
                     <a class="hover:text-brand" href="{{ $brand['case_studies_url'] }}" rel="noopener noreferrer">Case Studies</a>

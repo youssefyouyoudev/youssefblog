@@ -7,10 +7,8 @@
         </a>
     @endif
     <div class="{{ $large ? 'p-7' : 'p-5' }}">
-        <a href="{{ route('categories.show', $post->category) }}" class="category-pill">{{ $post->category->name }}</a>
-        <h3 class="mt-4 font-black leading-tight {{ $large ? 'text-3xl' : 'text-xl' }}">
-            <a href="{{ route('posts.show', $post) }}" class="transition hover:text-emerald-700">{{ $post->title }}</a>
-        </h3>
+        <span class="category-pill">{{ $post->category->name }}</span>
+        <a href="{{ route('posts.show', $post) }}" class="mt-4 block font-black leading-tight transition hover:text-emerald-700 {{ $large ? 'text-3xl' : 'text-xl' }}">{{ $post->shortAnchorTitle() }}</a>
         @if ($large)
             <p class="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">{{ $post->excerpt }}</p>
         @endif

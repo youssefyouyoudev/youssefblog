@@ -67,7 +67,7 @@
                 <p class="text-xs font-black uppercase tracking-[0.24em] text-emerald-600">Latest Posts</p>
                 <h2 class="mt-3 text-3xl font-black tracking-tight">All {{ $category->name }} Posts</h2>
             </div>
-            <a href="{{ route('services') }}" class="premium-button bg-black text-white">Work With Me</a>
+            <a href="{{ route('services') }}" class="premium-button bg-black text-white">Services</a>
         </div>
         <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             @forelse ($posts as $post)

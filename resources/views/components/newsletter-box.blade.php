@@ -2,7 +2,7 @@
     <div class="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-blue-500/20 blur-3xl"></div>
     <div class="relative">
         <p class="text-xs font-black uppercase tracking-[0.24em] text-blue-300">Newsletter</p>
-        <h2 class="mt-3 text-3xl font-black">Get smarter every week.</h2>
+        <h2 class="mt-3 text-3xl font-black">Get Updates Weekly</h2>
         <p class="mt-3 max-w-xl text-sm leading-6 text-white/70">One useful email per week about Laravel, AI, SaaS, finance, and digital business systems. Nothing noisy.</p>
         <form class="newsletter-form mt-6 grid gap-3 sm:grid-cols-[1fr_auto]" method="POST" action="{{ route('contact.store') }}">
             @csrf
