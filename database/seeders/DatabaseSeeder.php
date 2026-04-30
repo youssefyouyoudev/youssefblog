@@ -86,6 +86,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call(ProfessionalBlogPostSeeder::class);
+        $this->call(TopBlogArticlesSeeder::class);
     }
 
     private function posts(): array
