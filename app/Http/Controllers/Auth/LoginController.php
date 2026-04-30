@@ -17,7 +17,7 @@ class LoginController extends Controller
             'seo' => [
                 'title' => 'Admin Login | Youssef Blog',
                 'description' => 'Secure admin login for Youssef Blog.',
-                'noindex' => true,
+                'robots' => 'noindex, nofollow',
             ],
         ]);
     }

@@ -80,8 +80,8 @@ class PublicController extends Controller
                 ->orderBy('name')
                 ->get(),
             'seo' => [
-                'title' => 'Practical Laravel, SaaS, AI & Business Guides | Youssef Youyou Blog',
-                'description' => 'Real-world Laravel, SaaS, AI, finance systems, and digital business guides by Youssef Youyou for developers, freelancers, and Moroccan SMEs.',
+                'title' => 'Youssef Blog — Laravel, SaaS, AI & Business Guides',
+                'description' => 'Practical Laravel, SaaS, AI and business guides by Youssef Youyou for developers, freelancers and Moroccan SMEs.',
                 'canonical' => route('home'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
@@ -112,6 +112,9 @@ class PublicController extends Controller
 
     public function posts(): View
     {
+        $seo = app(SeoService::class);
+        $hasSearch = filled(request('q'));
+
         return view('public.posts.index', [
             'posts' => Post::with('category', 'tags', 'user')
                 ->latestPublished()
@@ -121,9 +124,10 @@ class PublicController extends Controller
                     ->orWhere('content', 'like', '%'.$search.'%')))
                 ->paginate(9),
             'seo' => [
-                'title' => 'Latest Posts | Youssef Blog',
-                'description' => 'Browse the latest finance, tech, AI, Laravel, and online business articles from Youssef Blog.',
-                'canonical' => route('posts.index'),
+                'title' => 'Latest Articles | Youssef Blog',
+                'description' => 'Browse practical guides about Laravel, SaaS, AI tools, freelancing, finance systems, and digital business by Youssef Youyou.',
+                'canonical' => $hasSearch ? route('posts.index') : $seo->absoluteUrl(request()->fullUrl()),
+                'robots' => $hasSearch ? 'noindex, follow' : 'index, follow, max-image-preview:large',
                 'image' => asset('assets/brand/youssef-blog-og.png'),
                 'breadcrumbs' => [
                     ['name' => 'Home', 'url' => route('home')],
@@ -148,6 +152,7 @@ class PublicController extends Controller
 
         $previousPost = Post::published()->where('category_id', $post->category_id)->where('published_at', '<', $post->published_at)->latest('published_at')->first();
         $nextPost = Post::published()->where('category_id', $post->category_id)->where('published_at', '>', $post->published_at)->oldest('published_at')->first();
+        $seoService = app(SeoService::class);
 
         return view('public.posts.show', [
             'post' => $post,
@@ -164,8 +169,8 @@ class PublicController extends Controller
             'previousPost' => $previousPost,
             'nextPost' => $nextPost,
             'seo' => [
-                'title' => $post->seo_title ?: $post->title.' | Youssef Blog',
-                'description' => $post->meta_description ?: $post->excerpt,
+                'title' => $post->title.' | Youssef Blog',
+                'description' => $seoService->descriptionFromPost($post),
                 'canonical' => $post->canonical_url ?: route('posts.show', $post),
                 'image' => $post->og_image ?: $post->featured_image ?: asset('assets/brand/youssef-blog-og.png'),
                 'type' => 'article',
@@ -180,8 +185,11 @@ class PublicController extends Controller
 
     public function category(Category $category): View
     {
+        $category->loadCount(['posts' => fn ($query) => $query->published()]);
         $postsQuery = $category->posts()->with('category', 'tags', 'user')->latestPublished();
         $featuredPosts = (clone $postsQuery)->take(3)->get();
+        $indexable = $category->posts_count >= 3 || filled($category->description);
+        $seo = app(SeoService::class);
 
         return view('public.posts.category', [
             'category' => $category,
@@ -195,10 +203,11 @@ class PublicController extends Controller
                 ->take(10)
                 ->get(),
             'seo' => [
-                'title' => ($category->seo_title ?: $category->name).' | Youssef Blog',
-                'description' => $category->meta_description ?: "Read {$category->name} guides on Youssef Blog.",
+                'title' => $category->name.' Guides | Youssef Blog',
+                'description' => $seo->categoryDescription($category->name, $category->meta_description ?: $category->description),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
-                'canonical' => route('categories.show', $category),
+                'canonical' => $seo->absoluteUrl(request()->fullUrl()),
+                'robots' => $indexable ? 'index, follow, max-image-preview:large' : 'noindex, follow',
                 'breadcrumbs' => [
                     ['name' => 'Home', 'url' => route('home')],
                     ['name' => $category->name, 'url' => route('categories.show', $category)],
@@ -213,9 +222,10 @@ class PublicController extends Controller
             'heading' => '#'.$tag->name,
             'posts' => $tag->posts()->with('category', 'tags', 'user')->latestPublished()->paginate(9),
             'seo' => [
-                'title' => '#'.$tag->name.' | Youssef Blog',
-                'description' => "Read practical {$tag->name} articles from Youssef Blog.",
-                'canonical' => route('tags.show', $tag),
+                'title' => '#'.$tag->name.' Articles | Youssef Blog',
+                'description' => app(SeoService::class)->tagDescription($tag->name),
+                'canonical' => app(SeoService::class)->absoluteUrl(request()->fullUrl()),
+                'robots' => 'noindex, follow',
                 'image' => asset('assets/brand/youssef-blog-og.png'),
                 'breadcrumbs' => [
                     ['name' => 'Home', 'url' => route('home')],
@@ -238,12 +248,12 @@ class PublicController extends Controller
             'affiliate-disclosure' => 'Affiliate Disclosure',
         ];
         $descriptions = [
-            'about' => 'Learn about Youssef Youyou, Senior Full-Stack Developer in Morocco, and the Youssef Blog media arm for finance, tech, AI, Laravel, SaaS, and digital business.',
-            'contact' => 'Contact Youssef Youyou for premium websites, SaaS platforms, dashboards, CRM/ERP systems, APIs, automation, and Laravel development.',
-            'privacy-policy' => 'Privacy Policy for Youssef Blog covering cookies, analytics, advertising partners, affiliate links, and contact data.',
-            'terms' => 'Terms for using Youssef Blog, including educational content disclaimers and acceptable use.',
-            'editorial-policy' => 'Editorial policy for Youssef Blog, including content standards, updates, affiliate transparency, and trust principles.',
-            'affiliate-disclosure' => 'Affiliate disclosure for Youssef Blog explaining affiliate links, sponsored content labels, and editorial independence.',
+            'about' => 'Learn about Youssef Youyou, the developer behind practical Laravel, SaaS, AI, and business guides for Moroccan digital builders.',
+            'contact' => 'Contact Youssef Youyou for Laravel websites, SaaS platforms, dashboards, automation, AI workflows, and digital business systems.',
+            'privacy-policy' => 'Read the Youssef Blog privacy policy covering cookies, analytics, advertising partners, affiliate links, and contact data.',
+            'terms' => 'Review the terms for using Youssef Blog, including educational content disclaimers, acceptable use, and website limitations.',
+            'editorial-policy' => 'Read the Youssef Blog editorial policy covering accuracy, updates, affiliate transparency, and practical content standards.',
+            'affiliate-disclosure' => 'Understand how Youssef Blog handles affiliate links, sponsored labels, recommendations, and editorial independence.',
         ];
 
         return view("public.pages.{$page}", [
@@ -259,6 +269,7 @@ class PublicController extends Controller
                     'affiliate-disclosure' => 'affiliate-disclosure',
                 }),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
+                'robots' => in_array($page, ['privacy-policy', 'terms'], true) ? 'noindex, follow' : 'index, follow, max-image-preview:large',
             ],
         ]);
     }
@@ -277,6 +288,7 @@ class PublicController extends Controller
                 'description' => 'Recommended hosting, AI, developer, and finance tools for builders in 2026.',
                 'canonical' => route('tools.index'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
+                'robots' => 'noindex, follow',
             ],
         ]);
     }
@@ -290,6 +302,7 @@ class PublicController extends Controller
                 'description' => 'Affiliate-ready comparison guides for hosting, Laravel VPS, AI tools, laptops, budget phones, banking, and side hustle tools.',
                 'canonical' => route('money.index'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
+                'robots' => 'noindex, follow',
             ],
         ]);
     }
@@ -310,6 +323,7 @@ class PublicController extends Controller
                 'image' => $page['image'] ?? asset('assets/brand/youssef-blog-og.png'),
                 'type' => 'article',
                 'keywords' => implode(', ', $page['keywords'] ?? []),
+                'robots' => 'noindex, follow',
             ],
         ]);
     }
@@ -331,10 +345,11 @@ class PublicController extends Controller
         return response()
             ->view('public.sitemap', [
                 'posts' => Post::with('category', 'tags', 'user')->latestPublished()->get(),
-                'categories' => Category::orderBy('name')->get(),
-                'tags' => Tag::orderBy('name')->get(),
-                'servicePages' => [route('services')],
-                'moneyPages' => collect(config('money_pages')),
+                'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])
+                    ->orderBy('name')
+                    ->get()
+                    ->filter(fn (Category $category) => $category->posts_count > 0)
+                    ->values(),
             ])
             ->header('Content-Type', 'application/xml');
     }

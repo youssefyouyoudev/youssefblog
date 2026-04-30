@@ -4,7 +4,7 @@
         ->orderByDesc('posts_count')
         ->take(6)
         ->get();
-    $socialLinks = collect($brand['social'] ?? [])->filter(fn ($url) => ! in_array(rtrim($url, '/'), ['https://github.com', 'https://linkedin.com'], true));
+    $socialLinks = collect($brand['social'] ?? [])->filter(fn ($url) => filled($url) && ! in_array(rtrim($url, '/'), ['https://github.com', 'https://linkedin.com'], true));
     $socialLabels = ['github' => 'GitHub', 'linkedin' => 'LinkedIn', 'twitter' => 'X', 'youtube' => 'YouTube'];
 @endphp
 

@@ -8,14 +8,18 @@ use Illuminate\Support\Str;
 
 class SeoService
 {
+    private const PUBLIC_BASE_URL = 'https://blog.youssefyouyou.com';
+
     public function meta(array $seo = []): array
     {
         $brand = config('brand');
-        $title = Arr::get($seo, 'title', $brand['blog_name'].' | Finance, Tech & AI');
-        $description = Arr::get($seo, 'description', 'Smart finance, tech, AI, Laravel, and online business guides for builders.');
-        $canonical = Arr::get($seo, 'canonical', url()->current());
+        $title = $this->cleanTitle(Arr::get($seo, 'title', 'Youssef Blog — Laravel, SaaS, AI & Business Guides'));
+        $description = $this->cleanDescription(Arr::get($seo, 'description', 'Practical Laravel, SaaS, AI and business guides by Youssef Youyou for developers, freelancers and Moroccan SMEs.'));
+        $canonical = $this->absoluteUrl(Arr::get($seo, 'canonical', request()->fullUrl()));
         $image = Arr::get($seo, 'image', asset('assets/og-default.png'));
-        $image = Str::startsWith($image, ['http://', 'https://']) ? $image : url($image);
+        $image = $this->absoluteUrl($image);
+        $robots = Arr::get($seo, 'robots');
+        $noindex = Arr::get($seo, 'noindex', false);
 
         return [
             'title' => $title,
@@ -24,7 +28,8 @@ class SeoService
             'image' => $image,
             'type' => Arr::get($seo, 'type', 'website'),
             'keywords' => Arr::get($seo, 'keywords'),
-            'noindex' => Arr::get($seo, 'noindex', false),
+            'robots' => $robots ?: ($noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'),
+            'noindex' => $noindex,
             'published_time' => Arr::get($seo, 'published_time'),
             'modified_time' => Arr::get($seo, 'modified_time'),
             'author' => Arr::get($seo, 'author', config('brand.name')),
@@ -43,19 +48,19 @@ class SeoService
                 '@context' => 'https://schema.org',
                 '@type' => $post->schema_type ?: 'BlogPosting',
                 'headline' => $post->title,
-                'description' => $post->meta_description ?: $post->excerpt,
-                'image' => $post->og_image ?: $post->featured_image ?: asset('assets/og-default.png'),
+                'description' => $this->descriptionFromPost($post),
+                'image' => $this->absoluteUrl($post->og_image ?: $post->featured_image ?: asset('assets/og-default.png')),
                 'datePublished' => $post->published_at?->toIso8601String(),
                 'dateModified' => ($post->last_updated_at ?: $post->updated_at)?->toIso8601String(),
                 'author' => $this->personSchema(),
                 'publisher' => $this->organizationSchema(),
-                'mainEntityOfPage' => route('posts.show', $post),
+                'mainEntityOfPage' => $this->absoluteUrl(route('posts.show', $post)),
                 'keywords' => $post->keywordList(),
             ],
             $this->breadcrumbSchema([
-                ['name' => 'Home', 'url' => route('home')],
-                ['name' => $post->category->name, 'url' => route('categories.show', $post->category)],
-                ['name' => $post->title, 'url' => route('posts.show', $post)],
+                ['name' => 'Home', 'url' => $this->absoluteUrl(route('home'))],
+                ['name' => $post->category->name, 'url' => $this->absoluteUrl(route('categories.show', $post->category))],
+                ['name' => $post->title, 'url' => $this->absoluteUrl(route('posts.show', $post))],
             ]),
         ];
     }
@@ -66,7 +71,7 @@ class SeoService
             '@context' => 'https://schema.org',
             '@type' => 'Blog',
             'name' => config('brand.blog_name'),
-            'url' => route('home'),
+            'url' => $this->absoluteUrl(route('home')),
             'publisher' => $this->organizationSchema(),
         ];
     }
@@ -101,10 +106,10 @@ class SeoService
             '@context' => 'https://schema.org',
             '@type' => 'WebSite',
             'name' => config('brand.blog_name'),
-            'url' => route('home'),
+            'url' => $this->absoluteUrl(route('home')),
             'potentialAction' => [
                 '@type' => 'SearchAction',
-                'target' => route('posts.index').'?q={search_term_string}',
+                'target' => $this->absoluteUrl(route('posts.index')).'?q={search_term_string}',
                 'query-input' => 'required name=search_term_string',
             ],
         ];
@@ -117,7 +122,7 @@ class SeoService
             '@type' => 'Organization',
             'name' => config('brand.name'),
             'url' => config('brand.portfolio_url'),
-            'logo' => asset('assets/brand/youssef-blog-logo.png'),
+            'logo' => $this->absoluteUrl(asset('assets/brand/youssef-blog-logo.png')),
             'email' => config('brand.email'),
             'telephone' => config('brand.phone'),
         ];
@@ -126,8 +131,8 @@ class SeoService
     private function breadcrumbSchema(array $items = []): array
     {
         $items = $items ?: [
-            ['name' => 'Home', 'url' => route('home')],
-            ['name' => str(config('app.name'))->toString(), 'url' => url()->current()],
+            ['name' => 'Home', 'url' => $this->absoluteUrl(route('home'))],
+            ['name' => str(config('app.name'))->toString(), 'url' => $this->absoluteUrl(url()->current())],
         ];
 
         return [
@@ -137,8 +142,74 @@ class SeoService
                 '@type' => 'ListItem',
                 'position' => $index + 1,
                 'name' => $item['name'],
-                'item' => $item['url'],
+                'item' => $this->absoluteUrl($item['url']),
             ])->all(),
         ];
+    }
+
+    public function absoluteUrl(?string $url = null): string
+    {
+        $url = trim((string) $url);
+
+        if ($url === '' || $url === '/') {
+            return self::PUBLIC_BASE_URL;
+        }
+
+        if (Str::startsWith($url, ['mailto:', 'tel:', '#'])) {
+            return $url;
+        }
+
+        if (Str::startsWith($url, ['http://', 'https://'])) {
+            $parts = parse_url($url);
+
+            if (($parts['host'] ?? null) && in_array($parts['host'], ['blog.youssefyouyou.com', 'localhost', '127.0.0.1'], true)) {
+                $path = $parts['path'] ?? '';
+                $query = isset($parts['query']) ? '?'.$parts['query'] : '';
+
+                return self::PUBLIC_BASE_URL.rtrim('/'.ltrim($path, '/'), '/').$query;
+            }
+
+            return Str::replaceStart('http://blog.youssefyouyou.com', self::PUBLIC_BASE_URL, $url);
+        }
+
+        return self::PUBLIC_BASE_URL.'/'.ltrim($url, '/');
+    }
+
+    public function descriptionFromPost(Post $post): string
+    {
+        return $this->cleanDescription($post->meta_description ?: $post->excerpt ?: $post->content);
+    }
+
+    public function categoryDescription(string $categoryName, ?string $description): string
+    {
+        return $this->cleanDescription($description ?: "Read practical {$categoryName} guides by Youssef Youyou covering Laravel, SaaS, AI, business systems, and digital growth.");
+    }
+
+    public function tagDescription(string $tagName): string
+    {
+        return $this->cleanDescription("Explore articles tagged {$tagName} on Youssef Youyou Blog, including practical guides for developers, freelancers, and digital businesses.");
+    }
+
+    public function cleanDescription(?string $value): string
+    {
+        $text = html_entity_decode(strip_tags((string) $value), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = preg_replace('/\s+/', ' ', $text) ?: '';
+        $text = trim($text);
+        $text = preg_replace('/^(Skip to content|Menu|Home|Youssef Youyou Blog)\s+/i', '', $text) ?: $text;
+
+        $text = Str::of($text)->squish()->toString();
+
+        if (mb_strlen($text) > 158) {
+            $text = Str::of($text)->limit(158, '')->beforeLast(' ')->trim()->toString();
+        }
+
+        return $text ?: 'Practical Laravel, SaaS, AI and business guides by Youssef Youyou for developers, freelancers and Moroccan SMEs.';
+    }
+
+    private function cleanTitle(?string $value): string
+    {
+        $title = trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags((string) $value), ENT_QUOTES | ENT_HTML5, 'UTF-8')) ?: '');
+
+        return $title ?: 'Youssef Blog — Laravel, SaaS, AI & Business Guides';
     }
 }

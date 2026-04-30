@@ -4,11 +4,7 @@
 
 <title>{{ $meta['title'] }}</title>
 <meta name="description" content="{{ $meta['description'] }}">
-@if ($meta['noindex'])
-    <meta name="robots" content="noindex, nofollow">
-@else
-    <meta name="robots" content="index, follow, max-image-preview:large">
-@endif
+<meta name="robots" content="{{ $meta['robots'] }}">
 @if ($meta['keywords'])
     <meta name="keywords" content="{{ $meta['keywords'] }}">
 @endif
