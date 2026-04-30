@@ -62,13 +62,10 @@ class ContentHelper
 
     public static function process(string $content, string $variant = 'freelance'): string
     {
-        return self::injectCtaBlocks(
-            self::processAffiliateLinks(
-                self::processExternalLinks(
-                    self::enhanceCodeBlocks($content)
-                )
-            ),
-            $variant
+        return self::processAffiliateLinks(
+            self::processExternalLinks(
+                self::enhanceCodeBlocks($content)
+            )
         );
     }
 }

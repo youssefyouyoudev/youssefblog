@@ -15,11 +15,11 @@
 @endphp
 
 @if ($headings->isNotEmpty())
-    <nav {{ $attributes->merge(['class' => 'rounded-2xl border border-black/10 bg-white p-5 shadow-soft']) }}>
-        <p class="text-xs font-black uppercase tracking-[0.2em] text-emerald-600">Table of contents</p>
-        <div class="mt-4 grid gap-2 text-sm font-bold text-slate-700">
+    <nav {{ $attributes->merge(['class' => 'rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft']) }}>
+        <p class="text-xs font-black uppercase tracking-[0.2em] text-[var(--accent)]">On this page</p>
+        <div class="mt-4 grid gap-2 text-sm font-bold text-[var(--muted)]">
             @foreach ($headings as $heading)
-                <a class="toc-link rounded-lg px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" data-toc-target="{{ Str::slug($heading) }}" href="#{{ Str::slug($heading) }}">{{ $heading }}</a>
+                <a class="toc-link rounded-lg px-2 py-1 transition hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]" data-toc-target="{{ Str::slug($heading) }}" href="#{{ Str::slug($heading) }}">{{ $heading }}</a>
             @endforeach
         </div>
     </nav>
@@ -30,8 +30,8 @@
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     if (!entry.isIntersecting) return;
-                    links.forEach(link => link.classList.remove('bg-blue-50', 'text-blue-600'));
-                    document.querySelector(`[data-toc-target="${entry.target.id}"]`)?.classList.add('bg-blue-50', 'text-blue-600');
+                    links.forEach(link => link.classList.remove('bg-[var(--accent-soft)]', 'text-[var(--accent)]'));
+                    document.querySelector(`[data-toc-target="${entry.target.id}"]`)?.classList.add('bg-[var(--accent-soft)]', 'text-[var(--accent)]');
                 });
             }, { rootMargin: '-20% 0px -70% 0px' });
             sections.forEach(section => observer.observe(section));

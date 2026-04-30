@@ -16,6 +16,19 @@ class PublicController extends Controller
 {
     public function home(): View
     {
+        $featuredPosts = Post::with('category', 'tags', 'user')
+            ->latestPublished()
+            ->where('is_featured', true)
+            ->take(3)
+            ->get();
+
+        if ($featuredPosts->isEmpty()) {
+            $featuredPosts = Post::with('category', 'tags', 'user')
+                ->latestPublished()
+                ->take(3)
+                ->get();
+        }
+
         $guideGroups = [
             [
                 'For Moroccan Freelancers',
@@ -54,15 +67,21 @@ class PublicController extends Controller
         $latestPosts = Post::with('category', 'tags', 'user')
             ->latestPublished()
             ->when($guidePostIds, fn ($query) => $query->whereKeyNot($guidePostIds))
+            ->when($featuredPosts->isNotEmpty(), fn ($query) => $query->whereKeyNot($featuredPosts->modelKeys()))
             ->take(6)
             ->get();
 
         return view('public.home', [
+            'featuredPosts' => $featuredPosts,
             'guideGroups' => $guideGroups,
             'latestPosts' => $latestPosts,
+            'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])
+                ->orderByDesc('posts_count')
+                ->orderBy('name')
+                ->get(),
             'seo' => [
-                'title' => 'Smart Finance, Tech & AI Guides | Youssef Blog',
-                'description' => 'Actionable content on money, online business, AI tools, tech trends, and growth strategies from Youssef Youyou.',
+                'title' => 'Practical Laravel, SaaS, AI & Business Guides | Youssef Youyou Blog',
+                'description' => 'Real-world Laravel, SaaS, AI, finance systems, and digital business guides by Youssef Youyou for developers, freelancers, and Moroccan SMEs.',
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
         ]);
