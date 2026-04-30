@@ -55,6 +55,23 @@ class ContentHelper
         return preg_replace('/<pre>(.*?)<\/pre>/is', '<div class="code-shell relative my-6"><button type="button" class="copy-code absolute right-3 top-3 rounded-lg bg-white/10 px-3 py-1 text-xs font-bold text-white">Copy</button><pre>$1</pre></div>', $content) ?? $content;
     }
 
+    public static function processPlainLinks(string $content): string
+    {
+        $content = preg_replace_callback('/(?<!["\'>=])(https?:\/\/[^\s<]+)/i', function (array $matches): string {
+            $url = rtrim($matches[1], '.,)');
+            $tail = substr($matches[1], strlen($url));
+
+            return '<a href="'.$url.'">'.$url.'</a>'.$tail;
+        }, $content) ?? $content;
+
+        return preg_replace_callback('/(?<!["\'>=])\b(\/(?:posts|category|tag|best)\/[a-z0-9\-\/]+)\b/i', function (array $matches): string {
+            $url = $matches[1];
+            $label = trim(str_replace(['-', '/'], [' ', ' / '], $url));
+
+            return '<a href="'.$url.'">'.e($label).'</a>';
+        }, $content) ?? $content;
+    }
+
     public static function wordCount(string $content): int
     {
         return str_word_count(strip_tags($content));
@@ -64,7 +81,9 @@ class ContentHelper
     {
         return self::processAffiliateLinks(
             self::processExternalLinks(
-                self::enhanceCodeBlocks($content)
+                self::processPlainLinks(
+                    self::enhanceCodeBlocks($content)
+                )
             )
         );
     }

@@ -1,6 +1,6 @@
 {!! '<?xml version="1.0" encoding="UTF-8"?>' !!}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    @foreach ([route('home'), route('posts.index'), route('tools.index'), route('money.index'), route('services'), route('services.alias'), route('about'), route('contact'), route('privacy'), route('terms'), route('editorial-policy'), route('affiliate-disclosure')] as $url)
+    @foreach ([route('home'), route('posts.index'), route('tools.index'), route('money.index'), route('services'), route('about'), route('contact'), route('privacy'), route('terms'), route('editorial-policy'), route('affiliate-disclosure')] as $url)
         <url><loc>{{ $url }}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
     @endforeach
     @foreach ($moneyPages as $page)

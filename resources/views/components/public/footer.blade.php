@@ -4,7 +4,7 @@
         ->orderByDesc('posts_count')
         ->take(6)
         ->get();
-    $socialLinks = collect($brand['social'] ?? [])->filter();
+    $socialLinks = collect($brand['social'] ?? [])->filter(fn ($url) => ! in_array(rtrim($url, '/'), ['https://github.com', 'https://linkedin.com'], true));
     $socialLabels = ['github' => 'GitHub', 'linkedin' => 'LinkedIn', 'twitter' => 'X', 'youtube' => 'YouTube'];
 @endphp
 
@@ -31,6 +31,7 @@
             <div class="mt-4 grid gap-2 text-sm font-semibold text-[var(--muted)]">
                 <a class="hover:text-[var(--accent)]" href="{{ route('home') }}">Home</a>
                 <a class="hover:text-[var(--accent)]" href="{{ route('posts.index') }}">Articles</a>
+                <a class="hover:text-[var(--accent)]" href="{{ route('services') }}">Work With Me</a>
                 <a class="hover:text-[var(--accent)]" href="{{ route('about') }}">About</a>
                 <a class="hover:text-[var(--accent)]" href="{{ route('contact') }}">Contact</a>
                 <a class="hover:text-[var(--accent)]" href="{{ route('editorial-policy') }}">Editorial Policy</a>

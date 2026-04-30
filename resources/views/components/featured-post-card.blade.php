@@ -8,7 +8,7 @@
     </a>
     <div class="{{ $large ? 'p-7' : 'p-5' }}">
         <a href="{{ route('categories.show', $post->category) }}" class="category-pill">{{ $post->category?->name }}</a>
-        <a href="{{ route('posts.show', $post) }}" class="mt-4 block font-black leading-tight text-[var(--text)] transition hover:text-[var(--accent)] {{ $large ? 'text-3xl' : 'text-xl' }}">{{ $post->shortAnchorTitle() }}</a>
+        <a href="{{ route('posts.show', $post) }}" class="mt-4 block font-black leading-snug text-[var(--text)] transition hover:text-[var(--accent)] {{ $large ? 'text-3xl' : 'text-xl' }}">{{ $post->title }}</a>
         <p class="mt-3 line-clamp-2 text-sm leading-6 text-[var(--muted)]">{{ $post->excerpt }}</p>
         <div class="mt-5 flex flex-wrap items-center gap-3 text-xs font-bold text-[var(--muted)]">
             <span>Youssef Youyou</span>

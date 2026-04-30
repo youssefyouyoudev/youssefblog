@@ -82,6 +82,7 @@ class PublicController extends Controller
             'seo' => [
                 'title' => 'Practical Laravel, SaaS, AI & Business Guides | Youssef Youyou Blog',
                 'description' => 'Real-world Laravel, SaaS, AI, finance systems, and digital business guides by Youssef Youyou for developers, freelancers, and Moroccan SMEs.',
+                'canonical' => route('home'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
         ]);
@@ -122,7 +123,12 @@ class PublicController extends Controller
             'seo' => [
                 'title' => 'Latest Posts | Youssef Blog',
                 'description' => 'Browse the latest finance, tech, AI, Laravel, and online business articles from Youssef Blog.',
+                'canonical' => route('posts.index'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
+                'breadcrumbs' => [
+                    ['name' => 'Home', 'url' => route('home')],
+                    ['name' => 'Articles', 'url' => route('posts.index')],
+                ],
             ],
         ]);
     }
@@ -164,6 +170,9 @@ class PublicController extends Controller
                 'image' => $post->og_image ?: $post->featured_image ?: asset('assets/brand/youssef-blog-og.png'),
                 'type' => 'article',
                 'keywords' => $post->keywordList(),
+                'published_time' => $post->published_at?->toIso8601String(),
+                'modified_time' => ($post->last_updated_at ?: $post->updated_at)?->toIso8601String(),
+                'author' => $post->user?->name ?: config('brand.name'),
                 'schemas' => app(SeoService::class)->postSchemas($post),
             ],
         ]);
@@ -189,6 +198,11 @@ class PublicController extends Controller
                 'title' => ($category->seo_title ?: $category->name).' | Youssef Blog',
                 'description' => $category->meta_description ?: "Read {$category->name} guides on Youssef Blog.",
                 'image' => asset('assets/brand/youssef-blog-og.png'),
+                'canonical' => route('categories.show', $category),
+                'breadcrumbs' => [
+                    ['name' => 'Home', 'url' => route('home')],
+                    ['name' => $category->name, 'url' => route('categories.show', $category)],
+                ],
             ],
         ]);
     }
@@ -201,7 +215,12 @@ class PublicController extends Controller
             'seo' => [
                 'title' => '#'.$tag->name.' | Youssef Blog',
                 'description' => "Read practical {$tag->name} articles from Youssef Blog.",
+                'canonical' => route('tags.show', $tag),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
+                'breadcrumbs' => [
+                    ['name' => 'Home', 'url' => route('home')],
+                    ['name' => '#'.$tag->name, 'url' => route('tags.show', $tag)],
+                ],
             ],
         ]);
     }
@@ -231,6 +250,14 @@ class PublicController extends Controller
             'seo' => [
                 'title' => $titles[$page].' | Youssef Blog',
                 'description' => $descriptions[$page],
+                'canonical' => route(match ($page) {
+                    'about' => 'about',
+                    'contact' => 'contact',
+                    'privacy-policy' => 'privacy',
+                    'terms' => 'terms',
+                    'editorial-policy' => 'editorial-policy',
+                    'affiliate-disclosure' => 'affiliate-disclosure',
+                }),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
         ]);
@@ -248,6 +275,7 @@ class PublicController extends Controller
             'seo' => [
                 'title' => 'Recommended Tools | Youssef Blog',
                 'description' => 'Recommended hosting, AI, developer, and finance tools for builders in 2026.',
+                'canonical' => route('tools.index'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
         ]);
@@ -260,6 +288,7 @@ class PublicController extends Controller
             'seo' => [
                 'title' => 'Best Tools, Hosting, Laptops & Finance Comparisons | Youssef Blog',
                 'description' => 'Affiliate-ready comparison guides for hosting, Laravel VPS, AI tools, laptops, budget phones, banking, and side hustle tools.',
+                'canonical' => route('money.index'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
         ]);
@@ -291,6 +320,7 @@ class PublicController extends Controller
             'seo' => [
                 'title' => 'Work With Youssef Youyou | Websites, SaaS, Dashboards & Laravel',
                 'description' => 'Hire Youssef Youyou for premium business websites, SaaS MVPs, dashboards, CRM/ERP systems, Laravel development, APIs, automation, and AI workflows.',
+                'canonical' => route('services'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
         ]);

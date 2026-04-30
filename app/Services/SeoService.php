@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Post;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class SeoService
 {
@@ -14,6 +15,7 @@ class SeoService
         $description = Arr::get($seo, 'description', 'Smart finance, tech, AI, Laravel, and online business guides for builders.');
         $canonical = Arr::get($seo, 'canonical', url()->current());
         $image = Arr::get($seo, 'image', asset('assets/og-default.png'));
+        $image = Str::startsWith($image, ['http://', 'https://']) ? $image : url($image);
 
         return [
             'title' => $title,
@@ -23,6 +25,9 @@ class SeoService
             'type' => Arr::get($seo, 'type', 'website'),
             'keywords' => Arr::get($seo, 'keywords'),
             'noindex' => Arr::get($seo, 'noindex', false),
+            'published_time' => Arr::get($seo, 'published_time'),
+            'modified_time' => Arr::get($seo, 'modified_time'),
+            'author' => Arr::get($seo, 'author', config('brand.name')),
             'schemas' => array_values(array_filter(array_merge(
                 $this->globalSchemas(),
                 Arr::wrap(Arr::get($seo, 'schemas', [])),
@@ -86,6 +91,22 @@ class SeoService
             $this->organizationSchema(),
             $this->personSchema(),
             request()->routeIs('home') ? $this->blogSchema() : null,
+            request()->routeIs('home') ? $this->websiteSchema() : null,
+        ];
+    }
+
+    private function websiteSchema(): array
+    {
+        return [
+            '@context' => 'https://schema.org',
+            '@type' => 'WebSite',
+            'name' => config('brand.blog_name'),
+            'url' => route('home'),
+            'potentialAction' => [
+                '@type' => 'SearchAction',
+                'target' => route('posts.index').'?q={search_term_string}',
+                'query-input' => 'required name=search_term_string',
+            ],
         ];
     }
 

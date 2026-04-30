@@ -14,6 +14,20 @@
                 return '<pre><code>'.e(trim($trimmed, "` \n\r\t")).'</code></pre>';
             }
 
+            if (str_starts_with($trimmed, '>')) {
+                return '<blockquote>'.e(trim(preg_replace('/^>\s?/m', '', $trimmed))).'</blockquote>';
+            }
+
+            $lines = collect(preg_split('/\R/', $trimmed))->map(fn ($line) => trim($line))->filter();
+
+            if ($lines->isNotEmpty() && $lines->every(fn ($line) => preg_match('/^[-*]\s+/', $line))) {
+                return '<ul>'.$lines->map(fn ($line) => '<li>'.e(preg_replace('/^[-*]\s+/', '', $line)).'</li>')->implode('').'</ul>';
+            }
+
+            if ($lines->isNotEmpty() && $lines->every(fn ($line) => preg_match('/^\d+\.\s+/', $line))) {
+                return '<ol>'.$lines->map(fn ($line) => '<li>'.e(preg_replace('/^\d+\.\s+/', '', $line)).'</li>')->implode('').'</ol>';
+            }
+
             if (str_starts_with($trimmed, '## ')) {
                 $heading = trim(str_replace('## ', '', $trimmed));
                 $key = Str::slug($heading);
@@ -142,7 +156,7 @@
                         <h2 class="mt-3 text-2xl font-black text-[var(--text)]">Internal links worth opening</h2>
                         <div class="mt-5 grid gap-3">
                             @foreach ($internalLinks as $link)
-                                <a href="{{ route('posts.show', $link) }}" class="rounded-xl border border-[var(--border)] px-4 py-3 text-sm font-black text-[var(--text)] transition hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]">{{ $link->shortAnchorTitle() }}</a>
+                                <a href="{{ route('posts.show', $link) }}" class="rounded-xl border border-[var(--border)] px-4 py-3 text-sm font-black leading-snug text-[var(--text)] transition hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]">{{ $link->title }}</a>
                             @endforeach
                         </div>
                     </section>

@@ -8,8 +8,8 @@
     </a>
     <div class="flex flex-1 flex-col p-5 sm:p-6">
         <a href="{{ route('categories.show', $post->category) }}" class="category-pill">{{ $post->category?->name }}</a>
-        <a href="{{ route('posts.show', $post) }}" class="mt-4 block text-xl font-black leading-tight text-[var(--text)] transition hover:text-[var(--accent)]">{{ $post->shortAnchorTitle() }}</a>
-        <p class="mt-3 line-clamp-3 text-sm leading-6 text-[var(--muted)]">{{ $post->excerpt }}</p>
+        <a href="{{ route('posts.show', $post) }}" class="mt-4 block text-xl font-black leading-snug text-[var(--text)] transition hover:text-[var(--accent)]">{{ $post->title }}</a>
+        <p class="mt-3 line-clamp-2 text-sm leading-6 text-[var(--muted)]">{{ $post->excerpt }}</p>
         <div class="mt-auto flex flex-wrap items-center justify-between gap-3 pt-6 text-xs font-bold text-[var(--muted)]">
             <span class="flex min-w-0 items-center gap-2">
                 <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--text)] text-[10px] font-black text-[var(--bg)]">YY</span>

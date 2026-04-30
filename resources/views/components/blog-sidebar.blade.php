@@ -11,7 +11,7 @@
             @foreach ($popularPosts as $post)
                 <a href="{{ route('posts.show', $post) }}" class="block border-b border-[var(--border)] pb-4 last:border-b-0 last:pb-0">
                     <span class="text-xs font-black uppercase text-[var(--muted)]">{{ $post->views === 1 ? '1 view' : number_format($post->views).' views' }}</span>
-                    <span class="mt-1 block text-sm font-black text-[var(--text)] hover:text-[var(--accent)]">{{ $post->shortAnchorTitle() }}</span>
+                    <span class="mt-1 block text-sm font-black leading-snug text-[var(--text)] hover:text-[var(--accent)]">{{ $post->title }}</span>
                 </a>
             @endforeach
         </div>

@@ -19,7 +19,7 @@
                 <p class="mt-8 max-w-2xl text-lg leading-8 text-white/70">Real-world guides for developers, freelancers, and Moroccan businesses building better digital systems.</p>
                 <div class="mt-8 flex flex-col gap-3 min-[430px]:flex-row min-[430px]:flex-wrap">
                     <a href="{{ route('posts.index') }}" class="premium-button bg-emerald-600 text-white">Read Latest Articles</a>
-                    <a href="{{ $brand['portfolio_url'] }}" class="premium-button border border-white/20 text-white hover:border-emerald-300 hover:text-emerald-200" rel="noopener noreferrer">Hire Me</a>
+                    <a href="{{ $brand['portfolio_url'] }}" class="premium-button border border-white/20 text-white hover:border-emerald-300 hover:text-emerald-200" rel="noopener noreferrer">Work With Youssef</a>
                 </div>
                 <div class="mt-8 flex flex-wrap gap-2">
                     @foreach ($trustChips as $chip)
@@ -81,7 +81,7 @@
                         <p class="mt-3 text-sm leading-6 text-[var(--muted)]">{{ $groupDescription }}</p>
                         <div class="mt-5 grid gap-3">
                             @foreach ($posts as $post)
-                                <a href="{{ route('posts.show', $post) }}" class="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm font-black text-[var(--text)] transition hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]">{{ $post->shortAnchorTitle() }}</a>
+                                <a href="{{ route('posts.show', $post) }}" class="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm font-black leading-snug text-[var(--text)] transition hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]">{{ $post->title }}</a>
                             @endforeach
                         </div>
                     </article>
