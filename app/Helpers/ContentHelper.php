@@ -72,6 +72,13 @@ class ContentHelper
         }, $content) ?? $content;
     }
 
+    public static function processMarkdownLinks(string $content): string
+    {
+        return preg_replace_callback('/\[([^\]\n]{1,90})\]\(((?:\/(?:posts|category|tag|best)\/[a-z0-9\-\/]+)|(?:https:\/\/youssefyouyou\.com[^\s)]*))\)/i', function (array $matches): string {
+            return '<a href="'.e($matches[2]).'">'.e($matches[1]).'</a>';
+        }, $content) ?? $content;
+    }
+
     public static function wordCount(string $content): int
     {
         return str_word_count(strip_tags($content));
@@ -82,7 +89,9 @@ class ContentHelper
         return self::processAffiliateLinks(
             self::processExternalLinks(
                 self::processPlainLinks(
-                    self::enhanceCodeBlocks($content)
+                    self::processMarkdownLinks(
+                        self::enhanceCodeBlocks($content)
+                    )
                 )
             )
         );
