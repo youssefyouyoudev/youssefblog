@@ -492,7 +492,7 @@ class GenerateContentSchedule extends Command
             'Laravel Project Structure Explained for Beginners',
             'Laravel Routes Explained From Zero',
             'Controllers in Laravel Explained With Examples',
-            'Blade Templates From Beginner to Practical Use',
+            'Laravel Blade Templates: Practical Guide for Beginners',
             'Laravel Layouts and Components',
             'Laravel Migrations Explained',
             'Laravel Models and Eloquent Basics',
