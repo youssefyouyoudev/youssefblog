@@ -134,7 +134,7 @@ class BlogContentAudit extends Command
             $issues[] = 'AI-marketing phrase risk';
         }
 
-        if (Str::contains($lower, ['fake', 'guaranteed', 'get rich quick'])) {
+        if (Str::contains($lower, ['guaranteed ranking', 'guaranteed income', 'get rich quick', 'first million'])) {
             $score -= 1.0;
             $issues[] = 'trust-risk language';
         }
