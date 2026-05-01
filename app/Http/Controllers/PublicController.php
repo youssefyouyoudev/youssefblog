@@ -70,11 +70,17 @@ class PublicController extends Controller
             ->when($featuredPosts->isNotEmpty(), fn ($query) => $query->whereKeyNot($featuredPosts->modelKeys()))
             ->take(6)
             ->get();
+        $popularPosts = Post::with('category', 'tags', 'user')
+            ->latestPublished()
+            ->orderByDesc('views')
+            ->take(4)
+            ->get();
 
         return view('public.home', [
             'featuredPosts' => $featuredPosts,
             'guideGroups' => $guideGroups,
             'latestPosts' => $latestPosts,
+            'popularPosts' => $popularPosts,
             'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])
                 ->orderByDesc('posts_count')
                 ->orderBy('name')
@@ -82,8 +88,8 @@ class PublicController extends Controller
                 ->filter(fn (Category $category) => $category->posts_count > 0)
                 ->values(),
             'seo' => [
-                'title' => 'Youssef Blog — Laravel, SaaS, AI & Business Guides',
-                'description' => 'Practical Laravel, SaaS, AI and business guides by Youssef Youyou for developers, freelancers and Moroccan SMEs.',
+                'title' => 'Youssef Blog | Practical Laravel, AI, Finance & Digital Business Guides',
+                'description' => 'Practical guides about web development, AI, finance, and building real digital projects by Youssef Youyou.',
                 'canonical' => route('home'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
@@ -125,6 +131,10 @@ class PublicController extends Controller
                     ->orWhere('excerpt', 'like', '%'.$search.'%')
                     ->orWhere('content', 'like', '%'.$search.'%')))
                 ->paginate(9),
+            'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])
+                ->orderByDesc('posts_count')
+                ->orderBy('name')
+                ->get(),
             'seo' => [
                 'title' => 'Latest Articles | Youssef Blog',
                 'description' => 'Browse practical guides about Laravel, SaaS, AI tools, freelancing, finance systems, and digital business by Youssef Youyou.',
@@ -171,7 +181,7 @@ class PublicController extends Controller
             'previousPost' => $previousPost,
             'nextPost' => $nextPost,
             'seo' => [
-                'title' => $post->title.' | Youssef Blog',
+                'title' => $post->meta_title ?: $post->seo_title ?: $post->title.' | Youssef Blog',
                 'description' => $seoService->descriptionFromPost($post),
                 'canonical' => $post->canonical_url ?: route('posts.show', $post),
                 'image' => $post->og_image ?: $post->featured_image ?: asset('assets/brand/youssef-blog-og.png'),
@@ -223,6 +233,10 @@ class PublicController extends Controller
         return view('public.posts.index', [
             'heading' => '#'.$tag->name,
             'posts' => $tag->posts()->with('category', 'tags', 'user')->latestPublished()->paginate(9),
+            'categories' => Category::withCount(['posts' => fn ($query) => $query->published()])
+                ->orderByDesc('posts_count')
+                ->orderBy('name')
+                ->get(),
             'seo' => [
                 'title' => '#'.$tag->name.' Articles | Youssef Blog',
                 'description' => app(SeoService::class)->tagDescription($tag->name),
@@ -276,6 +290,23 @@ class PublicController extends Controller
         ]);
     }
 
+    public function author(): View
+    {
+        return view('public.pages.author', [
+            'latestPosts' => Post::with('category', 'tags', 'user')->latestPublished()->take(6)->get(),
+            'seo' => [
+                'title' => 'Youssef Youyou - Author & Full-Stack Developer',
+                'description' => 'About Youssef Youyou, a full-stack Laravel developer writing practical guides about web development, AI, finance, and digital business.',
+                'canonical' => route('author.youssef'),
+                'image' => asset('assets/brand/youssef-blog-og.png'),
+                'breadcrumbs' => [
+                    ['name' => 'Home', 'url' => route('home')],
+                    ['name' => 'Youssef Youyou', 'url' => route('author.youssef')],
+                ],
+            ],
+        ]);
+    }
+
     public function contact(ContactRequest $request): RedirectResponse
     {
         return back()->with('status', 'Thanks. Your message has been received for review.');
@@ -290,7 +321,6 @@ class PublicController extends Controller
                 'description' => 'Recommended hosting, AI, developer, and finance tools for builders in 2026.',
                 'canonical' => route('tools.index'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
-                'robots' => 'noindex, follow',
             ],
         ]);
     }
@@ -304,7 +334,6 @@ class PublicController extends Controller
                 'description' => 'Affiliate-ready comparison guides for hosting, Laravel VPS, AI tools, laptops, budget phones, banking, and side hustle tools.',
                 'canonical' => route('money.index'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
-                'robots' => 'noindex, follow',
             ],
         ]);
     }
@@ -325,7 +354,6 @@ class PublicController extends Controller
                 'image' => $page['image'] ?? asset('assets/brand/youssef-blog-og.png'),
                 'type' => 'article',
                 'keywords' => implode(', ', $page['keywords'] ?? []),
-                'robots' => 'noindex, follow',
             ],
         ]);
     }
@@ -359,6 +387,12 @@ class PublicController extends Controller
     public function robots(): Response
     {
         return response()->view('public.robots')->header('Content-Type', 'text/plain');
+    }
+
+    public function ads(): Response
+    {
+        return response('google.com, pub-1914940263140841, DIRECT, f08c47fec0942fa0'.PHP_EOL)
+            ->header('Content-Type', 'text/plain');
     }
 
     public function feed(): Response

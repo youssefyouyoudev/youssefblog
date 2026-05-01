@@ -2,14 +2,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8RGCVFSS9K"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-8RGCVFSS9K');
-    </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1914940263140841" crossorigin="anonymous"></script>
     <meta charset="utf-8">
     <script>
         (() => {
@@ -31,7 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-svh bg-[var(--bg)] font-sans text-[var(--text)] antialiased selection:bg-[var(--accent)] selection:text-white">
+<body class="min-h-svh bg-[var(--bg)] font-sans text-[var(--text)] antialiased selection:bg-[var(--accent)] selection:text-white" data-ga-id="G-8RGCVFSS9K" data-adsense-client="ca-pub-1914940263140841">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[var(--accent)] focus:px-4 focus:py-3 focus:text-sm focus:font-black focus:text-white">Skip to content</a>
     <x-public.navbar />
 

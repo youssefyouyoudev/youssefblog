@@ -1,9 +1,5 @@
 @php
     $brand = config('brand');
-    $categories = \App\Models\Category::withCount(['posts' => fn ($query) => $query->published()])
-        ->orderByDesc('posts_count')
-        ->take(6)
-        ->get();
     $socialLinks = collect($brand['social'] ?? [])->filter(fn ($url) => filled($url) && ! in_array(rtrim($url, '/'), ['https://github.com', 'https://linkedin.com'], true));
     $socialLabels = ['github' => 'GitHub', 'linkedin' => 'LinkedIn', 'twitter' => 'X', 'youtube' => 'YouTube'];
 @endphp
@@ -33,6 +29,7 @@
                 <a class="hover:text-[var(--accent)]" href="{{ route('posts.index') }}">Articles</a>
                 <a class="hover:text-[var(--accent)]" href="{{ route('services') }}">Work With Me</a>
                 <a class="hover:text-[var(--accent)]" href="{{ route('about') }}">About</a>
+                <a class="hover:text-[var(--accent)]" href="{{ route('author.youssef') }}">Author</a>
                 <a class="hover:text-[var(--accent)]" href="{{ route('contact') }}">Contact</a>
                 <a class="hover:text-[var(--accent)]" href="{{ route('editorial-policy') }}">Editorial Policy</a>
             </div>
@@ -41,7 +38,7 @@
         <div>
             <p class="font-black text-[var(--text)]">Categories</p>
             <div class="mt-4 grid gap-2 text-sm font-semibold text-[var(--muted)]">
-                @foreach ($categories as $category)
+                @foreach ($footerCategories ?? collect() as $category)
                     <a class="hover:text-[var(--accent)]" href="{{ route('categories.show', $category) }}">{{ $category->name }}</a>
                 @endforeach
             </div>

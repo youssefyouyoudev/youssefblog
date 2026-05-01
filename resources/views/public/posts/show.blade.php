@@ -28,6 +28,15 @@
                 return '<ol>'.$lines->map(fn ($line) => '<li>'.e(preg_replace('/^\d+\.\s+/', '', $line)).'</li>')->implode('').'</ol>';
             }
 
+            if ($lines->count() >= 3 && $lines->every(fn ($line) => str_contains($line, '|')) && preg_match('/^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/', $lines->get(1))) {
+                $rows = $lines
+                    ->reject(fn ($line, $index) => $index === 1)
+                    ->map(fn ($line) => collect(explode('|', trim($line, '| ')))->map(fn ($cell) => trim($cell))->values());
+                $head = $rows->shift();
+
+                return '<table><thead><tr>'.$head->map(fn ($cell) => '<th>'.e($cell).'</th>')->implode('').'</tr></thead><tbody>'.$rows->map(fn ($row) => '<tr>'.$row->map(fn ($cell) => '<td>'.e($cell).'</td>')->implode('').'</tr>')->implode('').'</tbody></table>';
+            }
+
             if (str_starts_with($trimmed, '## ')) {
                 $heading = trim(str_replace('## ', '', $trimmed));
                 $key = Str::slug($heading);
@@ -126,6 +135,17 @@
                 </div>
 
                 <x-editorial-note :post="$post" class="mt-6" />
+
+                @if ($headings->isNotEmpty())
+                    <section class="mt-6 rounded-2xl border border-[var(--border)] bg-[var(--accent-soft)] p-5 sm:p-6">
+                        <p class="text-xs font-black uppercase tracking-[0.2em] text-[var(--accent-strong)]">What you will learn</p>
+                        <div class="mt-4 grid gap-2 sm:grid-cols-2">
+                            @foreach ($headings->take(6) as $heading)
+                                <a href="#{{ Str::slug($heading) }}" class="rounded-xl bg-[var(--surface)] px-4 py-3 text-sm font-black text-[var(--text)] transition hover:text-[var(--accent)]">{{ $heading }}</a>
+                            @endforeach
+                        </div>
+                    </section>
+                @endif
 
                 <div class="content-body mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft sm:rounded-3xl sm:p-8 lg:p-10">
                     {!! \App\Helpers\ContentHelper::process($articleHtml) !!}

@@ -1,10 +1,5 @@
 <x-layouts.public :seo="$seo">
-    @php
-        $categories = \App\Models\Category::withCount(['posts' => fn ($query) => $query->published()])
-            ->orderByDesc('posts_count')
-            ->get();
-        $search = request('q');
-    @endphp
+    @php($search = request('q'))
 
     <section class="border-b border-[var(--border)] bg-[var(--surface)]">
         <div class="safe-container py-10 lg:py-12">

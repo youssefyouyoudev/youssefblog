@@ -8,8 +8,6 @@ use Illuminate\Support\Str;
 
 class SeoService
 {
-    private const PUBLIC_BASE_URL = 'https://blog.youssefyouyou.com';
-
     public function meta(array $seo = []): array
     {
         $brand = config('brand');
@@ -152,7 +150,7 @@ class SeoService
         $url = trim((string) $url);
 
         if ($url === '' || $url === '/') {
-            return self::PUBLIC_BASE_URL;
+            return $this->publicBaseUrl();
         }
 
         if (Str::startsWith($url, ['mailto:', 'tel:', '#'])) {
@@ -166,13 +164,13 @@ class SeoService
                 $path = $parts['path'] ?? '';
                 $query = isset($parts['query']) ? '?'.$parts['query'] : '';
 
-                return self::PUBLIC_BASE_URL.rtrim('/'.ltrim($path, '/'), '/').$query;
+                return $this->publicBaseUrl().rtrim('/'.ltrim($path, '/'), '/').$query;
             }
 
-            return Str::replaceStart('http://blog.youssefyouyou.com', self::PUBLIC_BASE_URL, $url);
+            return Str::replaceStart('http://blog.youssefyouyou.com', $this->publicBaseUrl(), $url);
         }
 
-        return self::PUBLIC_BASE_URL.'/'.ltrim($url, '/');
+        return $this->publicBaseUrl().'/'.ltrim($url, '/');
     }
 
     public function descriptionFromPost(Post $post): string
@@ -211,5 +209,10 @@ class SeoService
         $title = trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags((string) $value), ENT_QUOTES | ENT_HTML5, 'UTF-8')) ?: '');
 
         return $title ?: 'Youssef Blog — Laravel, SaaS, AI & Business Guides';
+    }
+
+    private function publicBaseUrl(): string
+    {
+        return rtrim((string) config('app.url', 'https://blog.youssefyouyou.com'), '/');
     }
 }

@@ -15,6 +15,7 @@
             <p class="mt-3 text-sm leading-6 text-[var(--muted)]">I build production websites, SaaS platforms, dashboards, and AI workflows. Everything on this blog comes from real project experience.</p>
             @unless ($compact)
                 <div class="mt-5 flex flex-wrap gap-3">
+                    <a href="{{ route('author.youssef') }}" class="premium-button border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]">Author Profile</a>
                     <a href="{{ config('brand.portfolio_url') }}" class="premium-button bg-[var(--accent)] text-white" rel="noopener noreferrer">View Portfolio</a>
                     <a href="{{ config('brand.start_project_url') }}" class="premium-button border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]" rel="noopener noreferrer">Start a Project</a>
                 </div>

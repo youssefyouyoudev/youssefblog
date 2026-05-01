@@ -8,6 +8,35 @@ window.slugify = (value) => value
     .replace(/^-+|-+$/g, '');
 
 document.addEventListener('DOMContentLoaded', () => {
+    const loadScriptOnce = (id, src, attributes = {}) => {
+        if (document.getElementById(id)) return;
+
+        const script = document.createElement('script');
+        script.id = id;
+        script.src = src;
+        script.async = true;
+
+        Object.entries(attributes).forEach(([name, value]) => script.setAttribute(name, value));
+        document.head.appendChild(script);
+    };
+
+    const loadConsentScripts = () => {
+        const gaId = document.body.dataset.gaId;
+        const adsenseClient = document.body.dataset.adsenseClient;
+
+        if (gaId) {
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
+            loadScriptOnce('google-analytics-script', `https://www.googletagmanager.com/gtag/js?id=${gaId}`);
+            window.gtag('js', new Date());
+            window.gtag('config', gaId, { anonymize_ip: true });
+        }
+
+        if (adsenseClient) {
+            loadScriptOnce('adsense-script', `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`, { crossorigin: 'anonymous' });
+        }
+    };
+
     const syncThemeControls = () => {
         const isDark = document.documentElement.classList.contains('dark');
 
@@ -67,13 +96,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const cookieConsent = document.getElementById('cookie-consent');
     const cookieAccept = document.getElementById('cookie-accept');
 
-    if (!document.cookie.includes('yb_cookie_consent=accepted')) {
+    if (document.cookie.includes('yb_cookie_consent=accepted')) {
+        loadConsentScripts();
+    } else {
         cookieConsent?.classList.remove('hidden');
     }
 
     cookieAccept?.addEventListener('click', () => {
         document.cookie = 'yb_cookie_consent=accepted; max-age=31536000; path=/; SameSite=Lax';
         cookieConsent?.classList.add('hidden');
+        loadConsentScripts();
     });
 
     document.querySelectorAll('.content-body pre').forEach((pre) => {

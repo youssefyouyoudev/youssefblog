@@ -15,8 +15,8 @@
         <div class="safe-container grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[1.02fr_.98fr] lg:py-24">
             <div class="fade-up">
                 <p class="text-xs font-black uppercase tracking-[0.24em] text-emerald-300">Youssef Youyou Blog</p>
-                <h1 class="accent-line mt-5 max-w-5xl text-[clamp(2rem,11vw,3rem)] font-black leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">Practical Laravel, SaaS, AI & Business Guides</h1>
-                <p class="mt-8 max-w-2xl text-lg leading-8 text-white/70">Real-world guides for developers, freelancers, and Moroccan businesses building better digital systems.</p>
+                <h1 class="accent-line mt-5 max-w-5xl text-[clamp(2rem,11vw,3rem)] font-black leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">Practical guides for real digital projects</h1>
+                <p class="mt-8 max-w-2xl text-lg leading-8 text-white/70">Web development, AI, finance, SaaS, and digital business writing from hands-on Laravel project work, not recycled internet advice.</p>
                 <div class="mt-8 flex flex-col gap-3 min-[430px]:flex-row min-[430px]:flex-wrap">
                     <a href="{{ route('posts.index') }}" class="premium-button bg-emerald-600 text-white">Read Latest Articles</a>
                     <a href="{{ $brand['portfolio_url'] }}" class="premium-button border border-white/20 text-white hover:border-emerald-300 hover:text-emerald-200" rel="noopener noreferrer">Work With Youssef</a>
@@ -51,6 +51,29 @@
     </section>
 
     <section class="safe-container py-12 lg:py-14">
+        <div class="grid gap-6 lg:grid-cols-[.85fr_1.15fr] lg:items-start">
+            <div>
+                <p class="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent)]">Start Here</p>
+                <h2 class="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl">A practical path through the blog</h2>
+                <p class="mt-4 max-w-xl text-sm leading-6 text-[var(--muted)]">This is not a news site. Start with one problem you actually have, then follow the guide path that matches your work: Laravel, AI workflows, Moroccan business systems, or finance habits.</p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+                @foreach ([
+                    ['Laravel builders', 'Learn how Blade, SEO, hosting, deployment, and production habits fit together.', route('categories.show', 'laravel')],
+                    ['AI workflow users', 'Use AI for research, writing, support, and automation without losing human review.', route('categories.show', 'ai')],
+                    ['Business owners', 'Turn websites, CRM, WhatsApp follow-up, and dashboards into clearer operations.', route('categories.show', 'business')],
+                    ['Freelancers', 'Improve pricing, client acquisition, project delivery, and money routines.', route('posts.index', ['q' => 'freelance'])],
+                ] as [$title, $copy, $url])
+                    <a href="{{ $url }}" class="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft transition hover:-translate-y-1 hover:border-[var(--accent)]">
+                        <span class="text-lg font-black text-[var(--text)]">{{ $title }}</span>
+                        <span class="mt-2 block text-sm leading-6 text-[var(--muted)]">{{ $copy }}</span>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <section class="safe-container py-12 lg:py-14">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <p class="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent)]">Featured Articles</p>
@@ -65,6 +88,26 @@
             @endforeach
         </div>
     </section>
+
+    @if ($popularPosts->isNotEmpty())
+        <section class="border-y border-[var(--border)] bg-[var(--surface)]">
+            <div class="safe-container py-12 lg:py-14">
+                <div>
+                    <p class="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent)]">Popular Reads</p>
+                    <h2 class="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl">Guides readers open most</h2>
+                </div>
+                <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    @foreach ($popularPosts as $post)
+                        <a href="{{ route('posts.show', $post) }}" class="rounded-2xl border border-[var(--border)] bg-[var(--bg)] p-5 shadow-soft transition hover:-translate-y-1 hover:border-[var(--accent)]">
+                            <span class="category-pill">{{ $post->category->name }}</span>
+                            <span class="mt-4 block text-base font-black leading-snug text-[var(--text)]">{{ $post->title }}</span>
+                            <span class="mt-3 block text-xs font-bold text-[var(--muted)]">{{ $post->readingMinutes() }} min read</span>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
     <section class="border-y border-[var(--border)] bg-[var(--surface)]">
         <div class="safe-container py-12 lg:py-14">

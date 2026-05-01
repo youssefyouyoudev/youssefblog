@@ -14,6 +14,7 @@ Route::get('/posts/{post:slug}', [PublicController::class, 'show'])->middleware(
 Route::get('/category/{category:slug}', [PublicController::class, 'category'])->middleware('public.cache')->name('categories.show');
 Route::get('/tag/{tag:slug}', [PublicController::class, 'tag'])->middleware('public.cache')->name('tags.show');
 Route::get('/about', [PublicController::class, 'page'])->middleware('public.cache')->defaults('page', 'about')->name('about');
+Route::get('/author/youssef-youyou', [PublicController::class, 'author'])->middleware('public.cache')->name('author.youssef');
 Route::get('/contact', [PublicController::class, 'page'])->middleware('public.cache')->defaults('page', 'contact')->name('contact');
 Route::post('/contact', [PublicController::class, 'contact'])->middleware('throttle:5,1')->name('contact.store');
 Route::get('/privacy-policy', [PublicController::class, 'page'])->middleware('public.cache')->defaults('page', 'privacy-policy')->name('privacy');
@@ -27,6 +28,7 @@ Route::get('/work-with-me', [PublicController::class, 'services'])->middleware('
 Route::get('/services', [PublicController::class, 'services'])->middleware('public.cache')->name('services.alias');
 Route::get('/sitemap.xml', [PublicController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [PublicController::class, 'robots'])->name('robots');
+Route::get('/ads.txt', [PublicController::class, 'ads'])->name('ads');
 Route::get('/feed.xml', [PublicController::class, 'feed'])->name('feed');
 Route::get('/rss.xml', [PublicController::class, 'feed'])->name('rss');
 
