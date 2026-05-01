@@ -16,8 +16,8 @@ class UpgradeExistingPostContent extends Command
         {--dry-run : Show what would change without saving}
         {--limit= : Upgrade only this many posts}
         {--only= : Upgrade one specific post by slug}
-        {--status=draft : Save upgraded posts with this status, or use "keep" to preserve status}
-        {--min-words=2500 : Target minimum word count for upgraded articles}';
+        {--status=keep : Save upgraded posts with this status, or use "keep" to preserve status}
+        {--min-words=1800 : Target minimum word count for upgraded articles}';
 
     protected $description = 'Upgrade existing blog posts into long-form, beginner-friendly SEO drafts with backups and reports.';
 
@@ -62,7 +62,7 @@ class UpgradeExistingPostContent extends Command
 
     public function handle(): int
     {
-        $minWords = max(2000, (int) $this->option('min-words'));
+        $minWords = max(1200, (int) $this->option('min-words'));
         $status = (string) $this->option('status');
         $dryRun = (bool) $this->option('dry-run');
         $only = $this->option('only') ? Str::slug((string) $this->option('only')) : null;
