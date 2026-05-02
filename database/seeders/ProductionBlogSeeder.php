@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
+use App\Services\SeedImageDownloader;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -16,9 +17,13 @@ class ProductionBlogSeeder extends Seeder
 {
     public function run(): void
     {
+        $images = app(SeedImageDownloader::class)->prepareMany($this->imageRecords());
+
         DB::transaction(function (): void {
             $this->resetBlogTables();
+        });
 
+        DB::transaction(function () use ($images): void {
             $author = $this->author();
             $categories = $this->categories();
             $tags = $this->tags();
@@ -26,7 +31,7 @@ class ProductionBlogSeeder extends Seeder
             foreach ($this->posts() as $index => $data) {
                 $content = $this->content($data);
                 $publishedAt = $this->publishedAt($index);
-                $image = asset('assets/brand/youssef-blog-og.png');
+                $image = $images[$data['slug']] ?? null;
 
                 $post = Post::create([
                     'user_id' => $author->id,
@@ -35,9 +40,9 @@ class ProductionBlogSeeder extends Seeder
                     'slug' => $data['slug'],
                     'excerpt' => $data['excerpt'],
                     'content' => $content,
-                    'featured_image' => $image,
-                    'featured_image_alt' => $data['image_alt'],
-                    'image_credit' => 'Local placeholder image. Replace with an original project image or licensed stock photo when ready.',
+                    'featured_image' => $image['public_url'] ?? asset('assets/brand/youssef-blog-og.png'),
+                    'featured_image_alt' => $image['alt'] ?? $data['image_alt'],
+                    'image_credit' => $image['image_credit'] ?? 'Image: Youssef Youyou branded fallback',
                     'status' => 'published',
                     'published_at' => $publishedAt,
                     'meta_title' => $data['meta_title'],
@@ -46,7 +51,7 @@ class ProductionBlogSeeder extends Seeder
                     'keywords' => $data['keywords'],
                     'faqs' => $this->faqs($data),
                     'canonical_url' => url('/posts/'.$data['slug']),
-                    'og_image' => $image,
+                    'og_image' => $image['public_url'] ?? asset('assets/brand/youssef-blog-og.png'),
                     'reading_time' => $this->readingTime($content),
                     'views' => 35 + ($index * 11),
                     'ad_clicks' => 0,
@@ -69,6 +74,17 @@ class ProductionBlogSeeder extends Seeder
                 );
             }
         });
+    }
+
+    /**
+     * @return array<int, array<string, string>>
+     */
+    private function imageRecords(): array
+    {
+        $path = database_path('seeders/data/seeded-post-images.json');
+        $records = json_decode((string) file_get_contents($path), true);
+
+        return is_array($records) ? $records : [];
     }
 
     private function resetBlogTables(): void
