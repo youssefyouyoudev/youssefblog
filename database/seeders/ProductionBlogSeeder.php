@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
+use App\Services\ProductionPostContent;
 use App\Services\SeedImageDownloader;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -187,72 +188,7 @@ class ProductionBlogSeeder extends Seeder
 
     private function content(array $post): string
     {
-        $sections = collect($post['sections'])
-            ->map(fn (array $section): string => $this->section($section))
-            ->implode("\n\n");
-
-        $mistakes = collect($post['mistakes'])
-            ->map(fn (string $item): string => '- '.$item)
-            ->implode("\n");
-
-        $checklist = collect($post['checklist'])
-            ->map(fn (string $item): string => '- '.$item)
-            ->implode("\n");
-
-        $relatedLinks = collect($post['related'])
-            ->map(fn (string $slug): string => '- /posts/'.$slug)
-            ->implode("\n");
-
-        return <<<MARKDOWN
-{$post['intro']}
-
-{$post['angle']}
-
-## What the decision really affects
-
-{$post['decision']}
-
-{$sections}
-
-## A realistic business example
-
-{$post['example']}
-
-## Common mistakes to avoid
-
-{$mistakes}
-
-## A practical checklist
-
-{$checklist}
-
-## Useful next step
-
-{$post['next_step']}
-
-Related reading on this blog:
-
-{$relatedLinks}
-
-{$post['cta']}
-MARKDOWN;
-    }
-
-    private function section(array $section): string
-    {
-        $bullets = collect($section['bullets'])
-            ->map(fn (string $item): string => '- '.$item)
-            ->implode("\n");
-
-        return <<<MARKDOWN
-## {$section['heading']}
-
-{$section['body']}
-
-### What to look for
-
-{$bullets}
-MARKDOWN;
+        return app(ProductionPostContent::class)->for($post);
     }
 
     private function faqs(array $post): array
