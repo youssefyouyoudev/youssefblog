@@ -12,7 +12,7 @@ class SeoService
     {
         $brand = config('brand');
         $title = $this->cleanTitle(Arr::get($seo, 'title', 'Youssef Blog — Laravel, SaaS, AI & Business Guides'));
-        $description = $this->cleanDescription(Arr::get($seo, 'description', 'Practical Laravel, SaaS, AI and business guides by Youssef Youyou for developers, freelancers and Moroccan SMEs.'));
+        $description = $this->cleanDescription(Arr::get($seo, 'description', 'Practical Laravel, SaaS, AI, automation, and business web guides by Youssef Youyou for founders and companies worldwide.'));
         $canonical = $this->absoluteUrl(Arr::get($seo, 'canonical', request()->fullUrl()));
         $image = Arr::get($seo, 'image', asset('assets/og-default.png'));
         $image = $this->absoluteUrl($image);
@@ -201,7 +201,7 @@ class SeoService
             $text = Str::of($text)->limit(158, '')->beforeLast(' ')->trim()->toString();
         }
 
-        return $text ?: 'Practical Laravel, SaaS, AI and business guides by Youssef Youyou for developers, freelancers and Moroccan SMEs.';
+        return $text ?: 'Practical Laravel, SaaS, AI, automation, and business web guides by Youssef Youyou for founders and companies worldwide.';
     }
 
     private function cleanTitle(?string $value): string

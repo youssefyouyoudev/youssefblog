@@ -31,31 +31,30 @@ class PublicController extends Controller
 
         $guideGroups = [
             [
-                'For Moroccan Freelancers',
-                'Money, budgeting, and online income guides for realistic freelance growth.',
+                'For Business Owners',
+                'Website, CRM, dashboard, and automation guides for clearer operations and better client inquiries.',
                 $this->homeGuidePosts([
-                    'Online Income Ideas That Fit Beginners in Morocco',
-                    'Budgeting for Freelancers in Morocco in 2026',
-                    'How Moroccan Freelancers Can Make Money Online in 2026',
+                    'How Much Does a Professional Website Cost in 2026?',
+                    'Why Your Business Should Stop Managing Everything in Excel',
+                    'What a Custom CRM Can Do for a Small Business',
                 ]),
             ],
             [
-                'For Developers',
-                'Finance and business systems for developers building useful side projects.',
+                'For Founders',
+                'SaaS MVP, tech stack, validation, and launch planning for software products.',
                 $this->homeGuidePosts([
-                    'Personal Finance System for Developers With Side Projects',
-                    'Beginner Investing Education: What to Learn Before You Invest',
-                    'Avoiding Debt While Building an Online Business',
-                    'Side Hustle Budgeting: How to Reinvest Without Overspending',
+                    'How to Build a SaaS MVP Without Wasting Your Budget',
+                    'Common Mistakes Founders Make When Building Their First MVP',
+                    'How to Choose the Right Tech Stack for a Business Web App',
                 ]),
             ],
             [
-                'For Business Builders',
-                'Practical technology, AI, and SaaS guidance for stronger digital operations.',
+                'For Web Project Planning',
+                'Practical guidance for choosing, scoping, redesigning, and launching useful web systems.',
                 $this->homeGuidePosts([
-                    'Laravel SEO Guide 2026 for Blade Blogs',
-                    'AI Automation Ideas for Small Online Businesses',
-                    'SaaS Ideas Morocco 2026: Practical Local Niches',
+                    'Laravel vs WordPress for Business Websites: Which One Should You Choose?',
+                    'The Difference Between a Website and a Web Application',
+                    'Website Redesign Checklist for Businesses That Want More Clients',
                 ]),
             ],
         ];
@@ -89,7 +88,7 @@ class PublicController extends Controller
                 ->values(),
             'seo' => [
                 'title' => 'Youssef Blog | Practical Laravel, AI, Finance & Digital Business Guides',
-                'description' => 'Practical guides about web development, AI, finance, and building real digital projects by Youssef Youyou.',
+                'description' => 'Practical guides about Laravel apps, SaaS MVPs, dashboards, CRM systems, automation, AI tools, and business websites by Youssef Youyou.',
                 'canonical' => route('home'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
             ],
@@ -137,7 +136,7 @@ class PublicController extends Controller
                 ->get(),
             'seo' => [
                 'title' => 'Latest Articles | Youssef Blog',
-                'description' => 'Browse practical guides about Laravel, SaaS, AI tools, freelancing, finance systems, and digital business by Youssef Youyou.',
+                'description' => 'Browse practical guides about Laravel apps, SaaS MVPs, dashboards, CRM systems, automation, AI tools, and business websites by Youssef Youyou.',
                 'canonical' => $hasSearch ? route('posts.index') : $seo->absoluteUrl(request()->fullUrl()),
                 'robots' => $hasSearch ? 'noindex, follow' : 'index, follow, max-image-preview:large',
                 'image' => asset('assets/brand/youssef-blog-og.png'),
@@ -296,7 +295,7 @@ class PublicController extends Controller
             'latestPosts' => Post::with('category', 'tags', 'user')->latestPublished()->take(6)->get(),
             'seo' => [
                 'title' => 'Youssef Youyou - Author & Full-Stack Developer',
-                'description' => 'About Youssef Youyou, a full-stack Laravel developer writing practical guides about web development, AI, finance, and digital business.',
+                'description' => 'About Youssef Youyou, a full-stack Laravel developer writing practical guides about web development, SaaS, AI, automation, and digital business.',
                 'canonical' => route('author.youssef'),
                 'image' => asset('assets/brand/youssef-blog-og.png'),
                 'breadcrumbs' => [

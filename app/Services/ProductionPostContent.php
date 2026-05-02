@@ -32,6 +32,7 @@ class ProductionPostContent
             'let\'s explore',
             'at the end of the day',
             'look no further',
+            'comprehensive guide repeated everywhere',
         ];
     }
 
@@ -119,24 +120,26 @@ MARKDOWN;
             ->map(fn (string $question): string => '- '.$question)
             ->implode("\n");
 
+        $headingLower = Str::lower($section['heading']);
+
         return <<<MARKDOWN
 ## {$section['heading']}
 
 {$section['body']}
 
-For a real business, this part matters because it affects daily work after launch. It affects how quickly a team can answer customer questions, update information, review leads, check reports, fix mistakes, and decide what to improve next. A website or application that looks fine on the first week can still become expensive if the structure underneath does not match how the business actually works.
+This part deserves careful thinking because {$headingLower} usually touches more than one team. It can affect sales conversations, admin work, content updates, reporting, customer support, and future development. If it is treated as a small detail, the project may still launch, but the weak spot returns later as confusion, rework, or avoidable support requests.
 
-When I plan this kind of project, I try to separate the visible layer from the operating layer. The visible layer is what visitors or users see: pages, forms, dashboards, product cards, filters, charts, and calls to action. The operating layer is what keeps it reliable: data structure, permissions, validation, notifications, search, backups, logging, and admin workflows. Both layers matter.
+When planning {$guide['topic_phrase']}, I would connect {$headingLower} to a real workflow instead of discussing it as an abstract feature. Who notices the problem first? What should the system show them? What should happen automatically? What should stay under human review? Clear answers keep the work practical and prevent this part of the build from becoming a disconnected idea.
 
-### Practical signals to check
+### What to inspect
 
 {$points}
 
-### Questions to ask before building
+### Questions worth asking
 
 {$questions}
 
-A useful answer should be specific enough to change the project plan. If the answer only sounds positive but does not affect scope, budget, timeline, or responsibility, it is probably not detailed enough yet. Good planning is not about making the project heavy. It is about removing uncertainty before uncertainty becomes rework.
+A useful answer about {$headingLower} should be specific enough to change the project plan. If the answer only sounds positive but does not affect scope, budget, timeline, or responsibility, it is probably not detailed enough yet. Good planning is not about making the project heavy. It is about removing uncertainty before uncertainty becomes rework.
 MARKDOWN;
     }
 

@@ -11,8 +11,8 @@
         @endif
         <div>
             <p class="text-xl font-black text-[var(--text)]">Youssef Youyou</p>
-            <p class="mt-1 text-sm font-bold text-[var(--accent)]">Senior Full-Stack Laravel Developer, Morocco</p>
-            <p class="mt-3 text-sm leading-6 text-[var(--muted)]">I build production websites, SaaS platforms, dashboards, and AI workflows. Everything on this blog comes from real project experience.</p>
+            <p class="mt-1 text-sm font-bold text-[var(--accent)]">Senior Full-Stack Laravel Developer for remote clients</p>
+            <p class="mt-3 text-sm leading-6 text-[var(--muted)]">I build production websites, SaaS platforms, dashboards, CRM systems, and AI-assisted workflows for businesses that need practical web systems.</p>
             @unless ($compact)
                 <div class="mt-5 flex flex-wrap gap-3">
                     <a href="{{ route('author.youssef') }}" class="premium-button border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]">Author Profile</a>

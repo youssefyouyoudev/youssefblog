@@ -19,7 +19,7 @@ class VerifySeededImages extends Command
         $recordsBySlug = collect($records)->keyBy('post_slug');
         $posts = Post::query()
             ->whereIn('slug', $recordsBySlug->keys())
-            ->where('status', 'published')
+            ->whereIn('status', ['published', 'scheduled'])
             ->orderBy('published_at')
             ->get();
 
@@ -115,8 +115,26 @@ class VerifySeededImages extends Command
     {
         $path = database_path('seeders/data/seeded-post-images.json');
         $records = json_decode((string) file_get_contents($path), true);
+        $records = is_array($records) ? $records : [];
+        $existing = collect($records)->keyBy('post_slug');
+        $scheduledPath = database_path('seeders/data/scheduled-posts.php');
 
-        return is_array($records) ? $records : [];
+        if (file_exists($scheduledPath)) {
+            foreach (require $scheduledPath as $post) {
+                if (! isset($existing[$post['image_slug']])) {
+                    continue;
+                }
+
+                $records[] = [
+                    ...$existing[$post['image_slug']],
+                    'post_title' => $post['title'],
+                    'post_slug' => $post['slug'],
+                    'local_image_path' => 'blog/seeded-images/'.$post['slug'].'.jpg',
+                ];
+            }
+        }
+
+        return $records;
     }
 
     private function storagePathFromUrl(string $url): ?string

@@ -1,7 +1,7 @@
 <x-layouts.public :seo="$seo">
     @php
         $brand = config('brand');
-        $trustChips = ['Laravel', 'SaaS', 'AI Tools', 'Moroccan SMEs', 'Freelancing'];
+        $trustChips = ['Laravel', 'SaaS MVPs', 'Dashboards', 'CRM Systems', 'Automation'];
         $categoryIcons = [
             'laravel' => '{}',
             'ai' => 'AI',
@@ -16,7 +16,7 @@
             <div class="fade-up">
                 <p class="text-xs font-black uppercase tracking-[0.24em] text-emerald-300">Youssef Youyou Blog</p>
                 <h1 class="accent-line mt-5 max-w-5xl text-[clamp(2rem,11vw,3rem)] font-black leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">Practical guides for real digital projects</h1>
-                <p class="mt-8 max-w-2xl text-lg leading-8 text-white/70">Web development, AI, finance, SaaS, and digital business writing from hands-on Laravel project work, not recycled internet advice.</p>
+                <p class="mt-8 max-w-2xl text-lg leading-8 text-white/70">Practical writing about Laravel applications, SaaS MVPs, business dashboards, automation, AI tools, and websites for founders and companies worldwide.</p>
                 <div class="mt-8 flex flex-col gap-3 min-[430px]:flex-row min-[430px]:flex-wrap">
                     <a href="{{ route('posts.index') }}" class="premium-button bg-emerald-600 text-white">Read Latest Articles</a>
                     <a href="{{ $brand['portfolio_url'] }}" class="premium-button border border-white/20 text-white hover:border-emerald-300 hover:text-emerald-200" rel="noopener noreferrer">Work With Youssef</a>
@@ -33,7 +33,7 @@
                     <x-featured-post-card :post="$featuredPosts->first()" large />
                 @endif
                 <div class="grid gap-4 sm:grid-cols-2">
-                    @foreach (['Production Laravel thinking', 'Practical AI workflows', 'Finance systems mindset', 'Morocco + global markets'] as $item)
+                    @foreach (['Production Laravel thinking', 'Practical AI workflows', 'Business systems mindset', 'Remote-ready project planning'] as $item)
                         <div class="rounded-2xl border border-white/10 bg-white/5 p-5 text-sm font-black text-white/80 shadow-soft backdrop-blur">{{ $item }}</div>
                     @endforeach
                 </div>
@@ -55,14 +55,14 @@
             <div>
                 <p class="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent)]">Start Here</p>
                 <h2 class="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl">A practical path through the blog</h2>
-                <p class="mt-4 max-w-xl text-sm leading-6 text-[var(--muted)]">This is not a news site. Start with one problem you actually have, then follow the guide path that matches your work: Laravel, AI workflows, Moroccan business systems, or finance habits.</p>
+                <p class="mt-4 max-w-xl text-sm leading-6 text-[var(--muted)]">This is not a news site. Start with one business problem you actually have, then follow the guide path that matches your work: Laravel apps, SaaS MVPs, dashboards, automation, websites, or AI-assisted workflows.</p>
             </div>
             <div class="grid gap-4 sm:grid-cols-2">
                 @foreach ([
                     ['Laravel builders', 'Learn how Blade, SEO, hosting, deployment, and production habits fit together.', route('categories.show', 'laravel')],
-                    ['AI workflow users', 'Use AI for research, writing, support, and automation without losing human review.', route('categories.show', 'ai')],
-                    ['Business owners', 'Turn websites, CRM, WhatsApp follow-up, and dashboards into clearer operations.', route('categories.show', 'business')],
-                    ['Freelancers', 'Improve pricing, client acquisition, project delivery, and money routines.', route('posts.index', ['q' => 'freelance'])],
+                    ['AI workflow users', 'Use AI for research, support, lead sorting, content planning, and automation with human review.', route('categories.show', 'ai-productivity')],
+                    ['Business owners', 'Turn websites, CRM follow-up, dashboards, and custom tools into clearer operations.', route('categories.show', 'business-automation')],
+                    ['Founders', 'Plan SaaS MVPs, landing pages, payment flows, and validation steps before development gets expensive.', route('categories.show', 'saas-mvp')],
                 ] as [$title, $copy, $url])
                     <a href="{{ $url }}" class="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-soft transition hover:-translate-y-1 hover:border-[var(--accent)]">
                         <span class="text-lg font-black text-[var(--text)]">{{ $title }}</span>
