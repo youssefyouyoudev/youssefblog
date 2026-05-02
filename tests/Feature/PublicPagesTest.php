@@ -9,7 +9,7 @@ test('public launch pages render successfully', function () {
     $this->seed(DatabaseSeeder::class);
 
     $post = Post::latestPublished()->firstOrFail();
-    $category = Category::firstWhere('slug', 'ai');
+    $category = Category::firstOrFail();
     $tag = Tag::firstOrFail();
 
     foreach ([
