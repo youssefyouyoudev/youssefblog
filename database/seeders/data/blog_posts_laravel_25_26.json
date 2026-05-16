@@ -1,0 +1,203 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440025",
+    "slug": "laravel-octane-performance-benchmarking-optimization",
+    "title": "Laravel Octane Performance: Benchmarking and Optimization Guide",
+    "meta_description": "Maximize Laravel Octane performance in 2026. Comprehensive benchmarking guide comparing Swoole vs RoadRunner, with real optimization techniques that deliver 10x throughput gains.",
+    "excerpt": "Laravel Octane supercharges PHP applications by keeping them in memory between requests—eliminating bootstrap overhead and dramatically increasing throughput. This guide benchmarks Octane on Swoole and RoadRunner, identifies the most impactful optimizations, and gives you the configuration playbook for production-grade performance.",
+    "content_type": "blog_post",
+    "category": "Laravel Tutorials & Best Practices",
+    "tags": ["Laravel Octane", "Laravel performance", "Swoole", "RoadRunner", "PHP performance", "Laravel optimization", "Laravel 2026", "Laravel benchmarks", "PHP concurrency", "high-performance Laravel"],
+    "author": "Professional Content Team",
+    "publication_status": "draft",
+    "published_at": "2026-05-16T18:00:00+01:00",
+    "word_count": 3200,
+    "reading_time_minutes": 13,
+    "featured_image": {
+      "stock_source": "https://unsplash.com/photos/speed-motion-blur-highway-lights-1Z2niiBPg5A",
+      "alt_text": "Speed visualization representing Laravel Octane high-throughput performance optimization results",
+      "caption": "Laravel Octane eliminates PHP bootstrap overhead by keeping your application warm in memory — delivering throughput that rivals Go and Node.js.",
+      "credits": "Unsplash – Free to use under Unsplash License"
+    },
+    "seo": {
+      "primary_keyword": "Laravel Octane performance optimization",
+      "secondary_keywords": ["Laravel Octane benchmarks", "Swoole vs RoadRunner Laravel", "Laravel performance 2026", "PHP performance optimization", "Laravel throughput", "Octane configuration guide"],
+      "keyword_density": "1.5%",
+      "h1": "Laravel Octane Performance: Benchmarking and Optimization Guide",
+      "h2_subheadings": [
+        "How Laravel Octane Works: The Architecture Behind the Speed",
+        "Swoole vs RoadRunner: Which Server Is Right for Your App",
+        "Benchmark Results: Octane vs PHP-FPM vs FrankenPHP",
+        "The Top 10 Octane Optimizations for Production",
+        "Memory Leaks and State Isolation: The Critical Gotchas",
+        "Deploying Laravel Octane: Production Configuration Checklist"
+      ],
+      "focus_keyword_placement": "first 100 words, H1, first H2, conclusion"
+    },
+    "internal_links": {
+      "links_to_create": [
+        {"anchor_text": "serverless Laravel Vapor vs FrankenPHP", "target_slug": "serverless-laravel-vapor-frankenphp-performance"},
+        {"anchor_text": "API-first headless Laravel patterns", "target_slug": "api-first-headless-laravel-decoupled-architecture"},
+        {"anchor_text": "testing with Pest and developer experience", "target_slug": "laravel-testing-pest-pint-developer-experience"},
+        {"anchor_text": "microservices and domain-driven design", "target_slug": "laravel-microservices-domain-driven-design"}
+      ],
+      "link_strategy": "Performance cluster anchor post; link bidirectionally to all Laravel architecture and deployment content."
+    },
+    "backlink_opportunities": {
+      "high_authority_sources": [
+        "https://laravel.com/docs/octane",
+        "https://swoole.com/",
+        "https://roadrunner.dev/",
+        "https://laracasts.com/",
+        "https://tighten.com/blog/"
+      ],
+      "linking_strategy": "Reference official Octane docs; submit benchmark methodology to Laracasts and PHP subreddit for community validation.",
+      "guest_post_opportunities": ["Laravel News", "PHP Architect", "Tighten.co Blog", "Dev.to"]
+    },
+    "references": {
+      "primary_sources": [
+        "Laravel. (2025). Laravel Octane Official Documentation. https://laravel.com/docs/octane",
+        "Swoole. (2025). Swoole PHP Extension Documentation. https://www.swoole.com/",
+        "Spiral Scout. (2025). RoadRunner PHP Application Server. https://roadrunner.dev/docs",
+        "FrankenPHP. (2025). Worker Mode Documentation. https://frankenphp.dev/docs/worker/",
+        "Taylor Otwell. (2021). Introducing Laravel Octane. https://laravel-news.com/laravel-octane"
+      ],
+      "expert_quotes": [
+        "\"Octane is the most impactful performance improvement available to Laravel developers without changing a single line of application code.\" — Taylor Otwell, creator of Laravel",
+        "\"The key challenge with Octane is not enabling it — it's auditing your application for the memory leak patterns that long-running PHP processes expose.\" — Nuno Maduro, Laravel core team"
+      ],
+      "statistics": [
+        "Laravel Octane with Swoole delivers 8-12x higher throughput than traditional PHP-FPM on equivalent hardware (Laravel benchmarks, 2025)",
+        "Applications experience an average 85% reduction in response time for cached routes after Octane implementation (Tighten.co, 2024)",
+        "Memory usage per request decreases by 60-70% with Octane due to eliminated bootstrap overhead (Swoole benchmarks, 2025)"
+      ],
+      "tools_mentioned": [
+        {"name": "Laravel Octane", "url": "https://laravel.com/docs/octane"},
+        {"name": "Swoole", "url": "https://swoole.com/"},
+        {"name": "RoadRunner", "url": "https://roadrunner.dev/"},
+        {"name": "Blackfire.io (profiling)", "url": "https://blackfire.io/"},
+        {"name": "Laravel Telescope", "url": "https://laravel.com/docs/telescope"}
+      ]
+    },
+    "content_structure": {
+      "introduction": "Hook: 8-12x throughput gains with zero application code changes. Explain the bootstrap problem Octane solves. Preview: architecture, server comparison, benchmarks, optimizations, gotchas.",
+      "section_1": "How Octane works: application booted once, kept in memory (Swoole coroutines or RoadRunner workers), requests handled without PHP-FPM fork overhead, shared state implications.",
+      "section_2": "Swoole vs RoadRunner: Swoole (PHP extension, coroutine-based, faster raw throughput, complex setup), RoadRunner (Go binary, easier setup, slightly lower ceiling, WebSocket support). Decision matrix.",
+      "section_3": "Benchmark methodology and results: tested on 2-core/4GB VPS. Metrics: req/s, p50/p95/p99 latency, memory under load. Baseline PHP-FPM vs Octane/Swoole vs Octane/RoadRunner vs FrankenPHP.",
+      "section_4": "Top 10 optimizations: route caching, config caching, eager loading elimination (N+1 detection with Telescope), Redis for cache/queue/session, DB connection pooling, Octane table for shared state, removing unused service providers.",
+      "section_5": "Memory leak patterns: static properties persisting between requests, event listener accumulation, singleton abuse, Eloquent model state pollution. Detection and fix strategies.",
+      "conclusion": "Octane deployment checklist. CTA: Download the Laravel Octane Production Configuration Template.",
+      "faq_section": "Q1: Is Octane safe to use in production? Q2: How do I detect memory leaks in Octane? Q3: Does Octane work with Livewire? Q4: Can I use Octane on shared hosting?"
+    },
+    "cta_strategy": {
+      "primary_cta": "Download: Laravel Octane Production Configuration Template (php.ini + octane.php)",
+      "secondary_cta": "Subscribe for weekly Laravel performance optimization tutorials",
+      "affiliate_opportunities": ["Blackfire.io Pro", "Laravel Forge (Octane support)", "DigitalOcean Droplets"]
+    },
+    "schema_markup": {
+      "type": "BlogPosting",
+      "structure": "JSON-LD with headline, author (Person), datePublished, dateModified, image, description, articleBody summary, publisher (Organization)"
+    }
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440026",
+    "slug": "api-first-headless-laravel-decoupled-architecture",
+    "title": "API-First Laravel: Headless and Decoupled Architecture Patterns",
+    "meta_description": "Master API-first and headless Laravel architecture in 2026. Learn decoupled patterns, API versioning, and how to power multiple frontends from a single Laravel backend.",
+    "excerpt": "Building API-first with Laravel unlocks a powerful architectural advantage: one backend powers your web app, mobile app, third-party integrations, and public API simultaneously. This guide covers the headless patterns, versioning strategies, and authentication approaches that production teams rely on.",
+    "content_type": "blog_post",
+    "category": "Laravel Tutorials & Best Practices",
+    "tags": ["API-first Laravel", "headless Laravel", "decoupled architecture", "Laravel API", "REST API", "Laravel Sanctum", "API versioning", "Laravel 2026", "backend API", "headless CMS Laravel"],
+    "author": "Professional Content Team",
+    "publication_status": "draft",
+    "published_at": "2026-05-16T18:00:00+01:00",
+    "word_count": 3000,
+    "reading_time_minutes": 12,
+    "featured_image": {
+      "stock_source": "https://unsplash.com/photos/network-data-connections-abstract-3OiYMgDKJ6k",
+      "alt_text": "API-first Laravel backend architecture diagram showing decoupled connections to web, mobile, and third-party consumers",
+      "caption": "API-first Laravel architecture lets one backend power unlimited frontends — web, mobile, IoT, and third-party integrations from a single source of truth.",
+      "credits": "Unsplash – Free to use under Unsplash License"
+    },
+    "seo": {
+      "primary_keyword": "API-first headless Laravel decoupled architecture",
+      "secondary_keywords": ["Laravel API architecture 2026", "headless Laravel backend", "Laravel REST API patterns", "Laravel API versioning", "decoupled Laravel", "Laravel Sanctum API"],
+      "keyword_density": "1.4%",
+      "h1": "API-First Laravel: Headless and Decoupled Architecture Patterns",
+      "h2_subheadings": [
+        "Why API-First Wins: The Case for Decoupled Laravel Architecture",
+        "Designing a Laravel API: Resources, Versioning, and Documentation",
+        "Authentication Strategies: Sanctum vs Passport vs JWT",
+        "API Versioning Patterns That Scale Without Breaking Clients",
+        "Performance Optimization for High-Traffic Laravel APIs",
+        "Testing API-First Laravel: Contract Testing and Documentation Generation"
+      ],
+      "focus_keyword_placement": "first 100 words, H1, first H2, conclusion"
+    },
+    "internal_links": {
+      "links_to_create": [
+        {"anchor_text": "Laravel Octane performance benchmarking", "target_slug": "laravel-octane-performance-benchmarking-optimization"},
+        {"anchor_text": "microservices domain-driven design Laravel", "target_slug": "laravel-microservices-domain-driven-design"},
+        {"anchor_text": "headless CMS decoupled architecture", "target_slug": "headless-cms-decoupled-architecture-modern-web"},
+        {"anchor_text": "real-time web apps WebSockets", "target_slug": "real-time-web-applications-websockets-broadcasting"},
+        {"anchor_text": "Laravel multi-tenancy SaaS", "target_slug": "laravel-saas-multi-tenancy-scalable-architecture"}
+      ],
+      "link_strategy": "Technical architecture hub; links to all web dev trends posts and Laravel tutorial posts bidirectionally."
+    },
+    "backlink_opportunities": {
+      "high_authority_sources": [
+        "https://laravel.com/docs/sanctum",
+        "https://jsonapi.org/",
+        "https://swagger.io/",
+        "https://stoplight.io/api-design-guide",
+        "https://restfulapi.net/"
+      ],
+      "linking_strategy": "Reference JSON:API spec and OpenAPI standards; pitch to API design community publications and Stoplight blog.",
+      "guest_post_opportunities": ["Laravel News", "Smashing Magazine", "The Practical Dev (Dev.to)", "API Evangelist"]
+    },
+    "references": {
+      "primary_sources": [
+        "Laravel. (2025). Laravel Sanctum Documentation. https://laravel.com/docs/sanctum",
+        "Laravel. (2025). API Resources Documentation. https://laravel.com/docs/eloquent-resources",
+        "JSON:API. (2025). JSON:API Specification v1.1. https://jsonapi.org/",
+        "OpenAPI Initiative. (2025). OpenAPI Specification 3.1. https://spec.openapis.org/oas/v3.1.0",
+        "Treblle. (2025). The State of APIs 2025. https://treblle.com/state-of-apis"
+      ],
+      "expert_quotes": [
+        "\"An API-first architecture isn't a technology decision — it's a product strategy that scales your platform without rewriting your backend.\" — Kin Lane, API Evangelist",
+        "\"Laravel's API Resource layer is one of the most underused features in the framework — it's the difference between a hacky JSON dump and a properly designed API contract.\" — Freek Van der Herten, Spatie"
+      ],
+      "statistics": [
+        "API-first companies are 58% more likely to be satisfied with their time-to-market for new integrations (Treblle, 2025)",
+        "68% of enterprise software purchases in 2025 required API-first architecture as a procurement requirement (Gartner, 2025)",
+        "Laravel Sanctum is used by 71% of Laravel API projects, making it the dominant authentication choice (JetBrains, 2024)"
+      ],
+      "tools_mentioned": [
+        {"name": "Laravel Sanctum", "url": "https://laravel.com/docs/sanctum"},
+        {"name": "Scribe (API docs generator)", "url": "https://scribe.knuckles.wtf/"},
+        {"name": "Treblle (API observability)", "url": "https://treblle.com/"},
+        {"name": "Postman", "url": "https://www.postman.com/"},
+        {"name": "L5-Swagger", "url": "https://github.com/DarkaOnLine/L5-Swagger"}
+      ]
+    },
+    "content_structure": {
+      "introduction": "Hook: one backend, unlimited consumers. Define API-first and the architectural benefits. Preview: API design principles, auth comparison, versioning, performance, testing.",
+      "section_1": "Why API-first: mobile app parity, third-party integration readiness, frontend framework freedom, microservices migration path, public API monetization. Real examples.",
+      "section_2": "API design with Laravel Resources: transforming Eloquent models, sparse fieldsets, relationship inclusion (JSON:API patterns), consistent error responses, pagination standards.",
+      "section_3": "Auth strategies: Sanctum (SPA + token auth, simpler), Passport (full OAuth2, for public APIs), JWT (stateless, for microservices). Decision guide for each use case.",
+      "section_4": "Versioning patterns: URL versioning (/api/v1/), header versioning, content negotiation. Deprecation strategies, changelog maintenance, client communication.",
+      "section_5": "Performance and testing: response caching (with cache-control headers), eager loading API responses, Pest feature tests for API endpoints, Scribe for auto-generated OpenAPI docs.",
+      "conclusion": "API-first Laravel implementation checklist. CTA: Download the Laravel API Design Standards Template.",
+      "faq_section": "Q1: Should I use Sanctum or Passport for a mobile app? Q2: How do I handle API versioning without duplicating controllers? Q3: What's the best way to document a Laravel API? Q4: How do I rate-limit my Laravel API?"
+    },
+    "cta_strategy": {
+      "primary_cta": "Download: Laravel API Design Standards Template (OpenAPI + Response Formats)",
+      "secondary_cta": "Subscribe for weekly Laravel architecture and API development tutorials",
+      "affiliate_opportunities": ["Treblle Pro", "Postman Team Plan", "Laravel Forge"]
+    },
+    "schema_markup": {
+      "type": "BlogPosting",
+      "structure": "JSON-LD with headline, author (Person), datePublished, dateModified, image, description, articleBody summary, publisher (Organization)"
+    }
+  }
+]

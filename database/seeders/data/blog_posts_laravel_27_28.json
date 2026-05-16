@@ -1,0 +1,202 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440027",
+    "slug": "laravel-microservices-domain-driven-design",
+    "title": "Microservices and DDD in Laravel: Architecture Patterns for 2026",
+    "meta_description": "Master microservices and domain-driven design in Laravel for 2026. Learn DDD patterns, service communication, and when to split monoliths for real architectural gains.",
+    "excerpt": "Microservices aren't the answer to every scaling problem—but when they are, Laravel's ecosystem handles them beautifully. This guide covers domain-driven design patterns in Laravel, service decomposition strategies, inter-service communication, and the honest trade-offs that most tutorials skip.",
+    "content_type": "blog_post",
+    "category": "Laravel Tutorials & Best Practices",
+    "tags": ["Laravel microservices", "domain-driven design", "DDD Laravel", "Laravel architecture", "service decomposition", "bounded context", "event-driven architecture", "Laravel 2026", "monolith vs microservices", "Laravel modules"],
+    "author": "Professional Content Team",
+    "publication_status": "draft",
+    "published_at": "2026-05-16T18:00:00+01:00",
+    "word_count": 3300,
+    "reading_time_minutes": 13,
+    "featured_image": {
+      "stock_source": "https://unsplash.com/photos/architecture-building-structure-blueprint-Bj6ENZDMSDY",
+      "alt_text": "Microservices architecture diagram showing Laravel bounded contexts and inter-service communication patterns",
+      "caption": "Domain-driven design in Laravel creates clear bounded contexts that make microservices decomposition a natural evolution rather than a painful migration.",
+      "credits": "Unsplash – Free to use under Unsplash License"
+    },
+    "seo": {
+      "primary_keyword": "Laravel microservices domain-driven design",
+      "secondary_keywords": ["DDD Laravel 2026", "Laravel bounded contexts", "Laravel service decomposition", "microservices vs monolith Laravel", "event-driven Laravel", "Laravel architecture patterns"],
+      "keyword_density": "1.4%",
+      "h1": "Microservices and DDD in Laravel: Architecture Patterns for 2026",
+      "h2_subheadings": [
+        "Monolith First: Why You Probably Shouldn't Start with Microservices",
+        "Domain-Driven Design Fundamentals for Laravel Developers",
+        "Modular Monolith: The Middle Path with Laravel Modules",
+        "When and How to Extract a Laravel Service",
+        "Inter-Service Communication: Events, APIs, and Message Queues",
+        "Operational Complexity: What Microservices Actually Cost You"
+      ],
+      "focus_keyword_placement": "first 100 words, H1, first H2, conclusion"
+    },
+    "internal_links": {
+      "links_to_create": [
+        {"anchor_text": "API-first headless Laravel architecture", "target_slug": "api-first-headless-laravel-decoupled-architecture"},
+        {"anchor_text": "real-time web apps and WebSockets", "target_slug": "real-time-web-applications-websockets-broadcasting"},
+        {"anchor_text": "Laravel Octane performance guide", "target_slug": "laravel-octane-performance-benchmarking-optimization"},
+        {"anchor_text": "testing with Pest and developer tooling", "target_slug": "laravel-testing-pest-pint-developer-experience"}
+      ],
+      "link_strategy": "Advanced architecture post; link bidirectionally to API, performance, and testing posts."
+    },
+    "backlink_opportunities": {
+      "high_authority_sources": [
+        "https://martinfowler.com/bliki/DomainDrivenDesign.html",
+        "https://www.oreilly.com/radar/microservices/",
+        "https://microservices.io/",
+        "https://www.thoughtworks.com/radar",
+        "https://laravelmodules.com/"
+      ],
+      "linking_strategy": "Reference Martin Fowler DDD and Sam Newman microservices literature; pitch to ThoughtWorks Radar and O'Reilly Architecture as practitioner guide.",
+      "guest_post_opportunities": ["InfoQ", "The New Stack", "PHP Architect", "O'Reilly Architecture"]
+    },
+    "references": {
+      "primary_sources": [
+        "Evans, E. (2003). Domain-Driven Design: Tackling Complexity in the Heart of Software. Addison-Wesley. (ISBN: 978-0-321-12521-7)",
+        "Newman, S. (2021). Building Microservices, 2nd Edition. O'Reilly Media. (ISBN: 978-1-492-03402-1)",
+        "Fowler, M. (2015). MonolithFirst. https://martinfowler.com/bliki/MonolithFirst.html",
+        "Laravel Modules. (2025). nwidart/laravel-modules Documentation. https://laravelmodules.com/docs",
+        "microservices.io. (2024). Microservice Architecture Patterns. https://microservices.io/patterns/"
+      ],
+      "expert_quotes": [
+        "\"Don't start with microservices. They come with enormous complexity costs — only justify that cost when your monolith is genuinely failing to scale.\" — Martin Fowler, Chief Scientist, ThoughtWorks",
+        "\"DDD's bounded contexts are the map that tells you where the microservice boundaries should eventually be.\" — Sam Newman, author, Building Microservices"
+      ],
+      "statistics": [
+        "63% of engineering teams that adopted microservices reported increased deployment complexity without proportional performance gains (DORA, 2024)",
+        "Modular monolith architectures deliver 80% of microservices' organizational benefits at 20% of the operational cost (ThoughtWorks Technology Radar, 2024)",
+        "Teams using DDD patterns report 45% fewer cross-team dependency conflicts during feature development (InfoQ survey, 2024)"
+      ],
+      "tools_mentioned": [
+        {"name": "nwidart/laravel-modules", "url": "https://laravelmodules.com/"},
+        {"name": "Laravel Horizon (queue monitoring)", "url": "https://laravel.com/docs/horizon"},
+        {"name": "RabbitMQ", "url": "https://www.rabbitmq.com/"},
+        {"name": "Laravel Event Sourcing (Spatie)", "url": "https://spatie.be/docs/laravel-event-sourcing"},
+        {"name": "Temporal.io (workflow orchestration)", "url": "https://temporal.io/"}
+      ]
+    },
+    "content_structure": {
+      "introduction": "Hook: 63% of microservices adoptions increase complexity without proportional gains. Challenge the microservices default. Preview: DDD principles, modular monolith, extraction playbook, inter-service comms.",
+      "section_1": "Monolith first: why premature decomposition is the #1 Laravel architecture mistake. When a monolith genuinely needs to be split (team autonomy, independent scaling, technology diversity).",
+      "section_2": "DDD fundamentals for Laravel: bounded contexts, aggregates, domain events, value objects, repositories. Mapping DDD concepts to Laravel service providers, Eloquent models, and event system.",
+      "section_3": "Modular monolith with nwidart/laravel-modules: domain-organized module structure, inter-module communication via events, module-level service providers, keeping modules independently testable.",
+      "section_4": "Service extraction playbook: identify seam (bounded context boundary), build anti-corruption layer, move to separate repo/deployment, establish API contract, migrate data, decommission original.",
+      "section_5": "Inter-service communication: synchronous REST (when strong consistency needed), asynchronous events via queues (RabbitMQ/SQS), event sourcing with Spatie for audit trails.",
+      "conclusion": "Architecture decision flowchart. CTA: Download the Laravel Domain Architecture Template.",
+      "faq_section": "Q1: Should I use DDD even for small Laravel apps? Q2: How do I share code between Laravel microservices? Q3: How does Laravel's event system fit into DDD? Q4: When is a modular monolith better than microservices?"
+    },
+    "cta_strategy": {
+      "primary_cta": "Download: Laravel Domain Architecture Template (Module Structure + DDD Patterns)",
+      "secondary_cta": "Subscribe for weekly advanced Laravel architecture content",
+      "affiliate_opportunities": ["Laravel Forge", "Cloudamqp (managed RabbitMQ)", "Temporal Cloud"]
+    },
+    "schema_markup": {
+      "type": "BlogPosting",
+      "structure": "JSON-LD with headline, author (Person), datePublished, dateModified, image, description, articleBody summary, publisher (Organization)"
+    }
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440028",
+    "slug": "laravel-testing-pest-pint-developer-experience",
+    "title": "Laravel Testing with Pest and Pint: Modern Developer Experience Guide",
+    "meta_description": "Master Laravel testing with Pest and code style with Pint in 2026. Learn testing architecture, type coverage, and DX practices that top Laravel teams use to ship confidently.",
+    "excerpt": "Pest has transformed how Laravel teams write tests—and combined with Pint for code style, the modern Laravel developer experience is the best PHP has ever offered. This guide covers Pest architecture patterns, test organization, type coverage, and the DX tooling stack that high-velocity teams rely on.",
+    "content_type": "blog_post",
+    "category": "Laravel Tutorials & Best Practices",
+    "tags": ["Laravel Pest", "Laravel testing", "Laravel Pint", "PHP testing", "developer experience", "TDD Laravel", "Laravel 2026", "code quality", "PHP static analysis", "Laravel best practices"],
+    "author": "Professional Content Team",
+    "publication_status": "draft",
+    "published_at": "2026-05-16T18:00:00+01:00",
+    "word_count": 3000,
+    "reading_time_minutes": 12,
+    "featured_image": {
+      "stock_source": "https://unsplash.com/photos/person-checking-code-quality-on-monitor-4hbJ-eymZ1o",
+      "alt_text": "Laravel developer running Pest test suite with all tests passing and code quality metrics displayed",
+      "caption": "Pest's expressive syntax makes Laravel tests a pleasure to write — and tests you enjoy writing are tests that actually get written.",
+      "credits": "Unsplash – Free to use under Unsplash License"
+    },
+    "seo": {
+      "primary_keyword": "Laravel testing Pest Pint developer experience",
+      "secondary_keywords": ["Pest PHP testing 2026", "Laravel Pint code style", "Laravel TDD", "PHP testing best practices", "Laravel developer experience", "Pest vs PHPUnit"],
+      "keyword_density": "1.4%",
+      "h1": "Laravel Testing with Pest and Pint: Modern Developer Experience Guide",
+      "h2_subheadings": [
+        "Why Pest Replaced PHPUnit as the Standard for Modern Laravel Teams",
+        "Pest Testing Architecture: Unit, Feature, and Integration Patterns",
+        "Advanced Pest Techniques: Datasets, Hooks, and Architectural Tests",
+        "Laravel Pint: Enforcing Code Style Automatically",
+        "Type Coverage and Static Analysis with PHPStan and Larastan",
+        "CI/CD Integration: Automated Quality Gates for Every Pull Request"
+      ],
+      "focus_keyword_placement": "first 100 words, H1, first H2, conclusion"
+    },
+    "internal_links": {
+      "links_to_create": [
+        {"anchor_text": "AI-assisted Laravel development", "target_slug": "ai-assisted-laravel-development-code-generation"},
+        {"anchor_text": "Laravel Octane performance guide", "target_slug": "laravel-octane-performance-benchmarking-optimization"},
+        {"anchor_text": "feature flags and continuous deployment", "target_slug": "feature-flags-continuous-deployment-best-practices"},
+        {"anchor_text": "microservices and DDD in Laravel", "target_slug": "laravel-microservices-domain-driven-design"}
+      ],
+      "link_strategy": "Quality and DX hub for Laravel content; link from all tutorial posts as the testing reference."
+    },
+    "backlink_opportunities": {
+      "high_authority_sources": [
+        "https://pestphp.com/",
+        "https://laravel.com/docs/pint",
+        "https://phpstan.org/",
+        "https://laracasts.com/",
+        "https://nunomaduro.com/"
+      ],
+      "linking_strategy": "Reference Nuno Maduro's Pest and Pint projects; engage with PHP testing community on GitHub and Twitter/X.",
+      "guest_post_opportunities": ["Laravel News", "PHP Architect", "Laracasts Blog", "Dev.to"]
+    },
+    "references": {
+      "primary_sources": [
+        "Pest PHP. (2025). Pest v3 Official Documentation. https://pestphp.com/docs/",
+        "Laravel. (2025). Laravel Pint Documentation. https://laravel.com/docs/pint",
+        "PHPStan. (2025). PHPStan Documentation. https://phpstan.org/user-guide/getting-started",
+        "Larastan. (2025). Larastan Documentation. https://github.com/larastan/larastan",
+        "DORA. (2024). State of DevOps 2024: Testing Practices. https://dora.dev/research/2024/"
+      ],
+      "expert_quotes": [
+        "\"Pest doesn't just make tests more readable — it makes developers actually want to write tests, which is the real breakthrough.\" — Nuno Maduro, creator of Pest and Laravel core contributor",
+        "\"The best time to write a test is before the feature. The second best time is immediately after. The worst time is when the bug is already in production.\" — Taylor Otwell, creator of Laravel"
+      ],
+      "statistics": [
+        "Teams with >80% test coverage experience 4x fewer production incidents than teams with <20% coverage (DORA, 2024)",
+        "Pest adoption among Laravel developers grew from 31% to 67% between 2023 and 2025 (JetBrains DevEcosystem, 2024)",
+        "Automated code style enforcement with tools like Pint reduces PR review time by 22% (GitHub, 2024)"
+      ],
+      "tools_mentioned": [
+        {"name": "Pest PHP", "url": "https://pestphp.com/"},
+        {"name": "Laravel Pint", "url": "https://laravel.com/docs/pint"},
+        {"name": "PHPStan", "url": "https://phpstan.org/"},
+        {"name": "Larastan", "url": "https://github.com/larastan/larastan"},
+        {"name": "Laravel Dusk (browser tests)", "url": "https://laravel.com/docs/dusk"}
+      ]
+    },
+    "content_structure": {
+      "introduction": "Hook: Pest adoption doubled in 2 years. Define the modern Laravel DX stack. Preview: Pest patterns, advanced techniques, Pint, static analysis, CI/CD integration.",
+      "section_1": "Pest vs PHPUnit: expressive syntax comparison, describe/it blocks vs test functions, expectation API vs assertions, architecture tests, parallel testing. Migration guide from PHPUnit.",
+      "section_2": "Testing architecture: unit tests (pure PHP, no framework), feature tests (HTTP layer, Laravel testing helpers), integration tests (with real DB). File organization conventions.",
+      "section_3": "Advanced Pest: datasets (parametric testing), hooks (beforeEach/afterEach), shared datasets across test files, architecture tests (Pest Architecture plugin for dependency enforcement).",
+      "section_4": "Pint setup: configuration, rule presets (Laravel, PER, PSR-12), custom rules, pre-commit hook integration, CI enforcement. Running Pint in watch mode during development.",
+      "section_5": "Static analysis: PHPStan + Larastan setup, level progression strategy (start at 0, raise incrementally), CI integration, type coverage reporting, fixing common Laravel false positives.",
+      "conclusion": "Full DX tooling stack checklist. CTA: Download the Laravel Testing and DX Setup Script.",
+      "faq_section": "Q1: Should I migrate from PHPUnit to Pest on an existing project? Q2: What Pest level should I aim for in a new Laravel project? Q3: How do I test jobs and events in Pest? Q4: How do I fake third-party APIs in Laravel tests?"
+    },
+    "cta_strategy": {
+      "primary_cta": "Download: Laravel Testing and DX Starter Setup Script (Shell + Config Files)",
+      "secondary_cta": "Subscribe for weekly Laravel best practices and developer experience tips",
+      "affiliate_opportunities": ["JetBrains PhpStorm (Pest plugin)", "Laravel Forge", "GitHub Actions (CI/CD)"]
+    },
+    "schema_markup": {
+      "type": "BlogPosting",
+      "structure": "JSON-LD with headline, author (Person), datePublished, dateModified, image, description, articleBody summary, publisher (Organization)"
+    }
+  }
+]

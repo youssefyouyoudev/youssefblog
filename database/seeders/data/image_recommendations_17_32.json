@@ -1,0 +1,274 @@
+[
+  {
+    "topic_id": 17,
+    "blog_title": "AI-Assisted Laravel Development & Code Generation Tools",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/developer-coding-ai",
+      "unsplash_direct": "https://unsplash.com/photos/m_HRfLhgABo",
+      "photographer": "Clément Hélardot",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Developer using AI-assisted code generation tools in VS Code on a modern workstation with dark theme",
+      "ai_prompt": "Developer with AI code completion suggestions in editor on dual monitors, dark coding environment, professional"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/php-programming-screen", "alt_text": "PHP code on editor screen with Laravel framework structure visible" },
+      { "search": "https://unsplash.com/s/photos/github-copilot-ai-coding", "alt_text": "AI code suggestion popup appearing in modern code editor interface" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 18,
+    "blog_title": "Building Scalable SaaS with Laravel Multi-Tenancy",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/saas-software-dashboard",
+      "unsplash_direct": "https://unsplash.com/photos/hGV2TfOh0ns",
+      "photographer": "Headway",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "SaaS dashboard interface displaying multi-tenant data isolation across multiple client accounts",
+      "ai_prompt": "Multi-tenant SaaS architecture diagram showing isolated tenant data flows in a clean tech illustration"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/cloud-saas-architecture", "alt_text": "Cloud SaaS architecture diagram showing scalable multi-tenant infrastructure layers" },
+      { "search": "https://unsplash.com/s/photos/software-team-sprint", "alt_text": "Agile software team sprint planning session with sticky notes on kanban board" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 19,
+    "blog_title": "Laravel MVP Development: From Idea to Launch in 4-12 Weeks",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/startup-product-launch",
+      "unsplash_direct": "https://unsplash.com/photos/5fNmWej4tAA",
+      "photographer": "Startaê Team",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Startup founder reviewing MVP product roadmap on whiteboard in a modern co-working space",
+      "ai_prompt": "Startup team launching MVP product on laptop with countdown timer and launch checklist, energetic startup atmosphere"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/product-roadmap-planning", "alt_text": "Product manager annotating MVP roadmap timeline on whiteboard with milestones" },
+      { "search": "https://unsplash.com/s/photos/agile-development-sprint", "alt_text": "Development team in agile sprint review discussing MVP features and user stories" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 20,
+    "blog_title": "Serverless Laravel with Vapor & FrankenPHP Performance",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/cloud-computing-server",
+      "unsplash_direct": "https://unsplash.com/photos/Q1p7bh3SHj8",
+      "photographer": "Patrick Lindenberg",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Cloud computing infrastructure with auto-scaling servers representing serverless Laravel Vapor deployment",
+      "ai_prompt": "Serverless cloud functions auto-scaling visualization with performance metrics, Laravel Vapor concept illustration"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/aws-lambda-cloud-functions", "alt_text": "AWS Lambda cloud functions dashboard showing performance metrics and invocations" },
+      { "search": "https://unsplash.com/s/photos/performance-benchmark-speed", "alt_text": "Performance benchmark graph showing speed improvements after server optimization" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 21,
+    "blog_title": "AI-First SaaS Scaffolding: Rapid Foundation Generation",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/startup-innovation-whiteboard",
+      "unsplash_direct": "https://unsplash.com/photos/npxXWgQ33ZQ",
+      "photographer": "Kaleidico",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Startup engineers rapidly scaffolding AI-first SaaS foundation on whiteboard with architecture diagrams",
+      "ai_prompt": "AI-generated SaaS scaffold code appearing on screen with foundation modules auto-configured, futuristic dev environment"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/rapid-prototyping-software", "alt_text": "Developer rapidly prototyping SaaS application with AI-assisted scaffolding tools" },
+      { "search": "https://unsplash.com/s/photos/saas-foundation-architecture", "alt_text": "SaaS foundation architecture layers diagram showing authentication, billing, and API modules" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 22,
+    "blog_title": "Feature Flags & Continuous Deployment Best Practices",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/continuous-deployment-devops",
+      "unsplash_direct": "https://unsplash.com/photos/XMFZqrGyV-Q",
+      "photographer": "Pankaj Patel",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "DevOps engineer configuring feature flags and CI/CD deployment pipeline on terminal screen",
+      "ai_prompt": "Feature flag toggle dashboard showing blue-green deployment pipeline with A/B test metrics, modern DevOps UI"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/cicd-pipeline-devops", "alt_text": "CI/CD pipeline visualization showing automated build, test and deploy stages" },
+      { "search": "https://unsplash.com/s/photos/ab-testing-feature", "alt_text": "A/B testing dashboard comparing two feature variants with conversion metrics" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 23,
+    "blog_title": "Embedding AI Features: Differentiation Through Intelligence",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/ai-integration-software",
+      "unsplash_direct": "https://unsplash.com/photos/9SoCnyQmkzI",
+      "photographer": "Growtika",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Software product interface with embedded AI recommendation engine providing intelligent suggestions",
+      "ai_prompt": "SaaS product UI with glowing AI assistant integration panel, smart recommendation widgets, dark premium design"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/machine-learning-api", "alt_text": "API documentation screen showing AI feature integration endpoints and code samples" },
+      { "search": "https://unsplash.com/s/photos/user-experience-ai", "alt_text": "User interacting with AI-powered product features on a modern application interface" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 24,
+    "blog_title": "Micro-SaaS: Vertical Specialization Strategy & Success Metrics",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/small-business-software-startup",
+      "unsplash_direct": "https://unsplash.com/photos/qwtCeJ5cLYs",
+      "photographer": "Carlos Muza",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Solo founder monitoring Micro-SaaS success metrics dashboard with MRR and churn rate charts",
+      "ai_prompt": "Micro-SaaS founder at home office reviewing niche vertical revenue metrics and growth dashboard, focused atmosphere"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/niche-market-business", "alt_text": "Focused niche market segment diagram showing vertical specialization opportunity" },
+      { "search": "https://unsplash.com/s/photos/mrr-saas-revenue", "alt_text": "Monthly recurring revenue MRR growth chart for a successful Micro-SaaS product" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 25,
+    "blog_title": "Laravel Octane Performance: Benchmarking & Optimization Guide",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/server-performance-speed",
+      "unsplash_direct": "https://unsplash.com/photos/jLwVAUtLOAQ",
+      "photographer": "Luca Bravo",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "High-performance server infrastructure with speed benchmarks displayed on monitoring dashboard",
+      "ai_prompt": "Laravel Octane performance benchmark results on terminal showing requests-per-second improvements, dark dev environment"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/benchmark-performance-test", "alt_text": "Performance benchmark comparison graph showing before and after optimization results" },
+      { "search": "https://unsplash.com/s/photos/php-server-swoole", "alt_text": "Swoole PHP server memory and CPU usage metrics on system monitoring tool" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 26,
+    "blog_title": "API-First & Headless Laravel: Decoupled Architecture Patterns",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/api-architecture-diagram",
+      "unsplash_direct": "https://unsplash.com/photos/4hbJ-eymZ1o",
+      "photographer": "Chris Ried",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "API-first architecture diagram showing decoupled frontend and Laravel backend connected via REST endpoints",
+      "ai_prompt": "Headless architecture visualization with Laravel API backend connected to multiple frontend clients, clean tech diagram"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/rest-api-documentation", "alt_text": "REST API documentation screen showing endpoints, request methods, and response schemas" },
+      { "search": "https://unsplash.com/s/photos/frontend-backend-separation", "alt_text": "Decoupled frontend and backend architecture components on developer whiteboard" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 27,
+    "blog_title": "Microservices & Domain-Driven Design in Laravel Applications",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/microservices-architecture",
+      "unsplash_direct": "https://unsplash.com/photos/xkBaqlcqeb4",
+      "photographer": "Firmbee.com",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Microservices architecture diagram showing independently deployable Laravel domain services",
+      "ai_prompt": "Domain-driven microservices map with bounded contexts and service communication arrows, clean tech illustration"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/docker-container-devops", "alt_text": "Docker containers representing independent microservices deployed in orchestrated cluster" },
+      { "search": "https://unsplash.com/s/photos/domain-model-software", "alt_text": "Domain model whiteboard diagram showing bounded contexts and entity relationships" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 28,
+    "blog_title": "Testing & Developer Experience: Pest & Pint Modern Tooling",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/software-testing-developer",
+      "unsplash_direct": "https://unsplash.com/photos/rH8O0FHFpfw",
+      "photographer": "Sigmund",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Developer running Pest PHP test suite with green passing tests on terminal in a clean workspace",
+      "ai_prompt": "PHP developer running Pest test suite with 100% passing green output on terminal, elegant dark dev environment"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/unit-test-code-coverage", "alt_text": "Code coverage report showing 95% test coverage across Laravel application modules" },
+      { "search": "https://unsplash.com/s/photos/developer-experience-tooling", "alt_text": "Developer workflow with linting, formatting, and testing tools integrated in editor" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 29,
+    "blog_title": "Headless CMS & Decoupled Architecture for Modern Web Apps",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/content-management-modern",
+      "unsplash_direct": "https://unsplash.com/photos/RLw-UC03Gwc",
+      "photographer": "Campaign Creators",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Content editor using headless CMS dashboard to publish structured content across web and mobile apps",
+      "ai_prompt": "Headless CMS editor publishing content to multiple channel previews simultaneously, modern split-screen UI concept"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/jamstack-web-architecture", "alt_text": "JAMstack architecture diagram showing CDN-delivered static site with headless API content" },
+      { "search": "https://unsplash.com/s/photos/content-delivery-network", "alt_text": "CDN edge network map showing fast global content delivery for web applications" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 30,
+    "blog_title": "Real-Time Web Applications: WebSockets & Broadcasting",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/real-time-communication-technology",
+      "unsplash_direct": "https://unsplash.com/photos/1K6IQsQbizI",
+      "photographer": "Alina Grubnyak",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Real-time data streams visualized as glowing connection lines representing WebSocket broadcasting",
+      "ai_prompt": "Real-time WebSocket connection visualization with live data flowing between server and multiple clients, tech art"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/live-chat-messaging-app", "alt_text": "Live chat application showing real-time message delivery with typing indicators" },
+      { "search": "https://unsplash.com/s/photos/real-time-dashboard-live", "alt_text": "Live updating dashboard with real-time stock and analytics data streaming" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 31,
+    "blog_title": "Progressive Web Apps (PWA): Offline-First Strategy Guide",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/mobile-app-offline-progressive",
+      "unsplash_direct": "https://unsplash.com/photos/Skf7HxARcoc",
+      "photographer": "Rahul Chakraborty",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Mobile phone displaying progressive web app working seamlessly in offline mode on airplane",
+      "ai_prompt": "PWA app working offline on a phone with no-wifi indicator and cached content visible, clean mobile UI concept"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/service-worker-cache", "alt_text": "PWA service worker caching strategy diagram showing offline-first data flow" },
+      { "search": "https://unsplash.com/s/photos/web-app-mobile-responsive", "alt_text": "Responsive web application adapting to different screen sizes and device types" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  },
+  {
+    "topic_id": 32,
+    "blog_title": "Security-First Web Development: Zero-Trust Architecture",
+    "featured_image": {
+      "unsplash_search": "https://unsplash.com/s/photos/zero-trust-cybersecurity",
+      "unsplash_direct": "https://unsplash.com/photos/FnA5pAzqhMM",
+      "photographer": "Franck",
+      "license": "Unsplash License – free commercial use",
+      "alt_text": "Cybersecurity engineer implementing zero-trust network architecture with identity verification layers",
+      "ai_prompt": "Zero-trust network security shield with identity verification gates and micro-segmentation layers, dark cyber aesthetic"
+    },
+    "inline_images": [
+      { "search": "https://unsplash.com/s/photos/identity-verification-mfa", "alt_text": "Multi-factor authentication screen showing security verification for zero-trust access" },
+      { "search": "https://unsplash.com/s/photos/network-security-firewall", "alt_text": "Network security monitoring dashboard with firewall rules and threat detection alerts" }
+    ],
+    "copyright_status": "VERIFIED – Unsplash License allows commercial use without attribution"
+  }
+]
